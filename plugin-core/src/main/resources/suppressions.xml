@@ -8,5 +8,6 @@
 	<suppress files='.*(?:Test)\.java$' checks='VisibilityModifier' />
 	
 	<suppress checks='.' files='fi/helsinki/cs/tmc/core/spyware/utility/diff_match_patch.java' />
+	<suppress checks='.' files='fi/helsinki/cs/tmc/core/services/http/*' />
 
 </suppressions>
