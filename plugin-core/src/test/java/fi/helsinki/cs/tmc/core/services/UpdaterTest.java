@@ -192,8 +192,7 @@ public class UpdaterTest {
     }
 
     @Test
-    public void exerciseIsUpdatedWhenThereIsOldExerciseForCourse() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
-    IllegalAccessException {
+    public void exerciseIsUpdatedWhenThereIsOldExerciseForCourse() throws NoSuchFieldException, IllegalAccessException {
 
         final Project project = mock(Project.class);
 
@@ -253,8 +252,7 @@ public class UpdaterTest {
     }
 
     @Test
-    public void serverExerciseIsNotModifiedIfNoLocalMatchIsPresent() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
-    SecurityException {
+    public void serverExerciseIsNotModifiedIfNoLocalMatchIsPresent() throws IllegalAccessException, NoSuchFieldException {
 
         final Project project = mock(Project.class);
 

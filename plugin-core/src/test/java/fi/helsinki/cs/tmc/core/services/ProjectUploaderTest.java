@@ -78,8 +78,7 @@ public class ProjectUploaderTest {
     }
 
     @Test
-    public void handleSubmissionCallsServerCorrectlyAndSetsResponse() throws IOException, NoSuchFieldException, SecurityException,
-    IllegalArgumentException, IllegalAccessException {
+    public void handleSubmissionCallsServerCorrectlyAndSetsResponse() throws IOException, NoSuchFieldException, IllegalAccessException {
 
         final byte[] data = setData();
 
@@ -96,8 +95,7 @@ public class ProjectUploaderTest {
     }
 
     @Test
-    public void resultIsNullIfHandleSubmissionResultIsStopped() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
-    IllegalAccessException, URISyntaxException {
+    public void resultIsNullIfHandleSubmissionResultIsStopped() throws NoSuchFieldException, IllegalAccessException, URISyntaxException {
 
         final URI uri = new URI("http://www.mock_url.com");
         final SubmissionResponse response = new SubmissionResponse(uri, uri);
@@ -120,8 +118,7 @@ public class ProjectUploaderTest {
     }
 
     @Test
-    public void getSubmissionResultHasCorrectArgumentInHandleSubmissionResult() throws NoSuchFieldException, SecurityException,
-    IllegalArgumentException, IllegalAccessException, URISyntaxException {
+    public void getSubmissionResultHasCorrectArgumentInHandleSubmissionResult() throws NoSuchFieldException, IllegalAccessException, URISyntaxException {
 
         final URI uri = new URI("http://www.mock_url.com");
         final SubmissionResponse response = new SubmissionResponse(uri, uri);
@@ -141,8 +138,7 @@ public class ProjectUploaderTest {
     }
 
     @Test
-    public void resultIsCorrectAfterHandleSubmissionResult() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
-    IllegalAccessException, URISyntaxException {
+    public void resultIsCorrectAfterHandleSubmissionResult() throws NoSuchFieldException, IllegalAccessException, URISyntaxException {
 
         final URI uri = new URI("http://www.mock_url.com");
         final SubmissionResponse response = new SubmissionResponse(uri, uri);

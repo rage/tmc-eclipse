@@ -33,7 +33,7 @@ public class ProjectStorageTest {
     private List<Project> projects;
 
     @Before
-    public void setUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    public void setUp() throws NoSuchFieldException, IllegalAccessException {
 
         io = mock(FileIO.class);
         projects = new ArrayList<Project>();

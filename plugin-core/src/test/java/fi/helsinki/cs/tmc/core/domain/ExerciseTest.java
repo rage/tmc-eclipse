@@ -314,8 +314,7 @@ public class ExerciseTest {
     }
 
     @Test
-    public void finalizeDeserializationDoesNotTouchDeadlineDateIfStringIsEmpty() throws NoSuchFieldException, SecurityException,
-    IllegalArgumentException, IllegalAccessException {
+    public void finalizeDeserializationDoesNotTouchDeadlineDateIfStringIsEmpty() throws NoSuchFieldException, IllegalAccessException {
 
         // Not optimal but works
         final Field field = Exercise.class.getDeclaredField("deadlineString");

@@ -11,6 +11,7 @@ import fi.helsinki.cs.tmc.core.domain.ZippedProject;
 import fi.helsinki.cs.tmc.core.services.Settings;
 import fi.helsinki.cs.tmc.core.spyware.services.LoggableEvent;
 import fi.helsinki.cs.tmc.core.ui.ObsoleteClientException;
+import fi.helsinki.cs.tmc.core.ui.UserVisibleException;
 import fi.helsinki.cs.tmc.core.utils.jsonhelpers.CourseList;
 import fi.helsinki.cs.tmc.core.utils.jsonhelpers.ExerciseList;
 
@@ -195,7 +196,7 @@ public class ServerManagerTest {
         server.submitFeedback(URL, new ArrayList<FeedbackAnswer>());
     }
 
-    @Test(expected = FailedHttpResponseException.class)
+    @Test(expected = UserVisibleException.class)
     public void submitFeedbackThrowsHttpExceptionWhenStatusCodeIsNot404() throws Exception {
 
         final FailedHttpResponseException exception = mock(FailedHttpResponseException.class);
@@ -205,7 +206,7 @@ public class ServerManagerTest {
         server.submitFeedback(URL, new ArrayList<FeedbackAnswer>());
     }
 
-    @Test(expected = FailedHttpResponseException.class)
+    @Test(expected = UserVisibleException.class)
     public void submitFeedbackThrowsHttpExceptionWhenStatusCodeIs404ButIsNotObsolete() throws Exception {
 
         final FailedHttpResponseException exception = mock(FailedHttpResponseException.class);

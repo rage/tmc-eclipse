@@ -40,28 +40,28 @@ public class CourseStorageTest {
     }
 
     @Test(expected = UserVisibleException.class)
-    public void testExceptionIsThrownIfNullIO() throws UserVisibleException {
+    public void testExceptionIsThrownIfNullIO() {
 
         io = null;
         storage.load();
     }
 
     @Test
-    public void testExceptionIsThrownIfFileDoesntExist() throws UserVisibleException {
+    public void testExceptionIsThrownIfFileDoesntExist() {
 
         when(io.fileExists()).thenReturn(false);
         assertTrue(storage.load() instanceof List && storage.load().size() == 0);
     }
 
     @Test(expected = UserVisibleException.class)
-    public void testExceptionIsThrownIfReaderIsNull() throws UserVisibleException {
+    public void testExceptionIsThrownIfReaderIsNull() {
 
         when(io.getReader()).thenReturn(null);
         storage.load();
     }
 
     @Test(expected = UserVisibleException.class)
-    public void testExceptionIsThrownIfWriterIsNull() throws UserVisibleException {
+    public void testExceptionIsThrownIfWriterIsNull() {
 
         when(io.getWriter()).thenReturn(null);
         storage.save(new ArrayList<Course>());

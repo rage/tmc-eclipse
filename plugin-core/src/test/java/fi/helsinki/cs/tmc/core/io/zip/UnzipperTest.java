@@ -29,7 +29,7 @@ public class UnzipperTest {
     }
 
     @Test
-    public void unzipTestZip() throws FileNotFoundException, IOException {
+    public void unzipTestZip() throws IOException {
 
         File f = new File(path + "testZip.zip");
         final FileInputStream s = new FileInputStream(f);
@@ -59,7 +59,7 @@ public class UnzipperTest {
     }
 
     @Test
-    public void unzippingCanCreateFolders() throws FileNotFoundException, IOException {
+    public void unzippingCanCreateFolders() throws IOException {
 
         unZipDirectory("testDirectory.zip");
 
@@ -86,7 +86,7 @@ public class UnzipperTest {
     }
 
     @Test
-    public void unzippingAFolderDoesNotOverWriteFilesInExistingFolder() throws FileNotFoundException, IOException {
+    public void unzippingAFolderDoesNotOverWriteFilesInExistingFolder() throws IOException {
 
         unZipDirectory("testDirectory.zip");
         unZipDirectory("overWriteTest.zip");
@@ -126,12 +126,12 @@ public class UnzipperTest {
         }
     }
 
-    private void unZipDirectory(final String zip) throws IOException, FileNotFoundException {
+    private void unZipDirectory(final String zip) throws IOException {
 
         unZipDirectory(zip, new UnzipAllTheThings());
     }
 
-    private void unZipDirectory(final String zip, final UnzippingDecider decider) throws IOException, FileNotFoundException {
+    private void unZipDirectory(final String zip, final UnzippingDecider decider) throws IOException {
 
         final File f = new File(path + zip);
         final byte[] b = IOUtils.toByteArray(new FileInputStream(f));

@@ -113,7 +113,7 @@ public class ExerciseKeyTest {
     }
 
     @Test(expected = JsonParseException.class)
-    public void testGsonAdapterDeserializeFailure() throws JsonParseException {
+    public void testGsonAdapterDeserializeFailure() {
 
         final ExerciseKey.GsonAdapter ga = new ExerciseKey.GsonAdapter();
         final JsonPrimitive jp = new JsonPrimitive("aa");
@@ -121,7 +121,7 @@ public class ExerciseKeyTest {
     }
 
     @Test(expected = JsonParseException.class)
-    public void testGsonAdapterDeserializeFailureEmptyString() throws JsonParseException {
+    public void testGsonAdapterDeserializeFailureEmptyString() {
 
         final ExerciseKey.GsonAdapter ga = new ExerciseKey.GsonAdapter();
         final JsonPrimitive jp = new JsonPrimitive("");

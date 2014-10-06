@@ -17,7 +17,7 @@ public class CoreTest {
     private MockServiceFactory factory;
 
     @Before
-    public void setUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    public void setUp() throws NoSuchFieldException, IllegalAccessException {
 
         // some other test may have set the singleton before running any tests
         // here
@@ -27,13 +27,13 @@ public class CoreTest {
     }
 
     @After
-    public void tearDown() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    public void tearDown() throws NoSuchFieldException, IllegalAccessException {
 
         // ensure that singleton is unset even after running the last test
         unsetSingleton();
     }
 
-    private void unsetSingleton() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    private void unsetSingleton() throws NoSuchFieldException, IllegalAccessException {
 
         final Field coreField = Core.class.getDeclaredField("core");
         coreField.setAccessible(true);

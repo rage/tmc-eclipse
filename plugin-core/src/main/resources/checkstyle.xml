@@ -78,12 +78,9 @@
 		<module name='MissingSwitchDefault' />
 		<module name='ModifiedControlVariable' />
 
-		<!-- TRANSITIONAL -->
-		<!--
 		<module name='RedundantThrows'>
 			<property name='suppressLoadErrors' value='true' />
 		</module>
-		-->
 
 		<module name='SimplifyBooleanExpression' />
 		<module name='SimplifyBooleanReturn' />

@@ -3,6 +3,7 @@ package fi.helsinki.cs.tmc.core.services.http;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
@@ -93,6 +94,7 @@ public class ServerManager {
         for (final Exercise e : exercises) {
             e.finalizeDeserialization();
         }
+        
         return exercises;
     }
 
@@ -202,6 +204,8 @@ public class ServerManager {
      * @param answers
      *            Answers to the feedback questions
      * @return Response string from the server
+     * @throws FailedHttpResponseException 
+     * @throws ObsoleteClientException 
      */
     public String submitFeedback(final String answerUrl, final List<FeedbackAnswer> answers) {
 
@@ -221,7 +225,7 @@ public class ServerManager {
         } catch (final FailedHttpResponseException e) {
             return checkForObsoleteClient(e);
         } catch (final Exception e) {
-            throw new RuntimeException("An error occured while submitting feedback: " + e.getMessage());
+            throw new UserVisibleException("An error occured while submitting feedback: " + e.getMessage());
         }
     }
 
@@ -252,7 +256,7 @@ public class ServerManager {
         try {
             connectionBuilder.createConnection().rawPostForText(fullUrl, data, extraHeaders);
         } catch (final Exception e) {
-            throw new RuntimeException("An error occured while submitting snapshot: " + e.getMessage());
+            throw new UserVisibleException("An error occured while submitting snapshot: " + e.getMessage());
         }
     }
 
@@ -323,6 +327,7 @@ public class ServerManager {
     private byte[] getBytes(final String url) {
 
         byte[] bytes;
+        
         try {
             bytes = connectionBuilder.createConnection().getForBinary(url);
         } catch (final Exception e) {
@@ -367,24 +372,33 @@ public class ServerManager {
         return json;
     }
 
-    private <T> T checkForObsoleteClient(final FailedHttpResponseException ex) throws ObsoleteClientException, FailedHttpResponseException {
+    private <T> T checkForObsoleteClient(final FailedHttpResponseException originalException) {
 
-        if (ex.getStatusCode() == 404) {
+        if (originalException.getStatusCode() == 404) {
 
-            boolean obsolete;
+            boolean obsoleteClient;
 
             try {
-                obsolete = new JsonParser().parse(ex.getEntityAsString()).getAsJsonObject().get("obsolete_client").getAsBoolean();
-            } catch (final Exception ex2) {
-                obsolete = false;
+                obsoleteClient = new JsonParser().parse(originalException.getEntityAsString()).getAsJsonObject().get("obsolete_client").getAsBoolean();
+            } catch (final JsonParseException jpe) {
+                obsoleteClient = false;
             }
 
-            if (obsolete) {
+            if (obsoleteClient) {
                 throw new ObsoleteClientException();
             }
         }
 
-        throw ex;
+        if (originalException.getStatusCode() == 403) {
+            throw new UserVisibleException("Authentication failed - check your username and password.");
+        } else if (originalException.getStatusCode() == 404) {
+            throw new UserVisibleException("Could not connect to server - check your TMC server address.");
+        } else if (originalException.getStatusCode() == 500) {
+            throw new UserVisibleException("An internal server error occured. Please try again later.");
+        }
+        
+        throw new UserVisibleException("An error occured.", originalException);
+        
     }
 
 }

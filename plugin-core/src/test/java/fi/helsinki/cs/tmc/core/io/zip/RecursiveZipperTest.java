@@ -12,7 +12,6 @@ import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.ZippingDecider;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -165,7 +164,7 @@ public class RecursiveZipperTest {
         return project;
     }
 
-    private void prepareZippingDeciderTest(final String zipname, final ZippingDecider decider) throws IOException, FileNotFoundException, Exception {
+    private void prepareZippingDeciderTest(final String zipname, final ZippingDecider decider) throws Exception {
 
         try {
             // unzip test files
@@ -181,7 +180,7 @@ public class RecursiveZipperTest {
         }
     }
 
-    private void unzipFolder(final String zipname) throws IOException, FileNotFoundException {
+    private void unzipFolder(final String zipname) throws IOException {
 
         final File f = new File(FileUtil.append(path, zipname));
 
