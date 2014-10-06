@@ -1,11 +1,5 @@
 package fi.helsinki.cs.tmc.core.storage;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -15,34 +9,42 @@ import fi.helsinki.cs.tmc.core.io.FileIO;
 import fi.helsinki.cs.tmc.core.storage.formats.ProjectsFileFormat;
 import fi.helsinki.cs.tmc.core.ui.UserVisibleException;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProjectStorage implements DataSource<Project> {
 
-    private FileIO io;
-    private Gson gson;
+    private final FileIO io;
+    private final Gson gson;
 
-    public ProjectStorage(FileIO io) {
+    public ProjectStorage(final FileIO io) {
+
         this.io = io;
-        this.gson = createGson();
+        gson = createGson();
     }
 
     @Override
     public List<Project> load() {
+
         if (!io.fileExists()) {
             return new ArrayList<Project>();
         }
         ProjectsFileFormat projectList = null;
-        Reader reader = io.getReader();
+        final Reader reader = io.getReader();
         if (reader == null) {
             throw new UserVisibleException("Could not load project data from local storage.");
         }
         try {
             projectList = gson.fromJson(reader, ProjectsFileFormat.class);
-        } catch (JsonSyntaxException ex) {
+        } catch (final JsonSyntaxException ex) {
             throw new UserVisibleException("Local project storage corrupted");
         } finally {
             try {
                 reader.close();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 return getProjectList(projectList);
             }
         }
@@ -50,7 +52,8 @@ public class ProjectStorage implements DataSource<Project> {
         return getProjectList(projectList);
     }
 
-    private List<Project> getProjectList(ProjectsFileFormat projectList) {
+    private List<Project> getProjectList(final ProjectsFileFormat projectList) {
+
         if (projectList != null) {
             return projectList.getProjects();
         } else {
@@ -59,15 +62,16 @@ public class ProjectStorage implements DataSource<Project> {
     }
 
     @Override
-    public void save(List<Project> projects) {
-        ProjectsFileFormat projectList = new ProjectsFileFormat();
+    public void save(final List<Project> projects) {
+
+        final ProjectsFileFormat projectList = new ProjectsFileFormat();
         projectList.setProjects(projects);
 
         if (io == null) {
             throw new UserVisibleException("Could not save project data to local storage.");
         }
 
-        Writer writer = io.getWriter();
+        final Writer writer = io.getWriter();
         if (writer == null) {
             throw new UserVisibleException("Could not save project data to local storage.");
         }
@@ -75,13 +79,14 @@ public class ProjectStorage implements DataSource<Project> {
         gson.toJson(projectList, writer);
         try {
             writer.close();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             // TODO: Log here?
             return;
         }
     }
 
     private Gson createGson() {
+
         return new GsonBuilder().serializeNulls().setPrettyPrinting().create();
     }
 

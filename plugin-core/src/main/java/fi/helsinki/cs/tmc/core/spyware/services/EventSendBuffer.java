@@ -1,5 +1,9 @@
 package fi.helsinki.cs.tmc.core.spyware.services;
 
+import fi.helsinki.cs.tmc.core.async.tasks.SingletonTask;
+import fi.helsinki.cs.tmc.core.services.Settings;
+import fi.helsinki.cs.tmc.core.spyware.utility.Cooldown;
+
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Arrays;
@@ -9,44 +13,42 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import fi.helsinki.cs.tmc.core.async.tasks.SingletonTask;
-import fi.helsinki.cs.tmc.core.services.Settings;
-import fi.helsinki.cs.tmc.core.spyware.utility.Cooldown;
-
 /**
  * Buffers {@link LoggableEvent}s and sends them to the server and/or syncs them
  * to the disk periodically.
  */
 public class EventSendBuffer implements EventReceiver {
-    private static final Logger log = Logger.getLogger(EventSendBuffer.class.getName());
 
     public static final long DEFAULT_SEND_INTERVAL = 3 * 60 * 1000;
     public static final long DEFAULT_SAVE_INTERVAL = 1 * 60 * 1000;
     public static final int DEFAULT_MAX_EVENTS = 64 * 1024;
     public static final int DEFAULT_AUTOSEND_THREHSOLD = DEFAULT_MAX_EVENTS / 2;
     public static final int DEFAULT_AUTOSEND_COOLDOWN = 30 * 1000;
+    
+    private static final Logger LOG = Logger.getLogger(EventSendBuffer.class.getName());
 
-    private SingletonTask savingTask;
-    private SingletonTask sendingTask;
+    private final SingletonTask savingTask;
+    private final SingletonTask sendingTask;
 
     private final EventStore eventStore;
     private final Settings settings;
 
     // The following variables must only be accessed with a lock on sendQueue.
-    private ArrayDeque<LoggableEvent> sendQueue;
-    private int maxEvents = DEFAULT_MAX_EVENTS;
-    private int autosendThreshold = DEFAULT_AUTOSEND_THREHSOLD;
-    private Cooldown autosendCooldown;
-    private AtomicInteger eventsToRemoveAfterSend;
+    private final ArrayDeque<LoggableEvent> sendQueue;
+    private final int maxEvents = DEFAULT_MAX_EVENTS;
+    private final int autosendThreshold = DEFAULT_AUTOSEND_THREHSOLD;
+    private final Cooldown autosendCooldown;
+    private final AtomicInteger eventsToRemoveAfterSend;
 
-    public EventSendBuffer(EventStore store, Settings settings, ArrayDeque<LoggableEvent> sendQueue,
-            SingletonTask sendingTask, SingletonTask savingTask, AtomicInteger eventsToRemoveAfterSend) {
-        this.eventStore = store;
+    public EventSendBuffer(final EventStore store, final Settings settings, final ArrayDeque<LoggableEvent> sendQueue,
+            final SingletonTask sendingTask, final SingletonTask savingTask, final AtomicInteger eventsToRemoveAfterSend) {
+
+        eventStore = store;
         this.settings = settings;
         this.sendQueue = sendQueue;
         this.eventsToRemoveAfterSend = eventsToRemoveAfterSend;
 
-        this.autosendCooldown = new Cooldown(DEFAULT_AUTOSEND_COOLDOWN);
+        autosendCooldown = new Cooldown(DEFAULT_AUTOSEND_COOLDOWN);
 
         this.sendingTask = sendingTask;
         this.savingTask = savingTask;
@@ -55,34 +57,39 @@ public class EventSendBuffer implements EventReceiver {
             List<LoggableEvent> initialEvents = Arrays.asList(eventStore.load());
             initialEvents = initialEvents.subList(0, Math.min(maxEvents, initialEvents.size()));
             this.sendQueue.addAll(initialEvents);
-        } catch (IOException ex) {
-            log.log(Level.WARNING, "Failed to read events from event store", ex);
-        } catch (RuntimeException ex) {
-            log.log(Level.WARNING, "Failed to read events from event store", ex);
+        } catch (final IOException ex) {
+            LOG.log(Level.WARNING, "Failed to read events from event store", ex);
+        } catch (final RuntimeException ex) {
+            LOG.log(Level.WARNING, "Failed to read events from event store", ex);
         }
 
         this.sendingTask.setInterval(DEFAULT_SEND_INTERVAL);
         this.savingTask.setInterval(DEFAULT_SAVE_INTERVAL);
     }
 
-    public void setSendingInterval(long interval) {
+    public void setSendingInterval(final long interval) {
+
         sendingTask.setInterval(interval);
     }
 
-    public void setSavingInterval(long interval) {
+    public void setSavingInterval(final long interval) {
+
         savingTask.setInterval(interval);
     }
 
     private void sendNow() {
+
         sendingTask.start();
     }
 
-    public void waitUntilCurrentSendingFinished(long timeout) throws TimeoutException, InterruptedException {
+    public void waitUntilCurrentSendingFinished(final long timeout) throws TimeoutException, InterruptedException {
+
         sendingTask.waitUntilFinished(timeout);
     }
 
     @Override
-    public void receiveEvent(LoggableEvent event) {
+    public void receiveEvent(final LoggableEvent event) {
+
         if (!settings.isSpywareEnabled()) {
             return;
         }
@@ -99,6 +106,7 @@ public class EventSendBuffer implements EventReceiver {
     }
 
     private void maybeAutosend() {
+
         if (sendQueue.size() >= autosendThreshold && autosendCooldown.isExpired()) {
             autosendCooldown.start();
             sendNow();
@@ -107,12 +115,13 @@ public class EventSendBuffer implements EventReceiver {
 
     /**
      * Stops sending any more events.
-     * 
+     *
      * Buffer manipulation methods may still be called.
      */
     @Override
     public void close() {
-        long delayPerWait = 2000;
+
+        final long delayPerWait = 2000;
 
         try {
             sendingTask.unsetInterval();
@@ -123,10 +132,10 @@ public class EventSendBuffer implements EventReceiver {
             savingTask.waitUntilFinished(delayPerWait);
             sendingTask.waitUntilFinished(delayPerWait);
 
-        } catch (TimeoutException ex) {
-            log.log(Level.WARNING, "Time out when closing EventSendBuffer", ex);
-        } catch (InterruptedException ex) {
-            log.log(Level.WARNING, "Closing EventSendBuffer interrupted", ex);
+        } catch (final TimeoutException ex) {
+            LOG.log(Level.WARNING, "Time out when closing EventSendBuffer", ex);
+        } catch (final InterruptedException ex) {
+            LOG.log(Level.WARNING, "Closing EventSendBuffer interrupted", ex);
         }
 
     }

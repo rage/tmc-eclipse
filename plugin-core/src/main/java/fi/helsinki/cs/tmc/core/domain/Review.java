@@ -1,152 +1,194 @@
 package fi.helsinki.cs.tmc.core.domain;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * A domain class storing the code review result that will be shown to user.
  */
 public class Review {
+
     @SerializedName("id")
     private int id;
+
     @SerializedName("submission_id")
     private int submissionId;
+
     @SerializedName("exercise_name")
     private String exerciseName;
+
     @SerializedName("marked_as_read")
     private boolean markedAsRead;
+
     @SerializedName("reviewer_name")
     private String reviewerName;
+
     @SerializedName("review_body")
     private String reviewBody;
+
     @SerializedName("points")
-    private ArrayList<String> points;
+    private List<String> points;
+
     @SerializedName("points_not_awarded")
-    private ArrayList<String> pointsNotAwarded;
+    private List<String> pointsNotAwarded;
+
     @SerializedName("url")
     private String url;
+
     @SerializedName("update_url")
     private String updateUrl;
+
     @SerializedName("created_at")
     private Date createdAt;
+
     @SerializedName("updated_at")
     private Date updatedAt;
 
     public int getId() {
+
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
+
         this.id = id;
     }
 
     public int getSubmissionId() {
+
         return submissionId;
     }
 
-    public void setSubmissionId(int submissionId) {
+    public void setSubmissionId(final int submissionId) {
+
         this.submissionId = submissionId;
     }
 
     public String getExerciseName() {
+
         return exerciseName;
     }
 
-    public void setExerciseName(String exerciseName) {
+    public void setExerciseName(final String exerciseName) {
+
         this.exerciseName = exerciseName;
     }
 
     public boolean isMarkedAsRead() {
+
         return markedAsRead;
     }
 
-    public void setMarkedAsRead(boolean markedAsRead) {
+    public void setMarkedAsRead(final boolean markedAsRead) {
+
         this.markedAsRead = markedAsRead;
     }
 
     public String getReviewerName() {
+
         return reviewerName;
     }
 
-    public void setReviewerName(String reviewerName) {
+    public void setReviewerName(final String reviewerName) {
+
         this.reviewerName = reviewerName;
     }
 
     public String getReviewBody() {
+
         return reviewBody;
     }
 
-    public void setReviewBody(String reviewBody) {
+    public void setReviewBody(final String reviewBody) {
+
         this.reviewBody = reviewBody;
     }
 
-    public ArrayList<String> getPoints() {
+    public List<String> getPoints() {
+
         return points;
     }
 
-    public void setPoints(ArrayList<String> points) {
+    public void setPoints(final List<String> points) {
+
         this.points = points;
     }
 
-    public ArrayList<String> getPointsNotAwarded() {
+    public List<String> getPointsNotAwarded() {
+
         return pointsNotAwarded;
     }
 
-    public void setPointsNotAwarded(ArrayList<String> pointsNotAwarded) {
+    public void setPointsNotAwarded(final List<String> pointsNotAwarded) {
+
         this.pointsNotAwarded = pointsNotAwarded;
     }
 
     public String getUrl() {
+
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
+
         this.url = url;
     }
 
     public String getUpdateUrl() {
+
         return updateUrl;
     }
 
-    public void setUpdateUrl(String updateUrl) {
+    public void setUpdateUrl(final String updateUrl) {
+
         this.updateUrl = updateUrl;
     }
 
     public Date getCreatedAt() {
+
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(final Date createdAt) {
+
         this.createdAt = createdAt;
     }
 
     public Date getUpdatedAt() {
+
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(final Date updatedAt) {
+
         this.updatedAt = updatedAt;
     }
 
     @Override
     public int hashCode() {
+
         final int prime = 31;
         return prime * id;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        Review other = (Review) obj;
-        if (id != other.id)
+        }
+        final Review other = (Review) obj;
+        if (id != other.id) {
             return false;
+        }
         return true;
     }
 

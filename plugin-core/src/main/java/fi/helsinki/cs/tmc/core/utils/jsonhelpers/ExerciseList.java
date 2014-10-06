@@ -1,11 +1,11 @@
 package fi.helsinki.cs.tmc.core.utils.jsonhelpers;
 
-import java.util.List;
-
 import com.google.gson.annotations.SerializedName;
 
 import fi.helsinki.cs.tmc.core.domain.Course;
 import fi.helsinki.cs.tmc.core.domain.Exercise;
+
+import java.util.List;
 
 public class ExerciseList {
 
@@ -16,14 +16,16 @@ public class ExerciseList {
     private Course course;
 
     public List<Exercise> getExercises() {
-        for (Exercise e : course.getExercises()) {
+
+        for (final Exercise e : course.getExercises()) {
             e.setCourseName(course.getName());
         }
 
         return course.getExercises();
     }
 
-    public void setCourse(Course course) {
+    public void setCourse(final Course course) {
+
         this.course = course;
     }
 

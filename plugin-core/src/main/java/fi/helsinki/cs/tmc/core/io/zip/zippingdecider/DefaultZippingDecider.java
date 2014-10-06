@@ -7,21 +7,22 @@ import fi.helsinki.cs.tmc.core.domain.Project;
  */
 public class DefaultZippingDecider extends AbstractZippingDecider {
 
-    public DefaultZippingDecider(Project project) {
+    public DefaultZippingDecider(final Project project) {
+
         super(project);
     }
 
     /**
-     * zips extra student files and content of the src folder
+     * zips extra student files and content of the src folder.
      */
     @Override
-    public boolean shouldZip(String zipPath) {
+    public boolean shouldZip(final String zipPath) {
 
         if (!super.shouldZip(zipPath)) {
             return false;
         }
 
-        if (project.getExtraStudentFiles() != null && project.getExtraStudentFiles().contains(withoutRootDir(zipPath))) {
+        if (getProject().getExtraStudentFiles() != null && getProject().getExtraStudentFiles().contains(withoutRootDir(zipPath))) {
             return true;
         } else {
             return zipPath.contains("/src/");
@@ -29,8 +30,9 @@ public class DefaultZippingDecider extends AbstractZippingDecider {
 
     }
 
-    private String withoutRootDir(String zipPath) {
-        int i = zipPath.indexOf('/');
+    private String withoutRootDir(final String zipPath) {
+
+        final int i = zipPath.indexOf('/');
         if (i != -1) {
             return zipPath.substring(i + 1);
         } else {

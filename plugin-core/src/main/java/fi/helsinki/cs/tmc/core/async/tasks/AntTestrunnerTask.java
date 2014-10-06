@@ -1,13 +1,5 @@
 package fi.helsinki.cs.tmc.core.async.tasks;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.ProcessBuilder.Redirect;
-import java.util.ArrayList;
-import java.util.List;
-
 import fi.helsinki.cs.tmc.core.async.BackgroundTask;
 import fi.helsinki.cs.tmc.core.async.TaskStatusMonitor;
 import fi.helsinki.cs.tmc.core.domain.ClassPath;
@@ -16,34 +8,41 @@ import fi.helsinki.cs.tmc.core.services.Settings;
 import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
 import fi.helsinki.cs.tmc.core.utils.TestResultParser;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.ProcessBuilder.Redirect;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * An abstract background task for building and running tmc-junit-runner for an
  * Ant project.
- * 
+ *
  * Concrete classes must implement the abstract build method that tells the
  * class how to build and ant project using the argument "compile-test".
  */
 public abstract class AntTestrunnerTask extends TestrunnerTask {
 
-    public class ConcurrentAntBuildsException extends Exception {
-    }
+    public class ConcurrentAntBuildsException extends Exception { }
 
     private static final int THREAD_CHECK_INCREMENT_TIME_IN_MILLIS = 100;
     private static final int THREAD_NOT_FINISHED = -1;
 
     private List<String> args;
-    private ClassPath classpath;
+    private final ClassPath classpath;
 
-    private String rootPath;
-    private String testDirPath;
-    private String javaExecutable;
-    private Integer memoryLimit;
-    private String resultFilePath;
+    private final String rootPath;
+    private final String testDirPath;
+    private final String javaExecutable;
+    private final Integer memoryLimit;
+    private final String resultFilePath;
     private TestRunResult result;
     private Process process;
 
     private Settings settings;
-    private IdeUIInvoker invoker;
+    private final IdeUIInvoker invoker;
 
     /**
      * @param rootPath
@@ -62,8 +61,12 @@ public abstract class AntTestrunnerTask extends TestrunnerTask {
      * @param invoker
      *            An instance of a class that implements IdeUIInvoker.
      */
-    public AntTestrunnerTask(String rootPath, String testDir, String javaExecutable, Integer memoryLimit,
-            Settings settings, IdeUIInvoker invoker) {
+    public AntTestrunnerTask(final String rootPath, 
+                             final String testDir, 
+                             final String javaExecutable, 
+                             final Integer memoryLimit,
+                             final Settings settings, 
+                             final IdeUIInvoker invoker) {
 
         super("Running tests");
 
@@ -83,27 +86,35 @@ public abstract class AntTestrunnerTask extends TestrunnerTask {
         classpath.add(rootPath + "/build/test/classes/");
     }
 
-    public abstract void build(String root) throws Exception;
+    public abstract void build(final String root) throws Exception;
 
     @Override
     public TestRunResult get() {
-        return this.result;
+
+        return result;
     }
 
     @Override
-    public int start(TaskStatusMonitor progress) {
+    public int start(final TaskStatusMonitor progress) {
+
         progress.startProgress(this.getDescription(), 4);
 
         try {
+            
             build(rootPath);
-        } catch (ConcurrentAntBuildsException e) {
-            invoker.raiseVisibleException("Unable to run tests: "
-                    + "\nUnable to build the same project multiple times concurrently."
-                    + "\nPlease wait for the first test run to finish or cancel it.");
+            
+        } catch (final ConcurrentAntBuildsException e) {
+            
+            invoker.raiseVisibleException("Unable to run tests: " + 
+                                          "\nUnable to build the same project multiple times concurrently." +
+                                          "\nPlease wait for the first test run to finish or cancel it.");
             return BackgroundTask.RETURN_FAILURE;
-        } catch (Exception e) {
+            
+        } catch (final Exception e) {
+            
             invoker.raiseVisibleException("Unable to run tests: Error when building project.");
             return BackgroundTask.RETURN_FAILURE;
+            
         }
 
         progress.incrementProgress(1);
@@ -113,7 +124,7 @@ public abstract class AntTestrunnerTask extends TestrunnerTask {
 
         try {
             buildTestRunnerArgs(progress);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             return BackgroundTask.RETURN_INTERRUPTED;
         }
 
@@ -122,7 +133,7 @@ public abstract class AntTestrunnerTask extends TestrunnerTask {
             return BackgroundTask.RETURN_INTERRUPTED;
         }
 
-        ProcessBuilder pb = new ProcessBuilder(args);
+        final ProcessBuilder pb = new ProcessBuilder(args);
         pb.redirectError(Redirect.INHERIT);
 
         try {
@@ -130,15 +141,18 @@ public abstract class AntTestrunnerTask extends TestrunnerTask {
 
             int status = THREAD_NOT_FINISHED;
             while (status == THREAD_NOT_FINISHED) {
+
                 try {
                     status = process.exitValue();
-                } catch (IllegalThreadStateException e) {
+                } catch (final IllegalThreadStateException e) {
                     Thread.sleep(THREAD_CHECK_INCREMENT_TIME_IN_MILLIS);
                 }
+
                 if (shouldStop(progress)) {
                     process.destroy();
                     return BackgroundTask.RETURN_INTERRUPTED;
                 }
+
             }
 
             progress.incrementProgress(1);
@@ -146,41 +160,47 @@ public abstract class AntTestrunnerTask extends TestrunnerTask {
                 return BackgroundTask.RETURN_INTERRUPTED;
             }
 
-            File resultFile = new File(resultFilePath);
+            final File resultFile = new File(resultFilePath);
             result = new TestResultParser().parseTestResults(resultFile);
             resultFile.delete();
             progress.incrementProgress(1);
 
             return BackgroundTask.RETURN_SUCCESS;
-        } catch (IOException e) {
+
+        } catch (final IOException e) {
             invoker.raiseVisibleException("Failed to parse test results.");
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             invoker.raiseVisibleException("Failed to run tests");
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         return BackgroundTask.RETURN_FAILURE;
     }
 
-    private List<String> buildTestScannerArgs(String testPath) {
-        List<String> testScannerArgs = new ArrayList<String>();
-        testScannerArgs.add(args.get(0)); // JAVA
+    private List<String> buildTestScannerArgs(final String testPath) {
+
+        final List<String> testScannerArgs = new ArrayList<String>();
+
+        testScannerArgs.add(args.get(0));
         testScannerArgs.add("-cp");
         testScannerArgs.add(classpath.toString());
         testScannerArgs.add("fi.helsinki.cs.tmc.testscanner.TestScanner");
         testScannerArgs.add(testPath);
         testScannerArgs.add("--test-runner-format");
+
         return testScannerArgs;
     }
 
-    private boolean buildTestRunnerArgs(TaskStatusMonitor progress) throws InterruptedException {
+    private boolean buildTestRunnerArgs(final TaskStatusMonitor progress) throws InterruptedException {
+
         args = new ArrayList<String>();
 
         args.add(javaExecutable);
 
-        List<String> testMethods = findProjectTests(testDirPath, progress);
+        final List<String> testMethods = findProjectTests(testDirPath, progress);
 
         args.add("-Dtmc.test_class_dir=" + testDirPath);
         args.add("-Dtmc.results_file=" + resultFilePath);
@@ -199,60 +219,70 @@ public abstract class AntTestrunnerTask extends TestrunnerTask {
 
         args.add("fi.helsinki.cs.tmc.testrunner.Main");
 
-        for (String method : testMethods) {
+        for (final String method : testMethods) {
             args.add(method);
         }
 
         return true;
     }
 
-    private boolean endorserLibsExists(String rootPath) {
-        File endorsedDir = endorsedLibsPath(rootPath);
+    private boolean endorserLibsExists(final String rootPath) {
+
+        final File endorsedDir = endorsedLibsPath(rootPath);
         return endorsedDir.exists() && endorsedDir.isDirectory();
     }
 
-    private File endorsedLibsPath(String rootPath) {
+    private File endorsedLibsPath(final String rootPath) {
+
         return new File(rootPath + "/lib/endorsed");
     }
 
-    private List<String> findProjectTests(String testPath, TaskStatusMonitor progress) throws InterruptedException {
-        List<String> testScannerArgs = buildTestScannerArgs(testPath);
+    private List<String> findProjectTests(final String testPath, final TaskStatusMonitor progress) throws InterruptedException {
 
-        ProcessBuilder pb = new ProcessBuilder(testScannerArgs);
+        final List<String> testScannerArgs = buildTestScannerArgs(testPath);
+
+        final ProcessBuilder pb = new ProcessBuilder(testScannerArgs);
         pb.redirectError(Redirect.INHERIT);
+
         try {
             process = pb.start();
 
             int status = THREAD_NOT_FINISHED;
             while (status == THREAD_NOT_FINISHED) {
+                
                 try {
                     status = process.exitValue();
-                } catch (IllegalThreadStateException e) {
+                } catch (final IllegalThreadStateException e) {
                     Thread.sleep(THREAD_CHECK_INCREMENT_TIME_IN_MILLIS);
                 }
+                
                 if (shouldStop(progress)) {
                     process.destroy();
                     throw new InterruptedException();
                 }
             }
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            List<String> results = new ArrayList<String>();
+            final BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            final List<String> results = new ArrayList<String>();
 
-            String line;
-            while ((line = br.readLine()) != null && !line.equals("")) {
+            String line = br.readLine();
+            while (line != null && !line.equals("")) {
                 results.add(line);
+                line = br.readLine();
             }
 
             return results;
-        } catch (IOException e) {
+
+        } catch (final IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         invoker.raiseVisibleException("Testrunner failure: failed to find test methods.");
+
         return null;
     }
 }

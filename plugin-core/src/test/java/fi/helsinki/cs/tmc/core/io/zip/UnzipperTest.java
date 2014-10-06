@@ -1,6 +1,9 @@
 package fi.helsinki.cs.tmc.core.io.zip;
 
-import static org.junit.Assert.assertEquals;
+import fi.helsinki.cs.tmc.core.domain.ZippedProject;
+import fi.helsinki.cs.tmc.core.io.FileIO;
+import fi.helsinki.cs.tmc.core.io.zip.unzippingdecider.UnzipAllTheThings;
+import fi.helsinki.cs.tmc.core.io.zip.unzippingdecider.UnzippingDecider;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,30 +16,29 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import fi.helsinki.cs.tmc.core.domain.ZippedProject;
-import fi.helsinki.cs.tmc.core.io.FileIO;
-import fi.helsinki.cs.tmc.core.io.zip.Unzipper;
-import fi.helsinki.cs.tmc.core.io.zip.unzippingdecider.UnzipAllTheThings;
-import fi.helsinki.cs.tmc.core.io.zip.unzippingdecider.UnzippingDecider;
+import static org.junit.Assert.assertEquals;
 
 public class UnzipperTest {
+
     private String path;
 
     @Before
     public void setUp() {
-        this.path = "src/test/java/fi/helsinki/cs/tmc/core/io/";
+
+        path = "src/test/java/fi/helsinki/cs/tmc/core/io/";
     }
 
     @Test
     public void unzipTestZip() throws FileNotFoundException, IOException {
-        File f = new File(path + "testZip.zip");
-        FileInputStream s = new FileInputStream(f);
 
-        byte[] b = IOUtils.toByteArray(s);
+        File f = new File(path + "testZip.zip");
+        final FileInputStream s = new FileInputStream(f);
+
+        final byte[] b = IOUtils.toByteArray(s);
         s.close();
 
-        ZippedProject project = new ZippedProject();
-        Unzipper unzipper = new Unzipper(project, new UnzipAllTheThings());
+        final ZippedProject project = new ZippedProject();
+        final Unzipper unzipper = new Unzipper(project, new UnzipAllTheThings());
         project.setBytes(b);
 
         unzipper.unzipTo(new FileIO(path));
@@ -58,6 +60,7 @@ public class UnzipperTest {
 
     @Test
     public void unzippingCanCreateFolders() throws FileNotFoundException, IOException {
+
         unZipDirectory("testDirectory.zip");
 
         File f = new File(path + "testDirectory/testFile.txt");
@@ -84,6 +87,7 @@ public class UnzipperTest {
 
     @Test
     public void unzippingAFolderDoesNotOverWriteFilesInExistingFolder() throws FileNotFoundException, IOException {
+
         unZipDirectory("testDirectory.zip");
         unZipDirectory("overWriteTest.zip");
         try {
@@ -108,8 +112,9 @@ public class UnzipperTest {
 
     }
 
-    private void assertFileOk(String file, String content) throws FileNotFoundException {
-        File f = new File(path + file);
+    private void assertFileOk(final String file, final String content) throws FileNotFoundException {
+
+        final File f = new File(path + file);
         Scanner scanner = null;
         try {
             assertEquals(true, f.exists());
@@ -121,16 +126,18 @@ public class UnzipperTest {
         }
     }
 
-    private void unZipDirectory(String zip) throws IOException, FileNotFoundException {
+    private void unZipDirectory(final String zip) throws IOException, FileNotFoundException {
+
         unZipDirectory(zip, new UnzipAllTheThings());
     }
 
-    private void unZipDirectory(String zip, UnzippingDecider decider) throws IOException, FileNotFoundException {
-        File f = new File(path + zip);
-        byte[] b = IOUtils.toByteArray(new FileInputStream(f));
-        ZippedProject project = new ZippedProject();
+    private void unZipDirectory(final String zip, final UnzippingDecider decider) throws IOException, FileNotFoundException {
+
+        final File f = new File(path + zip);
+        final byte[] b = IOUtils.toByteArray(new FileInputStream(f));
+        final ZippedProject project = new ZippedProject();
         project.setBytes(b);
-        Unzipper unzipper = new Unzipper(project, decider);
+        final Unzipper unzipper = new Unzipper(project, decider);
         unzipper.unzipTo(new FileIO(path));
     }
 

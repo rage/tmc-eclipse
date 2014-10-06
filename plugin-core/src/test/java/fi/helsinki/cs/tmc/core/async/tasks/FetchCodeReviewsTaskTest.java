@@ -1,5 +1,18 @@
 package fi.helsinki.cs.tmc.core.async.tasks;
 
+import fi.helsinki.cs.tmc.core.async.BackgroundTask;
+import fi.helsinki.cs.tmc.core.async.TaskStatusMonitor;
+import fi.helsinki.cs.tmc.core.domain.Course;
+import fi.helsinki.cs.tmc.core.domain.Review;
+import fi.helsinki.cs.tmc.core.services.ReviewDAO;
+import fi.helsinki.cs.tmc.core.services.http.ServerManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
@@ -8,20 +21,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import fi.helsinki.cs.tmc.core.async.BackgroundTask;
-import fi.helsinki.cs.tmc.core.async.TaskStatusMonitor;
-import fi.helsinki.cs.tmc.core.domain.Course;
-import fi.helsinki.cs.tmc.core.domain.Review;
-import fi.helsinki.cs.tmc.core.services.ReviewDAO;
-import fi.helsinki.cs.tmc.core.services.http.ServerManager;
-
 public class FetchCodeReviewsTaskTest {
+
     private ServerManager server;
     private ReviewDAO reviewDAO;
     private Course course;
@@ -31,6 +32,7 @@ public class FetchCodeReviewsTaskTest {
 
     @Before
     public void setUp() throws Exception {
+
         server = mock(ServerManager.class);
         reviewDAO = mock(ReviewDAO.class);
         course = mock(Course.class);
@@ -41,12 +43,14 @@ public class FetchCodeReviewsTaskTest {
 
     @Test
     public void feedbackIsInitializedCorrectly() {
+
         task.start(progress);
         verify(progress, times(1)).startProgress("Checking for new code reviews", 2);
     }
 
     @Test
     public void fetchGetsReviewsFromServerAndIncrementsProgressByOne() {
+
         task.start(progress);
         verify(server, times(1)).downloadReviews(course);
         verify(progress, atLeast(1)).incrementProgress(1);
@@ -54,6 +58,7 @@ public class FetchCodeReviewsTaskTest {
 
     @Test
     public void taskReportsFailureIfFetchedReviewsListIsNull() {
+
         when(server.downloadReviews(course)).thenReturn(null);
 
         assertEquals(BackgroundTask.RETURN_FAILURE, task.start(progress));
@@ -61,7 +66,8 @@ public class FetchCodeReviewsTaskTest {
 
     @Test
     public void taskAddReviewsToReviewDAOAfterSuccefullFetchAndReturnSuccess() {
-        List<Review> reviews = new ArrayList<Review>();
+
+        final List<Review> reviews = new ArrayList<Review>();
         when(server.downloadReviews(course)).thenReturn(reviews);
 
         assertEquals(BackgroundTask.RETURN_SUCCESS, task.start(progress));
@@ -71,11 +77,13 @@ public class FetchCodeReviewsTaskTest {
 
     @Test
     public void hasCorrectDescription() {
+
         assertEquals("Checking for new code reviews", task.getDescription());
     }
 
     @Test
     public void stopDoesNothing() {
+
         task.stop();
         verifyNoMoreInteractions(server, reviewDAO, course);
     }

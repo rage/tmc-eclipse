@@ -1,9 +1,9 @@
 package fi.helsinki.cs.tmc.core;
 
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
 
 public class ServiceFactoryTest {
 
@@ -12,7 +12,8 @@ public class ServiceFactoryTest {
     @Ignore
     @Test
     public void constructorInitialisesEverythingCorrectly() {
-        ServiceFactory serviceFactory = new ServiceFactoryImpl();
+
+        final ServiceFactory serviceFactory = new ServiceFactoryImpl();
         assertNotNull(serviceFactory.getSettings());
         assertNotNull(serviceFactory.getCourseDAO());
         assertNotNull(serviceFactory.getProjectDAO());

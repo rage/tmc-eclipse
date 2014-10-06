@@ -6,5 +6,6 @@ package fi.helsinki.cs.tmc.core.io.zip.unzippingdecider;
  * when updating exercises so that any work is not lost on update.
  */
 public interface UnzippingDecider {
+
     boolean shouldUnzip(String filePath);
 }

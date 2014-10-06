@@ -1,15 +1,15 @@
 package fi.helsinki.cs.tmc.core.io.zip.unzippingdecider;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import fi.helsinki.cs.tmc.core.domain.Project;
+import fi.helsinki.cs.tmc.core.io.FakeIOFactory;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.io.FakeIOFactory;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class MavenUnzippingDeciderTest {
 
@@ -19,6 +19,7 @@ public class MavenUnzippingDeciderTest {
 
     @Before
     public void setUp() {
+
         project = mock(Project.class);
         when(project.getRootPath()).thenReturn("/project");
 
@@ -40,22 +41,26 @@ public class MavenUnzippingDeciderTest {
 
     @Test
     public void testDoesUnzipAndOverwriteToSrc() {
+
         assertTrue(decider.shouldUnzip("/project/src/DoesNotExist.java"));
         assertTrue(decider.shouldUnzip("/project/src/Exists.java"));
     }
 
     @Test
     public void testUnzipsToSrcMain() {
+
         assertTrue(decider.shouldUnzip("/project/src/main/DoesNotExist.java"));
     }
 
     @Test
     public void testDoesNotOverwriteExistingInSrcMain() {
+
         assertFalse(decider.shouldUnzip("/project/src/main/Exists.java"));
     }
 
     @Test
     public void testDoesUnzipTests() {
+
         assertTrue(decider.shouldUnzip("/project/src/test/Test.java"));
     }
 

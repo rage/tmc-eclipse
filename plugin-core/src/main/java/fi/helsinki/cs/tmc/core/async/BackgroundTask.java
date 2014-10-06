@@ -10,20 +10,23 @@ public abstract class BackgroundTask {
     public static final int RETURN_INTERRUPTED = 2;
 
     private boolean isRunning = true;
-    private String description;
+    private final String description;
 
-    public BackgroundTask(String description) {
+    public BackgroundTask(final String description) {
+
         this.description = description;
     }
 
-    public abstract int start(TaskStatusMonitor progress);
+    public abstract int start(final TaskStatusMonitor progress);
 
     public void stop() {
-        this.isRunning = false;
+
+        isRunning = false;
     }
 
     public String getDescription() {
-        return this.description;
+
+        return description;
     }
 
     /**
@@ -32,13 +35,14 @@ public abstract class BackgroundTask {
      * implementation. A task may be stopped either by calling it's
      * {@link #stop()} method (usually invoked through the task runner) or by
      * user interaction.
-     * 
+     *
      * @param progress
      *            a task status monitor for listening to task cancellation
      *            requests
      * @return true, if the task execution should be stopped. False otherwise.
      */
-    protected boolean shouldStop(TaskStatusMonitor progress) {
+    protected boolean shouldStop(final TaskStatusMonitor progress) {
+
         if (!isRunning) {
             return true;
         }
@@ -46,6 +50,7 @@ public abstract class BackgroundTask {
         if (progress != null && progress.isCancelRequested()) {
             return true;
         }
+
         return false;
     }
 }

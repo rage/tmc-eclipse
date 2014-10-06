@@ -12,18 +12,22 @@ public class CourseList {
     private Course[] courses;
 
     public String getApiVersion() {
+
         return apiVersion;
     }
 
-    public void setApiVersion(String apiVersion) {
+    public void setApiVersion(final String apiVersion) {
+
         this.apiVersion = apiVersion;
     }
 
     public Course[] getCourses() {
+
         return courses;
     }
 
-    public void setCourses(Course[] courses) {
+    public void setCourses(final Course[] courses) {
+
         this.courses = courses;
     }
 }

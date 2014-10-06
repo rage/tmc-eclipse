@@ -1,5 +1,15 @@
 package fi.helsinki.cs.tmc.core.services;
 
+import fi.helsinki.cs.tmc.core.domain.Exercise;
+import fi.helsinki.cs.tmc.core.domain.ZippedProject;
+import fi.helsinki.cs.tmc.core.services.http.ServerManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -8,36 +18,28 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import fi.helsinki.cs.tmc.core.domain.Exercise;
-import fi.helsinki.cs.tmc.core.domain.ZippedProject;
-import fi.helsinki.cs.tmc.core.services.http.ServerManager;
-
 public class ProjectDownloaderTest {
-    
+
     private ServerManager server;
     private ProjectDownloader downloader;
 
     @Before
-    public void setup() {
+    public void setUp() {
+
         server = mock(ServerManager.class);
         downloader = new ProjectDownloader(server);
     }
 
     @Test
     public void attemptsToDownloadProjectFromCorrectUrl() {
-        Exercise exercise = mock(Exercise.class);
+
+        final Exercise exercise = mock(Exercise.class);
         when(exercise.getDownloadUrl()).thenReturn("url");
 
-        ZippedProject mockZip = new ZippedProject();
+        final ZippedProject mockZip = new ZippedProject();
         when(server.getExerciseZip(any(String.class))).thenReturn(mockZip);
 
-        ZippedProject retrievedZip = downloader.downloadExercise(exercise);
+        final ZippedProject retrievedZip = downloader.downloadExercise(exercise);
 
         verify(server, times(1)).getExerciseZip("url");
         assertEquals(mockZip, retrievedZip);
@@ -45,25 +47,26 @@ public class ProjectDownloaderTest {
 
     @Test
     public void attemptsToDownloadFromAllUrlsWhenFetchingMultipleExercises() {
-        Exercise exercise1 = mock(Exercise.class);
-        Exercise exercise2 = mock(Exercise.class);
-        Exercise exercise3 = mock(Exercise.class);
+
+        final Exercise exercise1 = mock(Exercise.class);
+        final Exercise exercise2 = mock(Exercise.class);
+        final Exercise exercise3 = mock(Exercise.class);
         when(exercise1.getDownloadUrl()).thenReturn("url1");
         when(exercise2.getDownloadUrl()).thenReturn("url2");
         when(exercise3.getDownloadUrl()).thenReturn("url3");
-        List<Exercise> exercises = new ArrayList<Exercise>();
+        final List<Exercise> exercises = new ArrayList<Exercise>();
         exercises.add(exercise1);
         exercises.add(exercise2);
         exercises.add(exercise3);
 
-        ZippedProject mockZip1 = new ZippedProject();
-        ZippedProject mockZip2 = new ZippedProject();
-        ZippedProject mockZip3 = new ZippedProject();
+        final ZippedProject mockZip1 = new ZippedProject();
+        final ZippedProject mockZip2 = new ZippedProject();
+        final ZippedProject mockZip3 = new ZippedProject();
         when(server.getExerciseZip("url1")).thenReturn(mockZip1);
         when(server.getExerciseZip("url2")).thenReturn(mockZip2);
         when(server.getExerciseZip("url3")).thenReturn(mockZip3);
 
-        List<ZippedProject> returnedList = downloader.downloadExercises(exercises);
+        final List<ZippedProject> returnedList = downloader.downloadExercises(exercises);
 
         verify(server, times(1)).getExerciseZip("url1");
         verify(server, times(1)).getExerciseZip("url2");

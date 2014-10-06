@@ -12,11 +12,13 @@ public class ZippedProject {
 
     }
 
-    public void setBytes(byte[] bytes) {
+    public void setBytes(final byte[] bytes) {
+
         this.bytes = bytes;
     }
 
     public byte[] getBytes() {
+
         return bytes;
     }
 

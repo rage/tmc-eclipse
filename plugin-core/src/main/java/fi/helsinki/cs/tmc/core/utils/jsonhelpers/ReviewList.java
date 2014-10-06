@@ -3,6 +3,27 @@ package fi.helsinki.cs.tmc.core.utils.jsonhelpers;
 import fi.helsinki.cs.tmc.core.domain.Review;
 
 public class ReviewList {
-    public int apiVersion;
-    public Review[] reviews;
+
+    private int apiVersion;
+    private Review[] reviews;
+
+    public int getApiVersion() {
+
+        return apiVersion;
+    }
+
+    public void setApiVersion(final int apiVersion) {
+
+        this.apiVersion = apiVersion;
+    }
+
+    public Review[] getReviews() {
+
+        return reviews;
+    }
+
+    public void setReviews(final Review[] reviews) {
+
+        this.reviews = reviews;
+    }
 }

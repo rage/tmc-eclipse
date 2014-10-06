@@ -1,11 +1,13 @@
 package fi.helsinki.cs.tmc.core.async.tasks;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import fi.helsinki.cs.tmc.core.async.BackgroundTask;
+import fi.helsinki.cs.tmc.core.async.TaskStatusMonitor;
+import fi.helsinki.cs.tmc.core.domain.Project;
+import fi.helsinki.cs.tmc.core.domain.exception.InvalidProjectException;
+import fi.helsinki.cs.tmc.core.services.ProjectDAO;
+import fi.helsinki.cs.tmc.core.services.ProjectUploader;
+import fi.helsinki.cs.tmc.core.services.http.SubmissionResponse;
+import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,15 +19,15 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import fi.helsinki.cs.tmc.core.async.BackgroundTask;
-import fi.helsinki.cs.tmc.core.async.TaskStatusMonitor;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.services.ProjectDAO;
-import fi.helsinki.cs.tmc.core.services.ProjectUploader;
-import fi.helsinki.cs.tmc.core.services.http.SubmissionResponse;
-import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class PastebinTaskTest {
+
     private ProjectUploader uploader;
     private TaskStatusMonitor progress;
     private PastebinTask task;
@@ -34,7 +36,8 @@ public class PastebinTaskTest {
     private String path;
 
     @Before
-    public void setup() {
+    public void setUp() {
+
         uploader = mock(ProjectUploader.class);
         progress = mock(TaskStatusMonitor.class);
         when(progress.isCancelRequested()).thenReturn(false);
@@ -47,11 +50,12 @@ public class PastebinTaskTest {
 
     @Test
     public void hasCorrectDescription() {
+
         assertEquals("Creating a pastebin", task.getDescription());
     }
 
     @Test
-    public void taskReturnsSuccessAfterProperInitializationOfAllComponents() throws IOException {
+    public void taskReturnsSuccessAfterProperInitializationOfAllComponents() throws IOException, InvalidProjectException {
 
         assertEquals(BackgroundTask.RETURN_SUCCESS, task.start(progress));
 
@@ -63,6 +67,7 @@ public class PastebinTaskTest {
 
     @Test
     public void taskReturnsInterruptedIfCancelIsRequestedAtFirstCheckpoint() throws IOException {
+
         when(progress.isCancelRequested()).thenReturn(true);
 
         assertEquals(BackgroundTask.RETURN_INTERRUPTED, task.start(progress));
@@ -72,7 +77,8 @@ public class PastebinTaskTest {
 
     @Test
     public void projectIsSetToUploader() {
-        Project project = mock(Project.class);
+
+        final Project project = mock(Project.class);
         when(dao.getProjectByFile(path)).thenReturn(project);
         task.start(progress);
         verify(uploader, times(1)).setProject(project);
@@ -82,8 +88,10 @@ public class PastebinTaskTest {
     public void taskReturnsInterruptedIfCancelIsRequestedAtSecondCheckpoint() throws IOException {
 
         Mockito.doAnswer(new Answer() {
+
             @Override
-            public Object answer(InvocationOnMock invocation) {
+            public Object answer(final InvocationOnMock invocation) {
+
                 when(progress.isCancelRequested()).thenReturn(true);
                 return null;
             }
@@ -95,24 +103,24 @@ public class PastebinTaskTest {
     }
 
     @Test
-    public void taskReturnsFailureIfAnExceptionIsThrown() throws IOException {
+    public void taskReturnsFailureIfAnExceptionIsThrown() throws IOException, InvalidProjectException {
 
         doThrow(new IOException()).when(uploader).zipProjects();
         assertEquals(BackgroundTask.RETURN_FAILURE, task.start(progress));
     }
 
     @Test
-    public void invokerIsCalledIfAnExceptionIsThrown() throws IOException {
+    public void invokerIsCalledIfAnExceptionIsThrown() throws IOException, InvalidProjectException {
 
         doThrow(new IOException("Foobar")).when(uploader).zipProjects();
         task.start(progress);
-        verify(invoker, times(1)).raiseVisibleException(
-                "An error occurred while uploading exercise to pastebin:\nFoobar");
+        verify(invoker, times(1)).raiseVisibleException("An error occurred while uploading exercise to pastebin:\nFoobar");
     }
 
     @Test
     public void getPasteUrlReturnsTheUrlFromTheResponse() throws URISyntaxException {
-        SubmissionResponse response = new SubmissionResponse(new URI("submission"), new URI("paste"));
+
+        final SubmissionResponse response = new SubmissionResponse(new URI("submission"), new URI("paste"));
         when(uploader.getResponse()).thenReturn(response);
 
         assertEquals("paste", task.getPasteUrl());

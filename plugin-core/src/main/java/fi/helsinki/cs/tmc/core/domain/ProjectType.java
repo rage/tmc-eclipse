@@ -11,11 +11,13 @@ public enum ProjectType {
 
     private final String buildFile;
 
-    private ProjectType(String buildFile) {
+    private ProjectType(final String buildFile) {
+
         this.buildFile = buildFile;
     }
 
     public String getBuildFile() {
+
         return buildFile;
     }
 
@@ -23,15 +25,16 @@ public enum ProjectType {
      * A method that determines the project type by looking at the project files
      * and checking if files used by the build tool such as pom.xml or Makefile
      * are present.
-     * 
+     *
      * @param fileList
      *            list of project files
      * @return project type or none if it could not be determined
      */
-    public static ProjectType findProjectType(List<String> fileList) {
-        for (String file : fileList) {
-            for (ProjectType type : ProjectType.values()) {
-                if (file.toLowerCase().endsWith(((type.getBuildFile().toLowerCase())))) {
+    public static ProjectType findProjectType(final List<String> fileList) {
+
+        for (final String file : fileList) {
+            for (final ProjectType type : ProjectType.values()) {
+                if (file.toLowerCase().endsWith(type.getBuildFile().toLowerCase())) {
                     return type;
                 }
             }

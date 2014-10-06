@@ -10,36 +10,42 @@ public class FakeTaskRunner implements BackgroundTaskRunner {
     class TaskStatusMonitorDummy implements TaskStatusMonitor {
 
         @Override
-        public void startProgress(String message, int amountOfWork) {
+        public void startProgress(final String message, final int amountOfWork) {
+
         }
 
         @Override
-        public void incrementProgress(int progress) {
+        public void incrementProgress(final int progress) {
+
         }
 
         @Override
         public boolean isCancelRequested() {
+
             return false;
         }
 
     }
 
-    private TaskStatusMonitor taskFeedback;
+    private final TaskStatusMonitor taskFeedback;
 
     public FakeTaskRunner() {
-        this.taskFeedback = new TaskStatusMonitorDummy();
+
+        taskFeedback = new TaskStatusMonitorDummy();
     }
 
     @Override
-    public void runTask(BackgroundTask task) {
+    public void runTask(final BackgroundTask task) {
+
         task.start(taskFeedback);
     }
 
     @Override
-    public void runTask(BackgroundTask task, BackgroundTaskListener listener) {
+    public void runTask(final BackgroundTask task, final BackgroundTaskListener listener) {
+
         listener.onBegin();
 
-        int returnValue = task.start(taskFeedback);
+        final int returnValue = task.start(taskFeedback);
 
         if (returnValue == BackgroundTask.RETURN_FAILURE) {
             listener.onFailure();
@@ -50,7 +56,8 @@ public class FakeTaskRunner implements BackgroundTaskRunner {
     }
 
     @Override
-    public void cancelTask(BackgroundTask task) {
+    public void cancelTask(final BackgroundTask task) {
+
     }
 
 }

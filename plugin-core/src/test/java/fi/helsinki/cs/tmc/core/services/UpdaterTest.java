@@ -1,12 +1,10 @@
 package fi.helsinki.cs.tmc.core.services;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import fi.helsinki.cs.tmc.core.domain.Course;
+import fi.helsinki.cs.tmc.core.domain.Exercise;
+import fi.helsinki.cs.tmc.core.domain.Project;
+import fi.helsinki.cs.tmc.core.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.ui.UserVisibleException;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -15,13 +13,18 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import fi.helsinki.cs.tmc.core.domain.Course;
-import fi.helsinki.cs.tmc.core.domain.Exercise;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.services.http.ServerManager;
-import fi.helsinki.cs.tmc.core.ui.UserVisibleException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class UpdaterTest {
+    
+    private static final String COURSE_NAME = "course_name";
+    private static final String EXERCISE_NAME = "exercise_name";
 
     private ServerManager server;
     private CourseDAO courseDAO;
@@ -31,6 +34,7 @@ public class UpdaterTest {
 
     @Before
     public void setUp() {
+
         server = mock(ServerManager.class);
         courseDAO = mock(CourseDAO.class);
         projectDAO = mock(ProjectDAO.class);
@@ -40,6 +44,7 @@ public class UpdaterTest {
 
     @Test
     public void testUpdateCoursesCallsDAOandServer() {
+
         updater.updateCourses();
 
         verify(server, times(1)).getCourses();
@@ -50,12 +55,13 @@ public class UpdaterTest {
 
     @Test
     public void testUpdateCoursesUpdatesDAO() {
-        List<Exercise> serverExerciseList = new ArrayList<Exercise>();
-        Exercise serverExercise = new Exercise("serverExercise", "serverCourse");
+
+        final List<Exercise> serverExerciseList = new ArrayList<Exercise>();
+        final Exercise serverExercise = new Exercise("serverExercise", "serverCourse");
         serverExerciseList.add(serverExercise);
 
-        List<Course> serverCourseList = new ArrayList<Course>();
-        Course serverCourse = new Course("serverCourse");
+        final List<Course> serverCourseList = new ArrayList<Course>();
+        final Course serverCourse = new Course("serverCourse");
         serverCourseList.add(serverCourse);
 
         when(server.getCourses()).thenReturn(serverCourseList);
@@ -68,7 +74,8 @@ public class UpdaterTest {
 
     @Test
     public void testUpdateExercisesCallsCourseAndServer() {
-        Course course = mock(Course.class);
+
+        final Course course = mock(Course.class);
         when(course.getId()).thenReturn(1);
         when(course.getExercises()).thenReturn(new ArrayList<Exercise>());
 
@@ -82,16 +89,16 @@ public class UpdaterTest {
     @Test
     public void newCourseExercisesAreSetCorrectlyAsOldExercises() {
 
-        List<Course> serverCourseList = new ArrayList<Course>();
-        Course serverCourse = new Course("course_name");
+        final List<Course> serverCourseList = new ArrayList<Course>();
+        final Course serverCourse = new Course(COURSE_NAME);
         serverCourseList.add(serverCourse);
         when(server.getCourses()).thenReturn(serverCourseList);
 
-        List<Course> daoCourseList = new ArrayList<Course>();
-        Course daoCourse = new Course("course_name");
+        final List<Course> daoCourseList = new ArrayList<Course>();
+        final Course daoCourse = new Course(COURSE_NAME);
 
-        List<Exercise> exercises = new ArrayList<Exercise>();
-        exercises.add(new Exercise("foo", "bar"));
+        final List<Exercise> exercises = new ArrayList<Exercise>();
+        exercises.add(new Exercise(COURSE_NAME, EXERCISE_NAME));
         exercises.get(0).setCourse(daoCourse);
         daoCourse.setExercises(exercises);
         daoCourseList.add(daoCourse);
@@ -105,16 +112,16 @@ public class UpdaterTest {
     @Test
     public void newCourseExercisesHaveCorrectParentCourse() {
 
-        List<Course> serverCourseList = new ArrayList<Course>();
-        Course serverCourse = new Course("course_name");
+        final List<Course> serverCourseList = new ArrayList<Course>();
+        final Course serverCourse = new Course(COURSE_NAME);
         serverCourseList.add(serverCourse);
         when(server.getCourses()).thenReturn(serverCourseList);
 
-        List<Course> daoCourseList = new ArrayList<Course>();
-        Course daoCourse = new Course("course_name");
+        final List<Course> daoCourseList = new ArrayList<Course>();
+        final Course daoCourse = new Course(COURSE_NAME);
 
-        List<Exercise> exercises = new ArrayList<Exercise>();
-        exercises.add(new Exercise("foo", "bar"));
+        final List<Exercise> exercises = new ArrayList<Exercise>();
+        exercises.add(new Exercise(COURSE_NAME, EXERCISE_NAME));
         exercises.get(0).setCourse(daoCourse);
         daoCourse.setExercises(exercises);
         daoCourseList.add(daoCourse);
@@ -129,18 +136,18 @@ public class UpdaterTest {
     @Test
     public void newCourseExercisesAreNotOverriddenIfOldCourseExercisesAreNull() {
 
-        List<Course> serverCourseList = new ArrayList<Course>();
-        Course serverCourse = new Course("course_name");
+        final List<Course> serverCourseList = new ArrayList<Course>();
+        final Course serverCourse = new Course(COURSE_NAME);
         serverCourseList.add(serverCourse);
         when(server.getCourses()).thenReturn(serverCourseList);
 
-        List<Course> daoCourseList = new ArrayList<Course>();
-        Course daoCourse = new Course("course_name");
+        final List<Course> daoCourseList = new ArrayList<Course>();
+        final Course daoCourse = new Course(COURSE_NAME);
         daoCourseList.add(daoCourse);
         daoCourse.setExercises(null);
-        List<Exercise> exercises = new ArrayList<Exercise>();
+        final List<Exercise> exercises = new ArrayList<Exercise>();
 
-        exercises.add(new Exercise("foo", "bar"));
+        exercises.add(new Exercise(COURSE_NAME, EXERCISE_NAME));
         exercises.get(0).setCourse(serverCourse);
 
         serverCourse.setExercises(exercises);
@@ -155,18 +162,18 @@ public class UpdaterTest {
     @Test
     public void newCourseExercisesAreNotOverriddenIfOldCourseIsNotEqual() {
 
-        List<Course> serverCourseList = new ArrayList<Course>();
-        Course serverCourse = new Course("course_name");
+        final List<Course> serverCourseList = new ArrayList<Course>();
+        final Course serverCourse = new Course(COURSE_NAME);
         serverCourseList.add(serverCourse);
         when(server.getCourses()).thenReturn(serverCourseList);
 
-        List<Course> daoCourseList = new ArrayList<Course>();
-        Course daoCourse = new Course("different_course_name");
+        final List<Course> daoCourseList = new ArrayList<Course>();
+        final Course daoCourse = new Course("different_course_name");
         daoCourseList.add(daoCourse);
 
-        List<Exercise> exercises = new ArrayList<Exercise>();
+        final List<Exercise> exercises = new ArrayList<Exercise>();
 
-        exercises.add(new Exercise("foo", "bar"));
+        exercises.add(new Exercise(COURSE_NAME, EXERCISE_NAME));
         exercises.get(0).setCourse(serverCourse);
 
         serverCourse.setExercises(exercises);
@@ -180,19 +187,21 @@ public class UpdaterTest {
 
     @Test(expected = UserVisibleException.class)
     public void exceptionIsThrownIfCourseIsNull() {
+
         updater.updateExercises(null);
     }
 
     @Test
-    public void exerciseIsUpdatedWhenThereIsOldExerciseForCourse() throws NoSuchFieldException, SecurityException,
-            IllegalArgumentException, IllegalAccessException {
-        Project project = mock(Project.class);
+    public void exerciseIsUpdatedWhenThereIsOldExerciseForCourse() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
+    IllegalAccessException {
 
-        Course course = new Course("foo");
+        final Project project = mock(Project.class);
+
+        final Course course = new Course(COURSE_NAME);
         course.setId(1);
 
-        List<Exercise> exercises = new ArrayList<Exercise>();
-        exercises.add(new Exercise("foo", "bar"));
+        final List<Exercise> exercises = new ArrayList<Exercise>();
+        exercises.add(new Exercise(COURSE_NAME, EXERCISE_NAME));
         exercises.add(new Exercise("baz", "qux"));
         exercises.get(1).setChecksum("1234");
         exercises.get(1).setUpdateAvailable(false);
@@ -201,13 +210,13 @@ public class UpdaterTest {
 
         course.setExercises(exercises);
 
-        List<Exercise> serverExercises = new ArrayList<Exercise>();
+        final List<Exercise> serverExercises = new ArrayList<Exercise>();
         serverExercises.add(new Exercise("baz", "qux"));
         when(server.getExercises("1")).thenReturn(serverExercises);
 
         updater.updateExercises(course);
 
-        Field field = Exercise.class.getDeclaredField("updateAvailable");
+        final Field field = Exercise.class.getDeclaredField("updateAvailable");
         field.setAccessible(true);
         assertEquals(exercises.get(1).getChecksum(), serverExercises.get(0).getOldChecksum());
         assertEquals(field.get(exercises.get(1)), field.get(serverExercises.get(0)));
@@ -217,13 +226,14 @@ public class UpdaterTest {
 
     @Test
     public void projectHasCorrectExerciseSet() {
-        Project project = mock(Project.class);
 
-        Course course = new Course("foo");
+        final Project project = mock(Project.class);
+
+        final Course course = new Course(COURSE_NAME);
         course.setId(1);
 
-        List<Exercise> exercises = new ArrayList<Exercise>();
-        exercises.add(new Exercise("foo", "bar"));
+        final List<Exercise> exercises = new ArrayList<Exercise>();
+        exercises.add(new Exercise(COURSE_NAME, EXERCISE_NAME));
         exercises.add(new Exercise("baz", "qux"));
         exercises.get(1).setChecksum("1234");
         exercises.get(1).setUpdateAvailable(false);
@@ -232,7 +242,7 @@ public class UpdaterTest {
 
         course.setExercises(exercises);
 
-        List<Exercise> serverExercises = new ArrayList<Exercise>();
+        final List<Exercise> serverExercises = new ArrayList<Exercise>();
         serverExercises.add(new Exercise("baz", "qux"));
 
         when(server.getExercises("1")).thenReturn(serverExercises);
@@ -243,19 +253,20 @@ public class UpdaterTest {
     }
 
     @Test
-    public void serverExerciseIsNotModifiedIfNoLocalMatchIsPresent() throws IllegalArgumentException,
-            IllegalAccessException, NoSuchFieldException, SecurityException {
-        Project project = mock(Project.class);
+    public void serverExerciseIsNotModifiedIfNoLocalMatchIsPresent() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
+    SecurityException {
 
-        Course course = new Course("foo");
+        final Project project = mock(Project.class);
+
+        final Course course = new Course(COURSE_NAME);
         course.setId(1);
 
-        List<Exercise> exercises = new ArrayList<Exercise>();
-        exercises.add(new Exercise("foo", "bar"));
+        final List<Exercise> exercises = new ArrayList<Exercise>();
+        exercises.add(new Exercise(COURSE_NAME, EXERCISE_NAME));
 
         course.setExercises(exercises);
 
-        List<Exercise> serverExercises = new ArrayList<Exercise>();
+        final List<Exercise> serverExercises = new ArrayList<Exercise>();
         serverExercises.add(new Exercise("baz", "qux"));
 
         serverExercises.get(0).setOldChecksum("1234");
@@ -267,7 +278,7 @@ public class UpdaterTest {
 
         updater.updateExercises(course);
 
-        Field field = Exercise.class.getDeclaredField("updateAvailable");
+        final Field field = Exercise.class.getDeclaredField("updateAvailable");
         field.setAccessible(true);
 
         assertEquals("1234", serverExercises.get(0).getOldChecksum());

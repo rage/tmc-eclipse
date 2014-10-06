@@ -15,13 +15,14 @@ import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
  */
 public class UploaderTask extends BackgroundTask {
 
-    private ProjectUploader uploader;
-    private String path;
+    private final ProjectUploader uploader;
+    private final String path;
 
-    private ProjectDAO projectDAO;
-    private IdeUIInvoker invoker;
+    private final ProjectDAO projectDAO;
+    private final IdeUIInvoker invoker;
 
-    public UploaderTask(ProjectUploader uploader, String path, ProjectDAO projectDAO, IdeUIInvoker invoker) {
+    public UploaderTask(final ProjectUploader uploader, final String path, final ProjectDAO projectDAO, final IdeUIInvoker invoker) {
+
         super("Uploading exercises");
         this.uploader = uploader;
         this.path = path;
@@ -30,7 +31,8 @@ public class UploaderTask extends BackgroundTask {
     }
 
     @Override
-    public int start(TaskStatusMonitor progress) {
+    public int start(final TaskStatusMonitor progress) {
+
         progress.startProgress(this.getDescription(), 3);
 
         return run(progress);
@@ -59,6 +61,7 @@ public class UploaderTask extends BackgroundTask {
 
                 @Override
                 public boolean mustStop() {
+
                     return shouldStop(progress);
                 }
             });
@@ -69,7 +72,7 @@ public class UploaderTask extends BackgroundTask {
 
             progress.incrementProgress(1);
 
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             invoker.raiseVisibleException("An error occurred while uploading exercises:\n" + ex.getMessage());
             return BackgroundTask.RETURN_FAILURE;
         }
@@ -79,10 +82,12 @@ public class UploaderTask extends BackgroundTask {
     }
 
     public SubmissionResult getResult() {
+
         return uploader.getResult();
     }
 
     public Project getProject() {
+
         return uploader.getProject();
     }
 }

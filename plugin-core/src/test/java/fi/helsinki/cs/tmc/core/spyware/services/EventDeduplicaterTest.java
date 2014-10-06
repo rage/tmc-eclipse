@@ -15,11 +15,13 @@ public class EventDeduplicaterTest {
 
     @Before
     public void setUp() throws Exception {
+
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void testReceiveEvent() {
+
         receiver.receiveEvent(event);
         Mockito.verify(receiver).receiveEvent(event);
     }

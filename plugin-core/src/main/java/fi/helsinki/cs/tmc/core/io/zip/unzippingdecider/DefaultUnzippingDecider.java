@@ -8,7 +8,8 @@ import fi.helsinki.cs.tmc.core.io.IOFactory;
  */
 public class DefaultUnzippingDecider extends AbstractUnzippingDecider {
 
-    public DefaultUnzippingDecider(IOFactory io, Project project) {
+    public DefaultUnzippingDecider(final IOFactory io, final Project project) {
+
         super(io, project);
     }
 
@@ -17,10 +18,11 @@ public class DefaultUnzippingDecider extends AbstractUnzippingDecider {
      * made by the user will not be lost.
      */
     @Override
-    public boolean shouldUnzip(String filePath) {
-        String s = project.getRootPath() + "/src";
+    public boolean shouldUnzip(final String filePath) {
+
+        final String s = getProject().getRootPath() + "/src";
         if (filePath.startsWith(s) && (filePath.equals(s) || filePath.charAt(s.length()) == '/')) {
-            return !(io.newFile(filePath).fileExists());
+            return !(getIo().newFile(filePath).fileExists());
         }
         return super.shouldUnzip(filePath);
     }

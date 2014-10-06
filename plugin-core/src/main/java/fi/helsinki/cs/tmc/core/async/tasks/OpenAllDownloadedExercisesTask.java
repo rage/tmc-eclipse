@@ -1,8 +1,5 @@
 package fi.helsinki.cs.tmc.core.async.tasks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fi.helsinki.cs.tmc.core.async.SimpleBackgroundTask;
 import fi.helsinki.cs.tmc.core.domain.Exercise;
 import fi.helsinki.cs.tmc.core.domain.ProjectStatus;
@@ -10,32 +7,38 @@ import fi.helsinki.cs.tmc.core.io.FileIO;
 import fi.helsinki.cs.tmc.core.io.IOFactory;
 import fi.helsinki.cs.tmc.core.services.ProjectOpener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OpenAllDownloadedExercisesTask extends SimpleBackgroundTask<Exercise> {
 
-    private ProjectOpener opener;
-    private IOFactory io;
+    private final ProjectOpener opener;
+    private final IOFactory io;
 
-    public OpenAllDownloadedExercisesTask(String description, List<Exercise> list, ProjectOpener opener, IOFactory io) {
+    public OpenAllDownloadedExercisesTask(final String description, final List<Exercise> list, final ProjectOpener opener, final IOFactory io) {
+
         super(description, list);
         this.opener = opener;
         this.io = io;
     }
 
     @Override
-    public void run(Exercise exercise) {
+    public void run(final Exercise exercise) {
+
         if (canOpen(exercise)) {
             opener.open(exercise);
             exercise.getProject().setStatus(ProjectStatus.DOWNLOADED);
         }
     }
 
-    private boolean canOpen(Exercise exercise) {
+    private boolean canOpen(final Exercise exercise) {
+
         if (exercise.getProject().getReadOnlyProjectFiles().isEmpty()) {
             return false;
         }
 
-        FileIO root = io.newFile(exercise.getProject().getRootPath());
-        FileIO buildFile = io.newFile(root.getPath() + "/" + exercise.getProject().getProjectType().getBuildFile());
+        final FileIO root = io.newFile(exercise.getProject().getRootPath());
+        final FileIO buildFile = io.newFile(root.getPath() + "/" + exercise.getProject().getProjectType().getBuildFile());
 
         if (buildFile.fileExists()) {
             return true;
@@ -45,7 +48,8 @@ public class OpenAllDownloadedExercisesTask extends SimpleBackgroundTask<Exercis
         }
     }
 
-    private void cleanup(Exercise exercise) {
+    private void cleanup(final Exercise exercise) {
+
         exercise.getProject().setProjectFiles(new ArrayList<String>());
     }
 

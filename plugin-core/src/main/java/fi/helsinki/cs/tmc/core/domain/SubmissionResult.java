@@ -1,9 +1,9 @@
 package fi.helsinki.cs.tmc.core.domain;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Collections;
 import java.util.List;
-
-import com.google.gson.annotations.SerializedName;
 
 /**
  * Class that stores the submission result that the server provides us after
@@ -20,7 +20,7 @@ public class SubmissionResult {
     private Status status;
 
     @SerializedName("error")
-    private String error; // e.g. compile error
+    private String error;
 
     @SerializedName("test_cases")
     private List<TestCaseResult> testCases;
@@ -41,6 +41,7 @@ public class SubmissionResult {
     private String feedbackAnswerUrl;
 
     public SubmissionResult() {
+
         status = Status.ERROR;
         error = null;
         testCases = Collections.emptyList();
@@ -50,71 +51,88 @@ public class SubmissionResult {
     }
 
     public Status getStatus() {
+
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(final Status status) {
+
         this.status = status;
     }
 
     public String getError() {
+
         return error;
     }
 
-    public void setError(String error) {
+    public void setError(final String error) {
+
         this.error = error;
     }
 
     public List<TestCaseResult> getTestCases() {
+
         return testCases;
     }
 
-    public void setTestCases(List<TestCaseResult> testCases) {
+    public void setTestCases(final List<TestCaseResult> testCases) {
+
         this.testCases = testCases;
     }
 
     public String getSolutionUrl() {
+
         return solutionUrl;
     }
 
-    public void setSolutionUrl(String solutionUrl) {
+    public void setSolutionUrl(final String solutionUrl) {
+
         this.solutionUrl = solutionUrl;
     }
 
     public List<String> getPoints() {
+
         return points;
     }
 
-    public void setPoints(List<String> points) {
+    public void setPoints(final List<String> points) {
+
         this.points = points;
     }
 
     public List<String> getMissingReviewPoints() {
+
         return missingReviewPoints;
     }
 
-    public void setMissingReviewPoints(List<String> missingReviewPoints) {
+    public void setMissingReviewPoints(final List<String> missingReviewPoints) {
+
         this.missingReviewPoints = missingReviewPoints;
     }
 
     public List<FeedbackQuestion> getFeedbackQuestions() {
+
         return feedbackQuestions;
     }
 
-    public void setFeedbackQuestions(List<FeedbackQuestion> feedbackQuestions) {
+    public void setFeedbackQuestions(final List<FeedbackQuestion> feedbackQuestions) {
+
         this.feedbackQuestions = feedbackQuestions;
     }
 
     public String getFeedbackAnswerUrl() {
+
         return feedbackAnswerUrl;
     }
 
-    public void setFeedbackAnswerUrl(String feedbackAnswerUrl) {
+    public void setFeedbackAnswerUrl(final String feedbackAnswerUrl) {
+
         this.feedbackAnswerUrl = feedbackAnswerUrl;
     }
 
     public boolean allTestCasesFailed() {
-        for (TestCaseResult tcr : testCases) {
+
+        for (final TestCaseResult tcr : testCases) {
             if (tcr.isSuccessful()) {
                 return false;
             }
@@ -123,7 +141,8 @@ public class SubmissionResult {
     }
 
     public boolean allTestCasesSucceeded() {
-        for (TestCaseResult tcr : testCases) {
+
+        for (final TestCaseResult tcr : testCases) {
             if (!tcr.isSuccessful()) {
                 return false;
             }

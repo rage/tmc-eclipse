@@ -23,96 +23,116 @@ public final class Core {
 
     private TMCErrorHandler errorHandler;
     private BackgroundTaskRunner taskRunner;
-    private Settings settings;
-    private SpywarePluginLayer spyware;
+    private final Settings settings;
+    private final SpywarePluginLayer spyware;
 
-    private CourseDAO courseDAO;
-    private ProjectDAO projectDAO;
-    private ReviewDAO reviewDAO;
+    private final CourseDAO courseDAO;
+    private final ProjectDAO projectDAO;
+    private final ReviewDAO reviewDAO;
 
-    private ServerManager server;
+    private final ServerManager server;
 
-    private Updater updater;
+    private final Updater updater;
 
-    private ProjectEventHandler projectEventHandler;
-    private IOFactory io;
+    private final ProjectEventHandler projectEventHandler;
+    private final IOFactory io;
 
-    private Core(ServiceFactory factory) {
-        this.settings = factory.getSettings();
-        this.courseDAO = factory.getCourseDAO();
-        this.projectDAO = factory.getProjectDAO();
-        this.reviewDAO = factory.getReviewDAO();
-        this.server = factory.getServerManager();
-        this.updater = factory.getUpdater();
-        this.errorHandler = new DummyErrorHandler();
-        this.spyware = factory.getSpyware();
-        this.projectEventHandler = factory.getProjectEventHandler();
-        this.io = factory.getIOFactory();
+    private Core(final ServiceFactory factory) {
+
+        settings = factory.getSettings();
+        courseDAO = factory.getCourseDAO();
+        projectDAO = factory.getProjectDAO();
+        reviewDAO = factory.getReviewDAO();
+        server = factory.getServerManager();
+        updater = factory.getUpdater();
+        errorHandler = new DummyErrorHandler();
+        spyware = factory.getSpyware();
+        projectEventHandler = factory.getProjectEventHandler();
+        io = factory.getIOFactory();
     }
 
-    public static void setErrorHandler(TMCErrorHandler errorHandler) {
-        Core.getInstance().errorHandler = errorHandler;
+    public static void setErrorHandler(final TMCErrorHandler errorHandler) {
+
+        final Core core = Core.getInstance();
+        core.errorHandler = errorHandler;
     }
 
     public static TMCErrorHandler getErrorHandler() {
+
         return Core.getInstance().errorHandler;
     }
 
-    public static void setTaskRunner(BackgroundTaskRunner taskRunner) {
-        Core.getInstance().taskRunner = taskRunner;
+    public static void setTaskRunner(final BackgroundTaskRunner taskRunner) {
+
+        final Core core = Core.getInstance();
+        core.taskRunner = taskRunner;
     }
 
     public static BackgroundTaskRunner getTaskRunner() {
+
         return Core.getInstance().taskRunner;
     }
 
     public static Settings getSettings() {
+
         return Core.getInstance().settings;
     }
 
     public static CourseDAO getCourseDAO() {
+
         return Core.getInstance().courseDAO;
     }
 
     public static ProjectDAO getProjectDAO() {
+
         return Core.getInstance().projectDAO;
     }
 
     public static ReviewDAO getReviewDAO() {
+
         return Core.getInstance().reviewDAO;
     }
 
     public static ServerManager getServerManager() {
+
         return Core.getInstance().server;
     }
 
     public static Updater getUpdater() {
+
         return Core.getInstance().updater;
     }
 
     public static SpywarePluginLayer getSpyware() {
+
         return Core.getInstance().spyware;
     }
 
     public static ProjectEventHandler getProjectEventHandler() {
+
         return Core.getInstance().projectEventHandler;
     }
 
     public static IOFactory getIOFactory() {
+
         return Core.getInstance().io;
     }
 
     public static Core getInstance() {
+
         if (core == null) {
             return getInstance(new ServiceFactoryImpl());
         }
+
         return core;
     }
 
-    public static Core getInstance(ServiceFactory factory) {
+    public static Core getInstance(final ServiceFactory factory) {
+
         if (core == null) {
             core = new Core(factory);
         }
+
         return core;
     }
 }

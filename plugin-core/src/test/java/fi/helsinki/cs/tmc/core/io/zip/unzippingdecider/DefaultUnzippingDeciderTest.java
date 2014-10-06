@@ -1,15 +1,15 @@
 package fi.helsinki.cs.tmc.core.io.zip.unzippingdecider;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import fi.helsinki.cs.tmc.core.domain.Project;
+import fi.helsinki.cs.tmc.core.io.FakeIOFactory;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.io.FakeIOFactory;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class DefaultUnzippingDeciderTest {
 
@@ -19,6 +19,7 @@ public class DefaultUnzippingDeciderTest {
 
     @Before
     public void setUp() {
+
         project = mock(Project.class);
         when(project.getRootPath()).thenReturn("/project");
 
@@ -37,16 +38,19 @@ public class DefaultUnzippingDeciderTest {
 
     @Test
     public void testDoesUnzipToSrc() {
+
         assertTrue(decider.shouldUnzip("/project/src/DoesNotExist.java"));
     }
 
     @Test
     public void testDoesNotOverwriteExistingInSrc() {
+
         assertFalse(decider.shouldUnzip("/project/src/Exists.java"));
     }
 
     @Test
     public void testDoesUnzipTests() {
+
         assertTrue(decider.shouldUnzip("/project/test/Test.java"));
     }
 

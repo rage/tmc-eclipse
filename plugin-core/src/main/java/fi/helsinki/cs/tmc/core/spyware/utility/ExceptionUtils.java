@@ -6,18 +6,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ExceptionUtils {
-    public static String backtraceToString(Throwable t) {
-        StringWriter sw = new StringWriter();
+
+    public static String backtraceToString(final Throwable t) {
+
+        final StringWriter sw = new StringWriter();
         t.printStackTrace(new PrintWriter(sw));
         return sw.toString();
     }
 
-    public static void logException(Throwable t, Logger log, Level level) {
-        String msg = t.getMessage() + "\n" + backtraceToString(t);
+    public static void logException(final Throwable t, final Logger log, final Level level) {
+
+        final String msg = t.getMessage() + "\n" + backtraceToString(t);
         log.log(level, msg);
     }
 
-    public static RuntimeException toRuntimeException(Exception ex) {
+    public static RuntimeException toRuntimeException(final Exception ex) {
+
         if (ex instanceof RuntimeException) {
             return (RuntimeException) ex;
         } else {

@@ -1,13 +1,9 @@
 package fi.helsinki.cs.tmc.core.storage;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import fi.helsinki.cs.tmc.core.domain.Exercise;
+import fi.helsinki.cs.tmc.core.domain.Project;
+import fi.helsinki.cs.tmc.core.io.FileIO;
+import fi.helsinki.cs.tmc.core.ui.UserVisibleException;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -21,10 +17,14 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import fi.helsinki.cs.tmc.core.domain.Exercise;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.io.FileIO;
-import fi.helsinki.cs.tmc.core.ui.UserVisibleException;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class ProjectStorageTest {
 
@@ -33,8 +33,8 @@ public class ProjectStorageTest {
     private List<Project> projects;
 
     @Before
-    public void setUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
-            IllegalAccessException {
+    public void setUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+
         io = mock(FileIO.class);
         projects = new ArrayList<Project>();
         storage = new ProjectStorage(io);
@@ -43,12 +43,14 @@ public class ProjectStorageTest {
 
     @Test
     public void loadReturnsEmptyListIfFileDoesNotExist() {
+
         when(io.fileExists()).thenReturn(false);
         assertEquals(0, storage.load().size());
     }
 
     @Test(expected = UserVisibleException.class)
     public void loadThrowsIfReaderIsNull() {
+
         when(io.fileExists()).thenReturn(true);
         when(io.getReader()).thenReturn(null);
         storage.load();
@@ -58,7 +60,7 @@ public class ProjectStorageTest {
     public void loadDoesNotThrowIfReaderCloseThrows() throws IOException {
 
         when(io.fileExists()).thenReturn(true);
-        Reader reader = mock(Reader.class);
+        final Reader reader = mock(Reader.class);
 
         // return -1 to signify end of stream; otherwise gson deserialization
         // hangs while waiting for input
@@ -72,16 +74,18 @@ public class ProjectStorageTest {
 
     @Test
     public void loadReturnsArrayWithCorrectSizeWithCorrectJSON() {
-        Reader reader = createMockWithJson();
+
+        final Reader reader = createMockWithJson();
         when(io.fileExists()).thenReturn(true);
         when(io.getReader()).thenReturn(reader);
-        List<Project> list = storage.load();
+        final List<Project> list = storage.load();
         assertEquals(1, list.size());
     }
 
     @Test
     public void loadReturnsArrayWithCorrectDataWithCorrectJSON() {
-        Reader reader = createMockWithJson();
+
+        final Reader reader = createMockWithJson();
         when(io.fileExists()).thenReturn(true);
         when(io.getReader()).thenReturn(reader);
 
@@ -90,18 +94,20 @@ public class ProjectStorageTest {
 
     @Test
     public void loadReturnsArrayWithCorrectSizeIfReadIsSuccessfulButCloseThrowsException() throws IOException {
-        Reader reader = createMockWithJson();
+
+        final Reader reader = createMockWithJson();
         when(io.fileExists()).thenReturn(true);
         when(io.getReader()).thenReturn(reader);
         doThrow(new IOException("Foo")).when(reader).close();
 
-        List<Project> list = storage.load();
+        final List<Project> list = storage.load();
         assertEquals(1, list.size());
     }
 
     @Test
     public void loadReturnsArrayWithCorrectDataWithCorrectJSONIfCloseThrowsException() throws IOException {
-        Reader reader = createMockWithJson();
+
+        final Reader reader = createMockWithJson();
         when(io.fileExists()).thenReturn(true);
         when(io.getReader()).thenReturn(reader);
         doThrow(new IOException("Foo")).when(reader).close();
@@ -110,7 +116,8 @@ public class ProjectStorageTest {
 
     @Test
     public void loadReturnsEmptyListIfReadingEmptyFile() throws IOException {
-        Reader reader = mock(Reader.class);
+
+        final Reader reader = mock(Reader.class);
         when(io.fileExists()).thenReturn(true);
         when(io.getReader()).thenReturn(reader);
         when(reader.read(any(char[].class), anyInt(), anyInt())).thenReturn(-1);
@@ -119,7 +126,8 @@ public class ProjectStorageTest {
 
     @Test
     public void loadReturnsEmptyListIfLoadThrowsAndReadingEmptyFile() throws IOException {
-        Reader reader = mock(Reader.class);
+
+        final Reader reader = mock(Reader.class);
         when(io.fileExists()).thenReturn(true);
         when(io.getReader()).thenReturn(reader);
         when(reader.read(any(char[].class), anyInt(), anyInt())).thenReturn(-1);
@@ -129,7 +137,8 @@ public class ProjectStorageTest {
 
     @Test(expected = UserVisibleException.class)
     public void loadThrowsUserVisibleExceptionIfReadFails() throws IOException {
-        Reader reader = mock(Reader.class);
+
+        final Reader reader = mock(Reader.class);
         when(io.fileExists()).thenReturn(true);
         when(io.getReader()).thenReturn(reader);
         when(reader.read(any(char[].class), anyInt(), anyInt())).thenThrow(new IOException("Foo"));
@@ -138,6 +147,7 @@ public class ProjectStorageTest {
 
     @Test(expected = UserVisibleException.class)
     public void saveThrowsIfIOIsNull() {
+
         storage = new ProjectStorage(null);
 
         storage.save(projects);
@@ -145,13 +155,15 @@ public class ProjectStorageTest {
 
     @Test(expected = UserVisibleException.class)
     public void saveThrowsIfWriterIsNull() {
+
         when(io.getWriter()).thenReturn(null);
         storage.save(projects);
     }
 
     @Test
     public void saveDoesNotThrowIfCloseThrows() throws IOException {
-        Writer writer = mock(Writer.class);
+
+        final Writer writer = mock(Writer.class);
         when(io.getWriter()).thenReturn(writer);
         doThrow(new IOException("foo")).when(writer).close();
         storage.save(projects);
@@ -159,9 +171,10 @@ public class ProjectStorageTest {
     }
 
     private void verifyData() {
-        List<Project> list = storage.load();
-        Exercise e = list.get(0).getExercise();
-        Project p = list.get(0);
+
+        final List<Project> list = storage.load();
+        final Exercise e = list.get(0).getExercise();
+        final Project p = list.get(0);
         assertEquals(843, e.getId());
         assertEquals("name", e.getName());
         assertEquals("course_name", e.getCourseName());
@@ -171,37 +184,39 @@ public class ProjectStorageTest {
     }
 
     private Reader createMockWithJson() {
-        Reader reader = mock(Reader.class);
+
+        final Reader reader = mock(Reader.class);
         try {
             when(reader.read(any(char[].class), anyInt(), anyInt())).thenAnswer(new Answer<Integer>() {
-                private String json = "{\"projects\": [{\"exercise\": {\"id\": 843,\"name\": \"name\","
-                        + "\"courseName\": \"course_name\", \"deadlineDate\": null, \"deadline\": null,"
-                        + "\"zip_url\": \"https://zip_url.com\","
-                        + "\"solution_zip_url\": \"http://solution_url.com\","
-                        + "\"return_url\": \"https://return_url.com\","
-                        + "\"locked\": false, \"deadline_description\": null, \"returnable\": true,"
-                        + "\"requires_review\": false, \"attempted\": true, \"completed\": true,"
-                        + "\"reviewed\": true, \"all_review_points_given\": true,"
-                        + "\"oldChecksum\": \"bb0571149a58adf71f0f2980fb2980d3\", \"updateAvailable\": false,"
-                        + "\"checksum\": \"bb0571149a58adf71f0f2980fb2980d3\", \"memory_limit\": null" + "},"
-                        + "\"projectFiles\": [\"/path/to/file\"], \"extraStudentFiles\": [],"
-                        + "\"rootPath\": \"/path/to\", \"status\": \"DOWNLOADED\"}]}";
-                private int position = 0;
-                private StringReader stringReader = null;
+
+                private final String json = "{\"projects\": [{\"exercise\": {\"id\": 843,\"name\": \"name\"," +
+                        "\"courseName\": \"course_name\", \"deadlineDate\": null, \"deadline\": null," + "\"zip_url\": \"https://zip_url.com\"," +
+                        "\"solution_zip_url\": \"http://solution_url.com\"," + "\"return_url\": \"https://return_url.com\"," +
+                        "\"locked\": false, \"deadline_description\": null, \"returnable\": true," +
+                        "\"requires_review\": false, \"attempted\": true, \"completed\": true," +
+                        "\"reviewed\": true, \"all_review_points_given\": true," +
+                        "\"oldChecksum\": \"bb0571149a58adf71f0f2980fb2980d3\", \"updateAvailable\": false," +
+                        "\"checksum\": \"bb0571149a58adf71f0f2980fb2980d3\", \"memory_limit\": null" + "}," +
+                        "\"projectFiles\": [\"/path/to/file\"], \"extraStudentFiles\": []," +
+                        "\"rootPath\": \"/path/to\", \"status\": \"DOWNLOADED\"}]}";
+                
+                private final int position = 0;
+                private StringReader stringReader;
 
                 @Override
-                public Integer answer(InvocationOnMock invocation) throws Throwable {
+                public Integer answer(final InvocationOnMock invocation) throws Throwable {
+
                     if (stringReader == null) {
                         stringReader = new StringReader(json);
                     }
 
-                    char[] buffer = (char[]) invocation.getArguments()[0];
-                    int offset = (int) (invocation.getArguments()[1]);
-                    int length = (int) (invocation.getArguments()[2]);
+                    final char[] buffer = (char[]) invocation.getArguments()[0];
+                    final int offset = (int) (invocation.getArguments()[1]);
+                    final int length = (int) (invocation.getArguments()[2]);
                     return stringReader.read(buffer, offset, length);
                 }
             });
-        } catch (IOException e) {
+        } catch (final IOException e) {
         }
 
         return reader;

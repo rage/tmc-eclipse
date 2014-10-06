@@ -1,18 +1,5 @@
 package fi.helsinki.cs.tmc.core.async.tasks;
 
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
 import fi.helsinki.cs.tmc.core.async.TaskStatusMonitor;
 import fi.helsinki.cs.tmc.core.domain.Exercise;
 import fi.helsinki.cs.tmc.core.domain.Project;
@@ -27,6 +14,19 @@ import fi.helsinki.cs.tmc.core.services.ProjectOpener;
 import fi.helsinki.cs.tmc.core.services.Settings;
 import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Matchers;
+
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 public class DownloaderTaskTest {
 
     private DownloaderTask task;
@@ -39,10 +39,11 @@ public class DownloaderTaskTest {
     private IOFactory io;
 
     private ZippedProject zipProject;
-    TaskStatusMonitor progress;
+    private TaskStatusMonitor progress;
 
     @Before
     public void setUp() {
+
         io = new FakeIOFactory();
         progress = mock(TaskStatusMonitor.class);
 
@@ -69,26 +70,29 @@ public class DownloaderTaskTest {
 
     @Test
     public void exerciseIsDownloaded() {
+
         task.start(progress);
         verify(downloader, times(1)).downloadExercise(exercises.get(0));
     }
 
     @Test
     public void getProjectByExerciseIsCalled() {
+
         task.start(progress);
         verify(projectDao, times(1)).getProjectByExercise(exercises.get(0));
     }
 
     @Test
     public void projectIsAddedToProjectDaoWhenNoProjectExistsFirst() {
+
         task.start(progress);
-        verify(projectDao, times(1)).addProject(Mockito.any(Project.class));
+        verify(projectDao, times(1)).addProject(Matchers.any(Project.class));
     }
 
     @Test
     public void projectFilesAreSetWhenProjectExists() {
 
-        Project project = mock(Project.class);
+        final Project project = mock(Project.class);
         when(project.getProjectType()).thenReturn(ProjectType.JAVA_ANT);
         when(project.getRootPath()).thenReturn("foo/bar");
         when(projectDao.getProjectByExercise(exercises.get(0))).thenReturn(project);
@@ -100,12 +104,14 @@ public class DownloaderTaskTest {
 
     @Test
     public void openerIsCalledWithCorrectParameter() {
+
         task.start(progress);
         verify(opener, times(1)).open(exercises.get(0));
     }
 
     @Test
     public void exerciseIsSetAsUpdated() {
+
         task.start(progress);
         verify(exercises.get(0), times(1)).setUpdateAvailable(false);
     }
@@ -113,7 +119,7 @@ public class DownloaderTaskTest {
     @Test
     public void projectStatusIsSetAsDownloaded() {
 
-        Project project = mock(Project.class);
+        final Project project = mock(Project.class);
         when(project.getProjectType()).thenReturn(ProjectType.JAVA_ANT);
         when(project.getRootPath()).thenReturn("foo/bar");
         when(projectDao.getProjectByExercise(exercises.get(0))).thenReturn(project);

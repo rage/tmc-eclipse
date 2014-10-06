@@ -18,22 +18,22 @@ import fi.helsinki.cs.tmc.core.spyware.SpywarePluginLayer;
  */
 public interface ServiceFactory {
 
-    public Settings getSettings();
+    Settings getSettings();
 
-    public CourseDAO getCourseDAO();
+    CourseDAO getCourseDAO();
 
-    public ProjectDAO getProjectDAO();
+    ProjectDAO getProjectDAO();
 
-    public ReviewDAO getReviewDAO();
+    ReviewDAO getReviewDAO();
 
-    public ServerManager getServerManager();
+    ServerManager getServerManager();
 
-    public Updater getUpdater();
+    Updater getUpdater();
 
-    public SpywarePluginLayer getSpyware();
+    SpywarePluginLayer getSpyware();
 
-    public ProjectEventHandler getProjectEventHandler();
+    ProjectEventHandler getProjectEventHandler();
 
-    public IOFactory getIOFactory();
+    IOFactory getIOFactory();
 
 }

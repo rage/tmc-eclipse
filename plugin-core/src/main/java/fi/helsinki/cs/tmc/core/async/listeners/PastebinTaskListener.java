@@ -6,20 +6,23 @@ import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
 
 public class PastebinTaskListener implements BackgroundTaskListener {
 
-    private PastebinTask task;
-    private IdeUIInvoker uiInvoker;
+    private final PastebinTask task;
+    private final IdeUIInvoker uiInvoker;
 
-    public PastebinTaskListener(PastebinTask task, IdeUIInvoker uiInvoker) {
+    public PastebinTaskListener(final PastebinTask task, final IdeUIInvoker uiInvoker) {
+
         this.task = task;
         this.uiInvoker = uiInvoker;
     }
 
     @Override
     public void onBegin() {
+
     }
 
     @Override
     public void onSuccess() {
+
         final String pasteUrl = task.getPasteUrl();
 
         if (pasteUrl == null) {
@@ -32,10 +35,12 @@ public class PastebinTaskListener implements BackgroundTaskListener {
 
     @Override
     public void onFailure() {
+
         uiInvoker.raiseVisibleException("Failed to create the requested pastebin.");
     }
 
     @Override
     public void onInterruption() {
+
     }
 }

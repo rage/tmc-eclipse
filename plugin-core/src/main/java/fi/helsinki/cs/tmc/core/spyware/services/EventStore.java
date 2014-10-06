@@ -1,5 +1,11 @@
 package fi.helsinki.cs.tmc.core.spyware.services;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import fi.helsinki.cs.tmc.core.io.FileIO;
+import fi.helsinki.cs.tmc.core.spyware.utility.ByteArrayGsonSerializer;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringWriter;
@@ -8,24 +14,21 @@ import java.util.logging.Logger;
 
 import org.apache.commons.io.IOUtils;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import fi.helsinki.cs.tmc.core.io.FileIO;
-import fi.helsinki.cs.tmc.core.spyware.utility.ByteArrayGsonSerializer;
-
 public class EventStore {
-    private static final Logger log = Logger.getLogger(EventStore.class.getName());
 
-    private FileIO configFile;
+    private static final Logger LOG = Logger.getLogger(EventStore.class.getName());
 
-    public EventStore(FileIO configFile) {
+    private final FileIO configFile;
+
+    public EventStore(final FileIO configFile) {
+
         this.configFile = configFile;
     }
 
-    public void save(LoggableEvent[] events) throws IOException {
-        String text = getGson().toJson(events);
-        Writer writer = configFile.getWriter();
+    public void save(final LoggableEvent[] events) throws IOException {
+
+        final String text = getGson().toJson(events);
+        final Writer writer = configFile.getWriter();
         try {
             writer.write(text);
         } finally {
@@ -34,8 +37,9 @@ public class EventStore {
     }
 
     public LoggableEvent[] load() throws IOException {
-        StringWriter writer = new StringWriter();
-        Reader reader = configFile.getReader();
+
+        final StringWriter writer = new StringWriter();
+        final Reader reader = configFile.getReader();
         LoggableEvent[] result = new LoggableEvent[0];
 
         if (reader == null) {
@@ -56,11 +60,13 @@ public class EventStore {
     }
 
     private Gson getGson() {
+
         return new GsonBuilder().registerTypeAdapter(byte[].class, new ByteArrayGsonSerializer()).create();
     }
 
     public void clear() throws IOException {
-        Writer writer = configFile.getWriter();
+
+        final Writer writer = configFile.getWriter();
         try {
             writer.write("");
         } finally {

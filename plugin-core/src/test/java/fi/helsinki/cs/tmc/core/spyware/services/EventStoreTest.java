@@ -1,14 +1,14 @@
 package fi.helsinki.cs.tmc.core.spyware.services;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import fi.helsinki.cs.tmc.core.io.FakeFileIO;
 
 import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import fi.helsinki.cs.tmc.core.io.FakeFileIO;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class EventStoreTest {
 
@@ -18,6 +18,7 @@ public class EventStoreTest {
 
     @Before
     public void setUp() {
+
         fakeFile = new FakeFileIO();
         store = new EventStore(fakeFile);
 
@@ -28,12 +29,14 @@ public class EventStoreTest {
 
     @Test
     public void eventStoreSavesData() throws IOException {
+
         store.save(events);
         assertTrue(fakeFile.getWriter().toString().length() > 0);
     }
 
     @Test
     public void eventStoreClearsDataCorrectly() throws IOException {
+
         store.save(events);
         store.clear();
         assertEquals(fakeFile.read().length, 0);
@@ -41,6 +44,7 @@ public class EventStoreTest {
 
     @Test
     public void eventStoreLoadsDataCorrectlyAfterSaving() throws IOException {
+
         store.save(events);
         events = null;
         events = store.load();
@@ -58,6 +62,7 @@ public class EventStoreTest {
 
     @Test
     public void eventStoreLoadReturnsZeroArrayIfNoDataIsSaved() throws IOException {
+
         events = store.load();
         assertEquals(0, events.length);
     }

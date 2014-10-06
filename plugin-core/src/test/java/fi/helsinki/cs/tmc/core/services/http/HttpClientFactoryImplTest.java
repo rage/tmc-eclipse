@@ -1,9 +1,9 @@
 package fi.helsinki.cs.tmc.core.services.http;
 
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
 
 public class HttpClientFactoryImplTest {
 
@@ -11,11 +11,13 @@ public class HttpClientFactoryImplTest {
 
     @Before
     public void setUp() {
+
         factory = new HttpClientFactoryImpl();
     }
 
     @Test
     public void factoryReturnsObject() {
+
         assertNotNull(factory.makeHttpClient());
     }
 }

@@ -1,5 +1,17 @@
 package fi.helsinki.cs.tmc.core.io;
 
+import fi.helsinki.cs.tmc.core.domain.Project;
+import fi.helsinki.cs.tmc.core.domain.ProjectStatus;
+import fi.helsinki.cs.tmc.core.services.ProjectDAO;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyListOf;
@@ -11,18 +23,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.domain.ProjectStatus;
-import fi.helsinki.cs.tmc.core.services.ProjectDAO;
-
 public class ProjectScannerTest {
 
     private ProjectScanner scanner;
@@ -31,8 +31,9 @@ public class ProjectScannerTest {
 
     @Before
     public void setUp() {
+
         dao = mock(ProjectDAO.class);
-        IOFactory factory = mock(IOFactory.class);
+        final IOFactory factory = mock(IOFactory.class);
         io = mock(FileIO.class);
         when(factory.newFile(anyString())).thenReturn(io);
         scanner = new ProjectScanner(dao, factory);
@@ -40,7 +41,8 @@ public class ProjectScannerTest {
 
     @Test
     public void updateProjectHasNoInteractionsIfStatusIsDeleted() {
-        Project project = mock(Project.class);
+
+        final Project project = mock(Project.class);
         when(project.getStatus()).thenReturn(ProjectStatus.DELETED);
         scanner.updateProject(project);
         verify(project, times(1)).getStatus();
@@ -50,11 +52,12 @@ public class ProjectScannerTest {
 
     @Test
     public void correctFilesAreAddedToProject() {
+
         when(io.directoryExists()).thenReturn(true);
         when(io.getPath()).thenReturn("path_1");
 
-        List<FileIO> list = new ArrayList<FileIO>();
-        FileIO childIO = mock(FileIO.class);
+        final List<FileIO> list = new ArrayList<FileIO>();
+        final FileIO childIO = mock(FileIO.class);
         list.add(childIO);
         when(io.getChildren()).thenReturn(list);
 
@@ -64,13 +67,14 @@ public class ProjectScannerTest {
 
         when(io.getChildren()).thenReturn(list);
 
-        Project project = mock(Project.class);
+        final Project project = mock(Project.class);
 
         doAnswer(new Answer() {
 
             @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                List<String> paths = (List<String>) invocation.getArguments()[0];
+            public Object answer(final InvocationOnMock invocation) throws Throwable {
+
+                final List<String> paths = (List<String>) invocation.getArguments()[0];
 
                 assertEquals(2, paths.size());
                 assertTrue(paths.contains("path_1"));
@@ -88,7 +92,8 @@ public class ProjectScannerTest {
 
     @Test
     public void projectStatusIsSetAsNotDownloadedIfItDoesNotExistOnDisk() {
-        Project project = mock(Project.class);
+
+        final Project project = mock(Project.class);
         when(project.existsOnDisk()).thenReturn(false);
         scanner.updateProject(project);
         verify(project, times(1)).setStatus(ProjectStatus.NOT_DOWNLOADED);
@@ -96,7 +101,8 @@ public class ProjectScannerTest {
 
     @Test
     public void projectStatusIsSetAsDownloadedIfItDoesExistOnDisk() {
-        Project project = mock(Project.class);
+
+        final Project project = mock(Project.class);
         when(project.existsOnDisk()).thenReturn(true);
         scanner.updateProject(project);
         verify(project, times(1)).setStatus(ProjectStatus.DOWNLOADED);
@@ -104,7 +110,8 @@ public class ProjectScannerTest {
 
     @Test
     public void updateProjectIsCalledOnAllProjectsWhenCallingUpdateProjects() {
-        List<Project> projects = new ArrayList<Project>();
+
+        final List<Project> projects = new ArrayList<Project>();
 
         Project project = mock(Project.class);
         when(project.getStatus()).thenReturn(ProjectStatus.DELETED);

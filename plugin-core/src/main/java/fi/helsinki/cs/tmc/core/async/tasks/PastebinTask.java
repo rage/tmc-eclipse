@@ -14,15 +14,19 @@ import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
  */
 public class PastebinTask extends BackgroundTask {
 
-    private ProjectUploader uploader;
-    private String path;
-    private String pasteMessage;
+    private final ProjectUploader uploader;
+    private final String path;
+    private final String pasteMessage;
 
-    private ProjectDAO projectDAO;
-    private IdeUIInvoker invoker;
+    private final ProjectDAO projectDAO;
+    private final IdeUIInvoker invoker;
 
-    public PastebinTask(ProjectUploader uploader, String path, String pasteMessage, ProjectDAO projectDAO,
-            IdeUIInvoker invoker) {
+    public PastebinTask(final ProjectUploader uploader, 
+                        final String path, 
+                        final String pasteMessage, 
+                        final ProjectDAO projectDAO,
+                        final IdeUIInvoker invoker) {
+
         super("Creating a pastebin");
         this.uploader = uploader;
         this.path = path;
@@ -33,7 +37,8 @@ public class PastebinTask extends BackgroundTask {
     }
 
     @Override
-    public int start(TaskStatusMonitor progress) {
+    public int start(final TaskStatusMonitor progress) {
+
         progress.startProgress(this.getDescription(), 2);
 
         try {
@@ -54,7 +59,7 @@ public class PastebinTask extends BackgroundTask {
 
             progress.incrementProgress(1);
 
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             invoker.raiseVisibleException("An error occurred while uploading exercise to pastebin:\n" + ex.getMessage());
             return BackgroundTask.RETURN_FAILURE;
         }
@@ -64,6 +69,7 @@ public class PastebinTask extends BackgroundTask {
     }
 
     public String getPasteUrl() {
-        return uploader.getResponse().pasteUrl.toString();
+
+        return uploader.getResponse().getPasteUrl().toString();
     }
 }

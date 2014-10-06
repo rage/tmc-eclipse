@@ -6,23 +6,23 @@ package fi.helsinki.cs.tmc.core.async;
 public interface BackgroundTaskListener {
 
     /**
-     * Called when background task is being started
+     * Called when background task is being started.
      */
-    public void onBegin();
+    void onBegin();
 
     /**
-     * Called when background task returns RETURN_SUCCESS
+     * Called when background task returns RETURN_SUCCESS.
      */
-    public void onSuccess();
+    void onSuccess();
 
     /**
-     * Called when background task returns RETURN_FAILURE
+     * Called when background task returns RETURN_FAILURE.
      */
-    public void onFailure();
+    void onFailure();
 
     /**
-     * Called when the background task returns RETURN_INTERRUPTED
+     * Called when the background task returns RETURN_INTERRUPTED.
      */
-    public void onInterruption();
+    void onInterruption();
 
 }

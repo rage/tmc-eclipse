@@ -8,13 +8,15 @@ import fi.helsinki.cs.tmc.core.io.IOFactory;
  */
 public final class UnzippingDeciderFactory {
 
-    private IOFactory io;
+    private final IOFactory io;
 
-    public UnzippingDeciderFactory(IOFactory io) {
+    public UnzippingDeciderFactory(final IOFactory io) {
+
         this.io = io;
     }
 
-    public UnzippingDecider createUnzippingDecider(Project project) {
+    public UnzippingDecider createUnzippingDecider(final Project project) {
+
         // project is null on initial unzipping as it is not present in project
         // database. Therefore we just unzip all the files
         if (project == null) {
@@ -22,14 +24,14 @@ public final class UnzippingDeciderFactory {
         }
 
         switch (project.getProjectType()) {
-        case JAVA_ANT:
-            return new DefaultUnzippingDecider(io, project);
-        case JAVA_MAVEN:
-            return new MavenUnzippingDecider(io, project);
-        case MAKEFILE:
-            return new DefaultUnzippingDecider(io, project);
-        default:
-            return new DefaultUnzippingDecider(io, project);
+            case JAVA_ANT:
+                return new DefaultUnzippingDecider(io, project);
+            case JAVA_MAVEN:
+                return new MavenUnzippingDecider(io, project);
+            case MAKEFILE:
+                return new DefaultUnzippingDecider(io, project);
+            default:
+                return new DefaultUnzippingDecider(io, project);
         }
     }
 

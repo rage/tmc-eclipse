@@ -1,6 +1,6 @@
 package fi.helsinki.cs.tmc.core.services;
 
-import static org.junit.Assert.assertEquals;
+import fi.helsinki.cs.tmc.core.domain.Course;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import fi.helsinki.cs.tmc.core.domain.Course;
+import static org.junit.Assert.assertEquals;
 
 public class DomainUtilTest {
 
@@ -16,6 +16,7 @@ public class DomainUtilTest {
 
     @Before
     public void setUp() {
+
         courses = new ArrayList<Course>();
 
         courses.add(new Course("course1"));
@@ -25,7 +26,8 @@ public class DomainUtilTest {
 
     @Test
     public void testGetCourseNames() {
-        String[] names = DomainUtil.getCourseNames(courses);
+
+        final String[] names = DomainUtil.getCourseNames(courses);
         assertEquals(names.length, courses.size());
 
         for (int i = 0; i < names.length; i++) {
@@ -35,7 +37,8 @@ public class DomainUtilTest {
 
     @Test
     public void testGetCourseNamesWithEmptyList() {
-        String[] names = DomainUtil.getCourseNames(new ArrayList<Course>());
+
+        final String[] names = DomainUtil.getCourseNames(new ArrayList<Course>());
         assertEquals(names.length, 0);
     }
 

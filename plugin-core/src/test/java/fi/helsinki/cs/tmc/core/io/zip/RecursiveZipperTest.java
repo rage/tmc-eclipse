@@ -1,8 +1,14 @@
 package fi.helsinki.cs.tmc.core.io.zip;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import fi.helsinki.cs.tmc.core.domain.Project;
+import fi.helsinki.cs.tmc.core.domain.ZippedProject;
+import fi.helsinki.cs.tmc.core.io.FileIO;
+import fi.helsinki.cs.tmc.core.io.FileUtil;
+import fi.helsinki.cs.tmc.core.io.zip.unzippingdecider.UnzipAllTheThings;
+import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.DefaultZippingDecider;
+import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.MavenZippingDecider;
+import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.ZipAllTheThings;
+import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.ZippingDecider;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,42 +27,40 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.domain.ZippedProject;
-import fi.helsinki.cs.tmc.core.io.FileIO;
-import fi.helsinki.cs.tmc.core.io.FileUtil;
-import fi.helsinki.cs.tmc.core.io.zip.unzippingdecider.UnzipAllTheThings;
-import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.DefaultZippingDecider;
-import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.MavenZippingDecider;
-import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.ZipAllTheThings;
-import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.ZippingDecider;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class RecursiveZipperTest {
+    
+    private static final String TEST_DIR = "zippingDeciderTest/";
 
     private String path;
 
     @Before
     public void setUp() {
-        this.path = "src/test/java/fi/helsinki/cs/tmc/core/io/";
+
+        path = "src/test/java/fi/helsinki/cs/tmc/core/io/";
     }
 
     @Test
     public void testZippingDirectory() throws Exception {
+
         try {
             unzipFolder("testDirectory.zip");
 
             zipDirectory(new FileIO(FileUtil.append(path, "testDirectory")), "testDirectoryOutput.zip");
 
-            ZipFile original = new ZipFile(FileUtil.append(path, "testDirectory.zip"));
-            ZipFile zipped = new ZipFile(FileUtil.append(path, "testDirectoryOutput.zip"));
+            final ZipFile original = new ZipFile(FileUtil.append(path, "testDirectory.zip"));
+            final ZipFile zipped = new ZipFile(FileUtil.append(path, "testDirectoryOutput.zip"));
 
-            Set<Long> originalContents = new LinkedHashSet<Long>();
-            for (Enumeration<?> e = original.entries(); e.hasMoreElements();) {
+            final Set<Long> originalContents = new LinkedHashSet<Long>();
+            for (final Enumeration<?> e = original.entries(); e.hasMoreElements();) {
                 originalContents.add(((ZipEntry) e.nextElement()).getCrc());
             }
 
-            Set<Long> zippedContents = new LinkedHashSet<Long>();
-            for (Enumeration<?> e = zipped.entries(); e.hasMoreElements();) {
+            final Set<Long> zippedContents = new LinkedHashSet<Long>();
+            for (final Enumeration<?> e = zipped.entries(); e.hasMoreElements();) {
                 zippedContents.add(((ZipEntry) e.nextElement()).getCrc());
             }
 
@@ -77,7 +81,7 @@ public class RecursiveZipperTest {
 
             File f;
 
-            f = new File(path + "zippingDeciderTest/");
+            f = new File(path + TEST_DIR);
             assertEquals(true, f.exists());
             assertEquals(true, f.isDirectory());
 
@@ -99,7 +103,7 @@ public class RecursiveZipperTest {
             assertEquals(false, f.exists());
 
         } finally {
-            FileUtils.deleteDirectory(new File(path + "zippingDeciderTest/"));
+            FileUtils.deleteDirectory(new File(path + TEST_DIR));
         }
     }
 
@@ -111,7 +115,7 @@ public class RecursiveZipperTest {
 
             File f;
 
-            f = new File(path + "zippingDeciderTest/");
+            f = new File(path + TEST_DIR);
             assertEquals(true, f.exists());
             assertEquals(true, f.isDirectory());
 
@@ -149,26 +153,27 @@ public class RecursiveZipperTest {
             assertEquals(false, f.exists());
 
         } finally {
-            FileUtils.deleteDirectory(new File(path + "zippingDeciderTest/"));
+            FileUtils.deleteDirectory(new File(path + TEST_DIR));
         }
     }
 
     private Project mockProject() {
-        Project project = mock(Project.class);
+
+        final Project project = mock(Project.class);
         when(project.getExtraStudentFiles()).thenReturn(new ArrayList<String>());
-        when(project.getRootPath()).thenReturn(path + "zippingDeciderTest/");
+        when(project.getRootPath()).thenReturn(path + TEST_DIR);
         return project;
     }
 
-    private void prepareZippingDeciderTest(String zipname, ZippingDecider decider) throws IOException,
-            FileNotFoundException, Exception {
+    private void prepareZippingDeciderTest(final String zipname, final ZippingDecider decider) throws IOException, FileNotFoundException, Exception {
+
         try {
             // unzip test files
             unzipFolder(zipname);
             // zip test files with zippingdecider that ignores some of them
             zipDirectory(new FileIO(path + "zippingDeciderTest"), "zippingDeciderTest.zip", decider);
             // erase the directory
-            FileUtils.deleteDirectory(new File(path + "zippingDeciderTest/"));
+            FileUtils.deleteDirectory(new File(path + TEST_DIR));
 
             unzipFolder("zippingDeciderTest.zip");
         } finally {
@@ -176,26 +181,29 @@ public class RecursiveZipperTest {
         }
     }
 
-    private void unzipFolder(String zipname) throws IOException, FileNotFoundException {
-        File f = new File(FileUtil.append(path, zipname));
+    private void unzipFolder(final String zipname) throws IOException, FileNotFoundException {
 
-        byte[] b = IOUtils.toByteArray(new FileInputStream(f));
-        ZippedProject project = new ZippedProject();
+        final File f = new File(FileUtil.append(path, zipname));
+
+        final byte[] b = IOUtils.toByteArray(new FileInputStream(f));
+        final ZippedProject project = new ZippedProject();
         project.setBytes(b);
-        Unzipper unzipper = new Unzipper(project, new UnzipAllTheThings());
+        final Unzipper unzipper = new Unzipper(project, new UnzipAllTheThings());
         unzipper.unzipTo(new FileIO(path));
     }
 
-    private void zipDirectory(FileIO directory, String zipName) throws Exception {
+    private void zipDirectory(final FileIO directory, final String zipName) throws Exception {
+
         zipDirectory(directory, zipName, new ZipAllTheThings());
     }
 
-    private void zipDirectory(FileIO directory, String zipName, ZippingDecider decider) throws Exception {
-        RecursiveZipper zipper = new RecursiveZipper(directory, decider);
+    private void zipDirectory(final FileIO directory, final String zipName, final ZippingDecider decider) throws Exception {
 
-        byte[] zip = zipper.zipProjectSources();
+        final RecursiveZipper zipper = new RecursiveZipper(directory, decider);
 
-        OutputStream os = new FileIO(FileUtil.append(path, zipName)).getOutputStream();
+        final byte[] zip = zipper.zipProjectSources();
+
+        final OutputStream os = new FileIO(FileUtil.append(path, zipName)).getOutputStream();
         try {
             IOUtils.write(zip, os);
         } finally {

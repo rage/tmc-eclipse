@@ -1,8 +1,8 @@
 package fi.helsinki.cs.tmc.core.domain;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import fi.helsinki.cs.tmc.core.domain.exception.InvalidProjectException;
+import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.DefaultZippingDecider;
+import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.MavenZippingDecider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,20 +10,23 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.DefaultZippingDecider;
-import fi.helsinki.cs.tmc.core.io.zip.zippingdecider.MavenZippingDecider;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ProjectTest {
+
     private Project project;
     private Exercise exercise;
     private List<String> projectFiles;
 
     @Before
     public void setUp() throws Exception {
+
         projectFiles = new ArrayList<String>();
 
-        this.exercise = new Exercise("testName", "testCourse");
-        this.project = new Project(exercise, projectFiles);
+        exercise = new Exercise("testName", "testCourse");
+        project = new Project(exercise, projectFiles);
     }
 
     @Test
@@ -35,6 +38,7 @@ public class ProjectTest {
 
     @Test
     public void isAntProject() {
+
         projectFiles.add("asdasd.xml");
         projectFiles.add("ssdsaddMakefilesadas");
         projectFiles.add("build.xml");
@@ -44,6 +48,7 @@ public class ProjectTest {
 
     @Test
     public void isMavenProject() {
+
         projectFiles.add("asdasd.xml");
         projectFiles.add("build.xmlxcvx");
         projectFiles.add("pom.xml");
@@ -53,6 +58,7 @@ public class ProjectTest {
 
     @Test
     public void isCProject() {
+
         projectFiles.add("Makefile");
         projectFiles.add("asdasd.xml");
         projectFiles.add("pomm.xml");
@@ -61,7 +67,8 @@ public class ProjectTest {
     }
 
     @Test
-    public void IsNotAProject() {
+    public void isNotAProject() {
+
         projectFiles.add("asdasd.xml");
         projectFiles.add("pomm.xml");
         projectFiles.add("build.txt");
@@ -72,8 +79,8 @@ public class ProjectTest {
     @Test
     public void testEquals() {
 
-        Exercise exercise2 = new Exercise("testname2", "testcourse");
-        Project p = new Project(exercise2, projectFiles);
+        final Exercise exercise2 = new Exercise("testname2", "testcourse");
+        final Project p = new Project(exercise2, projectFiles);
 
         assertFalse(p.equals(project));
         assertFalse(project.equals(p));
@@ -90,8 +97,9 @@ public class ProjectTest {
 
     @Test
     public void testContainsFile() {
+
         projectFiles.add("directory/pom.xml");
-        Project p = new Project(exercise, projectFiles);
+        final Project p = new Project(exercise, projectFiles);
 
         assertTrue(!p.containsFile(null));
         assertTrue(p.containsFile("directory/trololo"));
@@ -99,6 +107,7 @@ public class ProjectTest {
 
     @Test
     public void testRootPath() {
+
         projectFiles.add("directory/pom.xml");
         Project p = new Project(exercise, projectFiles);
         assertEquals("directory", p.getRootPath());
@@ -108,31 +117,36 @@ public class ProjectTest {
     }
 
     @Test
-    public void getZippingDeciderWhenMavenProjectTest() {
+    public void getZippingDeciderWhenMavenProjectTest() throws InvalidProjectException {
+
         projectFiles.add("pom.xml");
         assertEquals(project.getZippingDecider().getClass(), new MavenZippingDecider(project).getClass());
     }
 
     @Test
-    public void getZippingDeciderWhenAntProjectTest() {
+    public void getZippingDeciderWhenAntProjectTest() throws InvalidProjectException {
+
         projectFiles.add("build.xml");
         assertEquals(project.getZippingDecider().getClass(), new DefaultZippingDecider(project).getClass());
     }
 
     @Test
-    public void getZippingDeciderWhenCProjectTest() {
+    public void getZippingDeciderWhenCProjectTest() throws InvalidProjectException {
+
         projectFiles.add("Makefile");
         assertEquals(project.getZippingDecider().getClass(), new DefaultZippingDecider(project).getClass());
     }
 
-    @Test(expected = RuntimeException.class)
-    public void getZippingDeciderWhenThereIsNoProjectTest() {
+    @Test(expected = InvalidProjectException.class)
+    public void getZippingDeciderWhenThereIsNoProjectTest() throws InvalidProjectException {
+
         project.setProjectFiles(new ArrayList<String>());
         project.getZippingDecider();
     }
 
     @Test
     public void existsOnDiskTest() {
+
         projectFiles.add("pom.xml");
         assertFalse(project.existsOnDisk());
         projectFiles.add("/src/pom.xml");
@@ -143,6 +157,7 @@ public class ProjectTest {
 
     @Test
     public void constructorTest() {
+
         project = new Project(new Exercise("name"));
         assertEquals(project.getExtraStudentFiles().size(), 0);
         assertEquals(project.getExercise().getName(), "name");

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE suppressions PUBLIC '-//Puppy Crawl//DTD Suppressions 1.1//EN'
+                        'http://www.puppycrawl.com/dtds/suppressions_1_1.dtd'>
+
+<suppressions>
+
+	<!-- JUnit Rules require the rules field to have public visibility. -->
+	<suppress files='.*(?:Test)\.java$' checks='VisibilityModifier' />
+	
+	<suppress checks='.' files='fi/helsinki/cs/tmc/core/spyware/utility/diff_match_patch.java' />
+
+</suppressions>

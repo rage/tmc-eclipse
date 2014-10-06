@@ -1,11 +1,11 @@
 package fi.helsinki.cs.tmc.core.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fi.helsinki.cs.tmc.core.domain.Exercise;
 import fi.helsinki.cs.tmc.core.domain.ZippedProject;
 import fi.helsinki.cs.tmc.core.services.http.ServerManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that handles project downloading. Used by the DownloaderTask background
@@ -13,22 +13,25 @@ import fi.helsinki.cs.tmc.core.services.http.ServerManager;
  */
 public class ProjectDownloader {
 
-    private ServerManager server;
+    private final ServerManager server;
 
-    public ProjectDownloader(ServerManager server) {
+    public ProjectDownloader(final ServerManager server) {
+
         this.server = server;
     }
 
-    public List<ZippedProject> downloadExercises(List<Exercise> exercises) {
-        List<ZippedProject> projects = new ArrayList<ZippedProject>();
-        for (Exercise exercise : exercises) {
+    public List<ZippedProject> downloadExercises(final List<Exercise> exercises) {
+
+        final List<ZippedProject> projects = new ArrayList<ZippedProject>();
+        for (final Exercise exercise : exercises) {
             projects.add(downloadExercise(exercise));
         }
         return projects;
     }
 
-    public ZippedProject downloadExercise(Exercise exercise) {
-        String zipUrl = exercise.getDownloadUrl();
+    public ZippedProject downloadExercise(final Exercise exercise) {
+
+        final String zipUrl = exercise.getDownloadUrl();
         return server.getExerciseZip(zipUrl);
     }
 

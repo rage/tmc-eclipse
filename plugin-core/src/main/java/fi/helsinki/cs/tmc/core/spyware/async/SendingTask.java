@@ -1,5 +1,12 @@
 package fi.helsinki.cs.tmc.core.spyware.async;
 
+import fi.helsinki.cs.tmc.core.async.tasks.SingletonTask;
+import fi.helsinki.cs.tmc.core.domain.Course;
+import fi.helsinki.cs.tmc.core.services.CourseDAO;
+import fi.helsinki.cs.tmc.core.services.Settings;
+import fi.helsinki.cs.tmc.core.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.spyware.services.LoggableEvent;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,29 +16,27 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import fi.helsinki.cs.tmc.core.async.tasks.SingletonTask;
-import fi.helsinki.cs.tmc.core.domain.Course;
-import fi.helsinki.cs.tmc.core.services.CourseDAO;
-import fi.helsinki.cs.tmc.core.services.Settings;
-import fi.helsinki.cs.tmc.core.services.http.ServerManager;
-import fi.helsinki.cs.tmc.core.spyware.services.LoggableEvent;
-
 public class SendingTask implements Runnable {
 
-    private static final Logger log = Logger.getLogger(SendingTask.class.getName());
+    private static final Logger LOG = Logger.getLogger(SendingTask.class.getName());
     private static final int MAX_EVENTS_PER_SEND = 500;
 
-    private ArrayDeque<LoggableEvent> sendQueue;
-    private ServerManager serverManager;
-    private CourseDAO courseDAO;
-    private Settings settings;
-    private Random random;
-    private AtomicInteger eventsToRemoveAfterSend;
+    private final ArrayDeque<LoggableEvent> sendQueue;
+    private final ServerManager serverManager;
+    private final CourseDAO courseDAO;
+    private final Settings settings;
+    private final Random random;
+    private final AtomicInteger eventsToRemoveAfterSend;
 
-    private SingletonTask savingTask;
+    private final SingletonTask savingTask;
 
-    public SendingTask(ArrayDeque<LoggableEvent> sendQueue, ServerManager serverManager, CourseDAO courseDAO,
-            Settings settings, SingletonTask savingTask, AtomicInteger eventsToRemoveAfterSend) {
+    public SendingTask(final ArrayDeque<LoggableEvent> sendQueue, 
+                       final ServerManager serverManager, 
+                       final CourseDAO courseDAO,
+                       final Settings settings, 
+                       final SingletonTask savingTask, 
+                       final AtomicInteger eventsToRemoveAfterSend) {
+
         this.sendQueue = sendQueue;
         this.serverManager = serverManager;
         this.courseDAO = courseDAO;
@@ -43,6 +48,7 @@ public class SendingTask implements Runnable {
 
     @Override
     public void run() {
+
         if (!settings.isSpywareEnabled()) {
             return;
         }
@@ -50,7 +56,7 @@ public class SendingTask implements Runnable {
         boolean shouldSendMore;
 
         do {
-            ArrayList<LoggableEvent> eventsToSend = copyEventsToSendFromQueue();
+            final List<LoggableEvent> eventsToSend = copyEventsToSendFromQueue();
             if (eventsToSend.isEmpty()) {
                 return;
             }
@@ -59,22 +65,23 @@ public class SendingTask implements Runnable {
                 shouldSendMore = sendQueue.size() > eventsToSend.size();
             }
 
-            String url = pickDestinationUrl();
+            final String url = pickDestinationUrl();
             if (url == null) {
                 return;
             }
 
-            log.log(Level.INFO, "Sending {0} events to {1}", new Object[] {eventsToSend.size(), url});
+            LOG.log(Level.INFO, "Sending {0} events to {1}", new Object[] { eventsToSend.size(), url });
 
             doSend(eventsToSend, url);
         } while (shouldSendMore);
     }
 
-    private ArrayList<LoggableEvent> copyEventsToSendFromQueue() {
-        synchronized (sendQueue) {
-            ArrayList<LoggableEvent> eventsToSend = new ArrayList<LoggableEvent>(sendQueue.size());
+    private List<LoggableEvent> copyEventsToSendFromQueue() {
 
-            Iterator<LoggableEvent> i = sendQueue.iterator();
+        synchronized (sendQueue) {
+            final List<LoggableEvent> eventsToSend = new ArrayList<LoggableEvent>(sendQueue.size());
+
+            final Iterator<LoggableEvent> i = sendQueue.iterator();
             while (i.hasNext() && eventsToSend.size() < MAX_EVENTS_PER_SEND) {
                 eventsToSend.add(i.next());
             }
@@ -86,19 +93,20 @@ public class SendingTask implements Runnable {
     }
 
     private String pickDestinationUrl() {
-        Course course = courseDAO.getCurrentCourse(settings);
+
+        final Course course = courseDAO.getCurrentCourse(settings);
         if (course == null) {
-            log.log(Level.FINE, "Not sending events because no course selected");
+            LOG.log(Level.FINE, "Not sending events because no course selected");
             return null;
         }
 
-        List<String> urls = course.getSpywareUrls();
+        final List<String> urls = course.getSpywareUrls();
         if (urls == null || urls.isEmpty()) {
-            log.log(Level.INFO, "Not sending events because no URL provided by server");
+            LOG.log(Level.INFO, "Not sending events because no URL provided by server");
             return null;
         }
 
-        String url = urls.get(random.nextInt(urls.size()));
+        final String url = urls.get(random.nextInt(urls.size()));
 
         return url;
 
@@ -107,15 +115,14 @@ public class SendingTask implements Runnable {
         // return "http://127.0.0.1:3101";
     }
 
-    private void doSend(final ArrayList<LoggableEvent> eventsToSend, final String url) {
+    private void doSend(final List<LoggableEvent> eventsToSend, final String url) {
 
         try {
             serverManager.sendEventLogs(url, eventsToSend);
-            log.log(Level.INFO, "Sent {0} events successfully to {1}", new Object[] {eventsToSend.size(), url});
+            LOG.log(Level.INFO, "Sent {0} events successfully to {1}", new Object[] { eventsToSend.size(), url });
 
-        } catch (Exception ex) {
-            log.log(Level.INFO, "Failed to send {0} events to {1}: " + ex.getMessage(),
-                    new Object[] {eventsToSend.size(), url});
+        } catch (final Exception ex) {
+            LOG.log(Level.INFO, "Failed to send {0} events to {1}: " + ex.getMessage(), new Object[] { eventsToSend.size(), url });
             return;
         }
         removeSentEventsFromQueue();
@@ -127,8 +134,9 @@ public class SendingTask implements Runnable {
     }
 
     private void removeSentEventsFromQueue() {
+
         synchronized (sendQueue) {
-            assert (eventsToRemoveAfterSend.intValue() <= sendQueue.size());
+            assert eventsToRemoveAfterSend.intValue() <= sendQueue.size();
 
             while (eventsToRemoveAfterSend.intValue() > 0) {
                 sendQueue.pop();

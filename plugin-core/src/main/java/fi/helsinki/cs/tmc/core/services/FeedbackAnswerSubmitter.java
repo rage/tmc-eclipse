@@ -1,22 +1,25 @@
 package fi.helsinki.cs.tmc.core.services;
 
-import java.util.List;
-
 import fi.helsinki.cs.tmc.core.domain.FeedbackAnswer;
 import fi.helsinki.cs.tmc.core.services.http.ServerManager;
+
+import java.util.List;
 
 /**
  * Class used by the feedback submission background task.
  */
 public class FeedbackAnswerSubmitter {
-    private ServerManager server;
 
-    public FeedbackAnswerSubmitter(ServerManager server) {
+    private final ServerManager server;
+
+    public FeedbackAnswerSubmitter(final ServerManager server) {
+
         this.server = server;
 
     }
 
-    public void submitFeedback(List<FeedbackAnswer> answers, String answerUrl) {
+    public void submitFeedback(final List<FeedbackAnswer> answers, final String answerUrl) {
+
         if (answers == null || answers.isEmpty() || answerUrl == null || answerUrl.trim().length() == 0) {
             return;
         }
@@ -28,8 +31,9 @@ public class FeedbackAnswerSubmitter {
         server.submitFeedback(answerUrl, answers);
     }
 
-    private boolean answersAreEmpty(List<FeedbackAnswer> answers) {
-        for (FeedbackAnswer a : answers) {
+    private boolean answersAreEmpty(final List<FeedbackAnswer> answers) {
+
+        for (final FeedbackAnswer a : answers) {
             if (a.getAnswer().trim().length() != 0) {
                 return false;
             }

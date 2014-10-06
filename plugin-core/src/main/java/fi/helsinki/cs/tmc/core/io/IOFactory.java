@@ -6,6 +6,6 @@ package fi.helsinki.cs.tmc.core.io;
  */
 public interface IOFactory {
 
-    public FileIO newFile(String path);
+    FileIO newFile(String path);
 
 }

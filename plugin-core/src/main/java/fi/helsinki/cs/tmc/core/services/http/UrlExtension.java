@@ -5,15 +5,18 @@ public enum UrlExtension {
 
     private String extension;
 
-    private UrlExtension(String extension) {
+    private UrlExtension(final String extension) {
+
         this.extension = extension;
     }
 
     public String getExtension() {
+
         return extension;
     }
 
-    public String getExtension(String id) {
+    public String getExtension(final String id) {
+
         return extension + id + ".json";
     }
 }

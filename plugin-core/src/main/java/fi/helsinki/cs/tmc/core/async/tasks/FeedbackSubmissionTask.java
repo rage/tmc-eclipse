@@ -1,26 +1,27 @@
 package fi.helsinki.cs.tmc.core.async.tasks;
 
-import java.util.List;
-
 import fi.helsinki.cs.tmc.core.async.BackgroundTask;
 import fi.helsinki.cs.tmc.core.async.TaskStatusMonitor;
 import fi.helsinki.cs.tmc.core.domain.FeedbackAnswer;
 import fi.helsinki.cs.tmc.core.services.FeedbackAnswerSubmitter;
 import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
 
+import java.util.List;
+
 /**
  * This is the background task for feedback submission.
  */
 public class FeedbackSubmissionTask extends BackgroundTask {
-    private TaskStatusMonitor progress;
-    private FeedbackAnswerSubmitter submitter;
-    private String feedbackUrl;
-    private List<FeedbackAnswer> answers;
 
-    private IdeUIInvoker invoker;
+    private TaskStatusMonitor progress;
+    private final FeedbackAnswerSubmitter submitter;
+    private final String feedbackUrl;
+    private final List<FeedbackAnswer> answers;
+
+    private final IdeUIInvoker invoker;
 
     /**
-     * 
+     *
      * @param submitter
      *            The actual object that handles feedback submission
      * @param answers
@@ -31,8 +32,9 @@ public class FeedbackSubmissionTask extends BackgroundTask {
      *            An ide-specific object that allows us to invoke ide ui from
      *            core (in this case, error messages)
      */
-    public FeedbackSubmissionTask(FeedbackAnswerSubmitter submitter, List<FeedbackAnswer> answers, String feedbackUrl,
-            IdeUIInvoker invoker) {
+    public FeedbackSubmissionTask(final FeedbackAnswerSubmitter submitter, final List<FeedbackAnswer> answers, final String feedbackUrl,
+            final IdeUIInvoker invoker) {
+
         super("Submitting feedback");
 
         this.submitter = submitter;
@@ -42,20 +44,28 @@ public class FeedbackSubmissionTask extends BackgroundTask {
     }
 
     @Override
-    public int start(TaskStatusMonitor progress) {
+    public int start(final TaskStatusMonitor progress) {
+
         progress.startProgress(this.getDescription(), 1);
+
         try {
+
             submitter.submitFeedback(answers, feedbackUrl);
             progress.incrementProgress(1);
-        } catch (Exception ex) {
+
+        } catch (final Exception ex) {
+
             invoker.raiseVisibleException("An error occured while submitting feedback:\n" + ex.getMessage());
             return BackgroundTask.RETURN_FAILURE;
+
         }
+
         return BackgroundTask.RETURN_SUCCESS;
     }
 
     @Override
     public void stop() {
+
         // we can't stop here, it's bat country
     }
 }

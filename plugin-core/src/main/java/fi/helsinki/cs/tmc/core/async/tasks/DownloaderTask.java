@@ -1,8 +1,5 @@
 package fi.helsinki.cs.tmc.core.async.tasks;
 
-import java.io.IOException;
-import java.util.List;
-
 import fi.helsinki.cs.tmc.core.async.SimpleBackgroundTask;
 import fi.helsinki.cs.tmc.core.domain.Exercise;
 import fi.helsinki.cs.tmc.core.domain.Project;
@@ -19,6 +16,9 @@ import fi.helsinki.cs.tmc.core.services.ProjectOpener;
 import fi.helsinki.cs.tmc.core.services.Settings;
 import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
 
+import java.io.IOException;
+import java.util.List;
+
 /**
  * This task downloads and unzips projects and opens them in IDE. Like all
  * background tasks, it is run as an asynchronous task to prevent IDE from
@@ -34,7 +34,7 @@ public class DownloaderTask extends SimpleBackgroundTask<Exercise> {
     private final IOFactory io;
 
     /**
-     * 
+     *
      * @param downloader
      *            Object that handles the actual download
      * @param opener
@@ -51,8 +51,9 @@ public class DownloaderTask extends SimpleBackgroundTask<Exercise> {
      *            IDE UI invoker. Required for ability to show error messages.
      *            Requires IDE-specific implementation
      */
-    public DownloaderTask(ProjectDownloader downloader, ProjectOpener opener, List<Exercise> exercises,
-            ProjectDAO projectDao, Settings settings, IdeUIInvoker invoker, IOFactory io) {
+    public DownloaderTask(final ProjectDownloader downloader, final ProjectOpener opener, final List<Exercise> exercises,
+            final ProjectDAO projectDao, final Settings settings, final IdeUIInvoker invoker, final IOFactory io) {
+
         super("Downloading exercises", exercises);
 
         this.settings = settings;
@@ -68,17 +69,18 @@ public class DownloaderTask extends SimpleBackgroundTask<Exercise> {
      * is called by the SimpleBackgroundTask super class
      */
     @Override
-    public void run(Exercise exercise) {
+    public void run(final Exercise exercise) {
+
         try {
             exercise.setUpdateAvailable(false);
 
             Project project = projectDao.getProjectByExercise(exercise);
 
-            ZippedProject zip = downloader.downloadExercise(exercise);
-            UnzippingDeciderFactory factory = new UnzippingDeciderFactory(io);
-            Unzipper unzipper = new Unzipper(zip, factory.createUnzippingDecider(project));
-            FileIO folder = new FileIO(FileUtil.append(settings.getExerciseFilePath(), settings.getCurrentCourseName()));
-            List<String> fileList = unzipper.unzipTo(folder);
+            final ZippedProject zip = downloader.downloadExercise(exercise);
+            final UnzippingDeciderFactory factory = new UnzippingDeciderFactory(io);
+            final Unzipper unzipper = new Unzipper(zip, factory.createUnzippingDecider(project));
+            final FileIO folder = new FileIO(FileUtil.append(settings.getExerciseFilePath(), settings.getCurrentCourseName()));
+            final List<String> fileList = unzipper.unzipTo(folder);
 
             if (project == null) {
                 project = new Project(exercise, fileList);
@@ -90,7 +92,7 @@ public class DownloaderTask extends SimpleBackgroundTask<Exercise> {
             project.setStatus(ProjectStatus.DOWNLOADED);
 
             opener.open(exercise);
-        } catch (IOException exception) {
+        } catch (final IOException exception) {
             invoker.raiseVisibleException("An error occurred while unzipping the exercises");
             exercise.setUpdateAvailable(true);
         }

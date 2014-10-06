@@ -1,32 +1,33 @@
 package fi.helsinki.cs.tmc.core.async.tasks;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import fi.helsinki.cs.tmc.core.async.BackgroundTask;
+import fi.helsinki.cs.tmc.core.async.BackgroundTaskListener;
+import fi.helsinki.cs.tmc.core.domain.Project;
+import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
 
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import fi.helsinki.cs.tmc.core.async.BackgroundTask;
-import fi.helsinki.cs.tmc.core.async.BackgroundTaskListener;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class MavenTestrunnerTaskTest {
 
     class MavenTestrunnerTaskSuccesful extends MavenTestrunnerTask {
 
-        public MavenTestrunnerTaskSuccesful(Project project, IdeUIInvoker invoker) {
+        public MavenTestrunnerTaskSuccesful(final Project project, final IdeUIInvoker invoker) {
 
             super(project, invoker);
         }
 
         @Override
-        public int runMaven(List<String> goals, Project project) {
+        public int runMaven(final List<String> goals, final Project project) {
+
             return 0;
         }
 
@@ -34,13 +35,14 @@ public class MavenTestrunnerTaskTest {
 
     class MavenTestrunnerTaskFailing extends MavenTestrunnerTask {
 
-        public MavenTestrunnerTaskFailing(Project project, IdeUIInvoker invoker) {
+        public MavenTestrunnerTaskFailing(final Project project, final IdeUIInvoker invoker) {
 
             super(project, invoker);
         }
 
         @Override
-        public int runMaven(List<String> goals, Project project) {
+        public int runMaven(final List<String> goals, final Project project) {
+
             return 1;
         }
 
@@ -55,34 +57,39 @@ public class MavenTestrunnerTaskTest {
 
     @Before
     public void setUp() {
-        this.taskRunner = new FakeTaskRunner();
-        this.project = mock(Project.class);
+
+        taskRunner = new FakeTaskRunner();
+        project = mock(Project.class);
 
         invoker = mock(IdeUIInvoker.class);
 
-        this.succesfulRunner = new MavenTestrunnerTaskSuccesful(project, invoker);
-        this.failingRunner = new MavenTestrunnerTaskFailing(project, invoker);
+        succesfulRunner = new MavenTestrunnerTaskSuccesful(project, invoker);
+        failingRunner = new MavenTestrunnerTaskFailing(project, invoker);
     }
 
     @Test
     public void testImplementsInterfaces() {
+
         assertTrue(succesfulRunner instanceof BackgroundTask && succesfulRunner instanceof TestrunnerTask);
     }
 
     @Test
     public void testDescriptionIsValid() {
+
         assertNotNull(succesfulRunner.getDescription());
     }
 
     @Test
     public void testStartRequestsRootPath() {
+
         taskRunner.runTask(succesfulRunner);
         verify(project, times(1)).getRootPath();
     }
 
     @Test
     public void testStartFailsOnMavenError() {
-        BackgroundTaskListener listener = mock(BackgroundTaskListener.class);
+
+        final BackgroundTaskListener listener = mock(BackgroundTaskListener.class);
 
         taskRunner.runTask(failingRunner, listener);
         verify(listener, times(1)).onBegin();

@@ -1,9 +1,9 @@
 package fi.helsinki.cs.tmc.core.services;
 
+import fi.helsinki.cs.tmc.core.domain.Review;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import fi.helsinki.cs.tmc.core.domain.Review;
 
 /**
  * Class that handles storing the code reviews locally. Prevents the situation
@@ -12,13 +12,16 @@ import fi.helsinki.cs.tmc.core.domain.Review;
  * again during new session.
  */
 public class ReviewDAO {
-    private List<Review> reviews;
+
+    private final List<Review> reviews;
 
     public ReviewDAO() {
-        this.reviews = new ArrayList<Review>();
+
+        reviews = new ArrayList<Review>();
     }
 
-    public boolean add(Review newReview) {
+    public boolean add(final Review newReview) {
+
         if (!reviews.contains(newReview)) {
             reviews.add(newReview);
             return true;
@@ -27,9 +30,10 @@ public class ReviewDAO {
         }
     }
 
-    private boolean overwriteIfNecessary(Review newReview) {
-        int index = reviews.indexOf(newReview);
-        Review current = reviews.get(index);
+    private boolean overwriteIfNecessary(final Review newReview) {
+
+        final int index = reviews.indexOf(newReview);
+        final Review current = reviews.get(index);
 
         if (current.getUpdatedAt().before(newReview.getUpdatedAt())) {
             reviews.set(index, newReview);
@@ -39,19 +43,22 @@ public class ReviewDAO {
         }
     }
 
-    public void addAll(List<Review> reviews) {
-        for (Review r : reviews) {
+    public void addAll(final List<Review> reviews) {
+
+        for (final Review r : reviews) {
             add(r);
         }
     }
 
     public List<Review> all() {
+
         return reviews;
     }
 
     public List<Review> unseen() {
-        List<Review> unseen = new ArrayList<Review>();
-        for (Review r : reviews) {
+
+        final List<Review> unseen = new ArrayList<Review>();
+        for (final Review r : reviews) {
             if (!r.isMarkedAsRead()) {
                 unseen.add(r);
             }

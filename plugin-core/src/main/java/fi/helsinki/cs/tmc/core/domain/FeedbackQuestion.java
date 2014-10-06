@@ -11,55 +11,66 @@ import java.util.regex.Pattern;
  */
 public class FeedbackQuestion {
 
-    private static final Pattern intRangeRegex = Pattern.compile("^intrange\\[(-?\\d+)\\.\\.(-?\\d+)\\]$");
+    private static final Pattern INT_RANGE_REGEXP = Pattern.compile("^intrange\\[(-?\\d+)\\.\\.(-?\\d+)\\]$");
 
     private int id;
     private String question;
     private String kind;
 
     public FeedbackQuestion() {
+
     }
 
-    public FeedbackQuestion(int id, String question, String kind) {
+    public FeedbackQuestion(final int id, final String question, final String kind) {
+
         this.id = id;
         this.question = question;
         this.kind = kind;
     }
 
     public int getId() {
+
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
+
         this.id = id;
     }
 
     public String getQuestion() {
+
         return question;
     }
 
-    public void setQuestion(String question) {
+    public void setQuestion(final String question) {
+
         this.question = question;
     }
 
     public String getKind() {
+
         return kind;
     }
 
-    public void setKind(String kind) {
+    public void setKind(final String kind) {
+
         this.kind = kind;
     }
 
     public boolean isText() {
+
         return kind.equals("text");
     }
 
     public boolean isIntRange() {
+
         return intRangeMatcher().matches();
     }
 
     public int getIntRangeMin() {
-        Matcher matcher = intRangeMatcher();
+
+        final Matcher matcher = intRangeMatcher();
         if (matcher.matches()) {
             return Integer.parseInt(matcher.group(1));
         } else {
@@ -68,7 +79,8 @@ public class FeedbackQuestion {
     }
 
     public int getIntRangeMax() {
-        Matcher matcher = intRangeMatcher();
+
+        final Matcher matcher = intRangeMatcher();
         if (matcher.matches()) {
             return Integer.parseInt(matcher.group(2));
         } else {
@@ -77,6 +89,7 @@ public class FeedbackQuestion {
     }
 
     private Matcher intRangeMatcher() {
-        return intRangeRegex.matcher(kind);
+
+        return INT_RANGE_REGEXP.matcher(kind);
     }
 }

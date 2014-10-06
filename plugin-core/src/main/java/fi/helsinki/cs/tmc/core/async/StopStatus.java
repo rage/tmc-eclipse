@@ -9,6 +9,6 @@ package fi.helsinki.cs.tmc.core.async;
  */
 public interface StopStatus {
 
-    public abstract boolean mustStop();
+    boolean mustStop();
 
 }

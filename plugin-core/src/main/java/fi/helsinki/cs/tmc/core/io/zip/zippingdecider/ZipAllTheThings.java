@@ -6,7 +6,8 @@ package fi.helsinki.cs.tmc.core.io.zip.zippingdecider;
 public class ZipAllTheThings implements ZippingDecider {
 
     @Override
-    public boolean shouldZip(String zipPath) {
+    public boolean shouldZip(final String zipPath) {
+
         return true;
     }
 }

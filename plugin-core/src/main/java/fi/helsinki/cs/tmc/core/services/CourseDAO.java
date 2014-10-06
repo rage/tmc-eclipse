@@ -1,37 +1,42 @@
 package fi.helsinki.cs.tmc.core.services;
 
-import java.util.List;
-
 import fi.helsinki.cs.tmc.core.domain.Course;
 import fi.helsinki.cs.tmc.core.storage.DataSource;
+
+import java.util.List;
 
 /**
  * Class that handles Course object loading, saving and accessing.
  */
 public class CourseDAO {
 
-    private DataSource<Course> dataSource;
+    private final DataSource<Course> dataSource;
     private List<Course> courses;
 
-    public CourseDAO(DataSource<Course> dataSource) {
+    public CourseDAO(final DataSource<Course> dataSource) {
+
         this.dataSource = dataSource;
         loadCourses();
     }
 
     public void loadCourses() {
-        this.courses = dataSource.load();
+
+        courses = dataSource.load();
     }
 
     public List<Course> getCourses() {
+
         return courses;
     }
 
-    public void setCourses(List<Course> courses) {
+    public void setCourses(final List<Course> courses) {
+
         this.courses = courses;
         dataSource.save(courses);
     }
 
-    public void updateCourse(Course course) {
+    public void updateCourse(final Course course) {
+
         for (int i = 0; i < courses.size(); i++) {
             if (courses.get(i).getName().equals(course.getName())) {
                 courses.set(i, course);
@@ -41,12 +46,14 @@ public class CourseDAO {
         dataSource.save(courses);
     }
 
-    public Course getCurrentCourse(Settings settings) {
+    public Course getCurrentCourse(final Settings settings) {
+
         return getCourseByName(settings.getCurrentCourseName());
     }
 
-    public Course getCourseByName(String name) {
-        for (Course course : courses) {
+    public Course getCourseByName(final String name) {
+
+        for (final Course course : courses) {
             if (course.getName().equals(name)) {
                 return course;
             }

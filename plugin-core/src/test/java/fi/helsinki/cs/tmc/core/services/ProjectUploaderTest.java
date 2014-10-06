@@ -1,15 +1,12 @@
 package fi.helsinki.cs.tmc.core.services;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import fi.helsinki.cs.tmc.core.async.StopStatus;
+import fi.helsinki.cs.tmc.core.domain.Exercise;
+import fi.helsinki.cs.tmc.core.domain.Project;
+import fi.helsinki.cs.tmc.core.domain.SubmissionResult;
+import fi.helsinki.cs.tmc.core.domain.exception.InvalidProjectException;
+import fi.helsinki.cs.tmc.core.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.services.http.SubmissionResponse;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -22,12 +19,16 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import fi.helsinki.cs.tmc.core.async.StopStatus;
-import fi.helsinki.cs.tmc.core.domain.Exercise;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.domain.SubmissionResult;
-import fi.helsinki.cs.tmc.core.services.http.ServerManager;
-import fi.helsinki.cs.tmc.core.services.http.SubmissionResponse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyMap;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class ProjectUploaderTest {
 
@@ -40,6 +41,7 @@ public class ProjectUploaderTest {
 
     @Before
     public void setUp() {
+
         server = mock(ServerManager.class);
         project = mock(Project.class);
         uploader = new ProjectUploader(server);
@@ -57,12 +59,14 @@ public class ProjectUploaderTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void zipProjectThrowsExceptionIfProjectIsNull() throws IOException {
+    public void zipProjectThrowsExceptionIfProjectIsNull() throws IOException, InvalidProjectException {
+
         uploader.zipProjects();
     }
 
     @Test(expected = RuntimeException.class)
     public void handleSumissionResponseThrowsIfProjectIsNull() throws IOException {
+
         uploader.handleSubmissionResponse();
     }
 
@@ -74,10 +78,10 @@ public class ProjectUploaderTest {
     }
 
     @Test
-    public void handleSubmissionCallsServerCorrectlyAndSetsResponse() throws IOException, NoSuchFieldException,
-            SecurityException, IllegalArgumentException, IllegalAccessException {
+    public void handleSubmissionCallsServerCorrectlyAndSetsResponse() throws IOException, NoSuchFieldException, SecurityException,
+    IllegalArgumentException, IllegalAccessException {
 
-        byte[] data = setData();
+        final byte[] data = setData();
 
         uploader.setProject(project);
         uploader.handleSubmissionResponse();
@@ -85,26 +89,28 @@ public class ProjectUploaderTest {
         verify(project, times(1)).getExercise();
         verify(server, times(1)).uploadFile(exercise, data);
 
-        Field f = uploader.getClass().getDeclaredField("response");
+        final Field f = uploader.getClass().getDeclaredField("response");
         f.setAccessible(true);
 
-        assertEquals(response, (SubmissionResponse) f.get(uploader));
+        assertEquals(response, f.get(uploader));
     }
 
     @Test
-    public void resultIsNullIfHandleSubmissionResultIsStopped() throws NoSuchFieldException, SecurityException,
-            IllegalArgumentException, IllegalAccessException, URISyntaxException {
+    public void resultIsNullIfHandleSubmissionResultIsStopped() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
+    IllegalAccessException, URISyntaxException {
 
-        URI uri = new URI("http://www.mock_url.com");
-        SubmissionResponse response = new SubmissionResponse(uri, uri);
+        final URI uri = new URI("http://www.mock_url.com");
+        final SubmissionResponse response = new SubmissionResponse(uri, uri);
 
         setResponse(response);
 
         when(result.getStatus()).thenReturn(SubmissionResult.Status.PROCESSING);
 
         uploader.handleSubmissionResult(new StopStatus() {
+
             @Override
             public boolean mustStop() {
+
                 return true;
             }
         });
@@ -114,18 +120,20 @@ public class ProjectUploaderTest {
     }
 
     @Test
-    public void getSubmissionResultHasCorrectArgumentInHandleSubmissionResult() throws NoSuchFieldException,
-            SecurityException, IllegalArgumentException, IllegalAccessException, URISyntaxException {
+    public void getSubmissionResultHasCorrectArgumentInHandleSubmissionResult() throws NoSuchFieldException, SecurityException,
+    IllegalArgumentException, IllegalAccessException, URISyntaxException {
 
-        URI uri = new URI("http://www.mock_url.com");
-        SubmissionResponse response = new SubmissionResponse(uri, uri);
+        final URI uri = new URI("http://www.mock_url.com");
+        final SubmissionResponse response = new SubmissionResponse(uri, uri);
 
         setResponse(response);
         when(result.getStatus()).thenReturn(SubmissionResult.Status.PROCESSING);
 
         uploader.handleSubmissionResult(new StopStatus() {
+
             @Override
             public boolean mustStop() {
+
                 return true;
             }
         });
@@ -133,17 +141,19 @@ public class ProjectUploaderTest {
     }
 
     @Test
-    public void resultIsCorrectAfterHandleSubmissionResult() throws NoSuchFieldException, SecurityException,
-            IllegalArgumentException, IllegalAccessException, URISyntaxException {
+    public void resultIsCorrectAfterHandleSubmissionResult() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
+    IllegalAccessException, URISyntaxException {
 
-        URI uri = new URI("http://www.mock_url.com");
-        SubmissionResponse response = new SubmissionResponse(uri, uri);
+        final URI uri = new URI("http://www.mock_url.com");
+        final SubmissionResponse response = new SubmissionResponse(uri, uri);
 
         setResponse(response);
 
         uploader.handleSubmissionResult(new StopStatus() {
+
             @Override
             public boolean mustStop() {
+
                 return true;
             }
         });
@@ -151,138 +161,143 @@ public class ProjectUploaderTest {
     }
 
     @Test
-    public void extraParamsAreGivenToServerWhenPasting() throws IOException, NoSuchFieldException,
-            IllegalAccessException {
+    public void extraParamsAreGivenToServerWhenPasting() throws IOException, NoSuchFieldException, IllegalAccessException {
+
         uploader.setAsPaste("message");
         uploader.setProject(project);
         setData();
 
-        when(server.uploadFile(any(Exercise.class), any(byte[].class), anyMap())).thenAnswer(
-                new Answer<SubmissionResponse>() {
+        when(server.uploadFile(any(Exercise.class), any(byte[].class), anyMap())).thenAnswer(new Answer<SubmissionResponse>() {
 
-                    @Override
-                    public SubmissionResponse answer(InvocationOnMock invocation) throws Throwable {
-                        Map<String, String> param = (Map<String, String>) invocation.getArguments()[2];
+            @Override
+            public SubmissionResponse answer(final InvocationOnMock invocation) throws Throwable {
 
-                        assertTrue(param.keySet().contains("paste"));
-                        assertTrue(param.get("paste").equals("1"));
-                        assertTrue(param.keySet().contains("message_for_paste"));
-                        assertTrue(param.get("message_for_paste").equals("message"));
+                final Map<String, String> param = (Map<String, String>) invocation.getArguments()[2];
 
-                        return response;
-                    }
-                });
+                assertTrue(param.keySet().contains("paste"));
+                assertTrue(param.get("paste").equals("1"));
+                assertTrue(param.keySet().contains("message_for_paste"));
+                assertTrue(param.get("message_for_paste").equals("message"));
+
+                return response;
+            }
+        });
 
         uploader.handleSubmissionResponse();
         verify(server, times(1)).uploadFile(any(Exercise.class), any(byte[].class), anyMap());
     }
 
     @Test
-    public void extraParamsAreGivenToServerWhenPastingWithoutMessageFieldWhenNoMessage() throws IOException,
-            NoSuchFieldException, IllegalAccessException {
+    public void extraParamsAreGivenToServerWhenPastingWithoutMessageFieldWhenNoMessage() throws IOException, NoSuchFieldException,
+    IllegalAccessException {
+
         uploader.setAsPaste("");
         uploader.setProject(project);
         setData();
 
-        when(server.uploadFile(any(Exercise.class), any(byte[].class), anyMap())).thenAnswer(
-                new Answer<SubmissionResponse>() {
+        when(server.uploadFile(any(Exercise.class), any(byte[].class), anyMap())).thenAnswer(new Answer<SubmissionResponse>() {
 
-                    @Override
-                    public SubmissionResponse answer(InvocationOnMock invocation) throws Throwable {
-                        Map<String, String> param = (Map<String, String>) invocation.getArguments()[2];
+            @Override
+            public SubmissionResponse answer(final InvocationOnMock invocation) throws Throwable {
 
-                        assertTrue(param.keySet().contains("paste"));
-                        assertTrue(param.get("paste").equals("1"));
-                        assertFalse(param.keySet().contains("message_for_paste"));
+                final Map<String, String> param = (Map<String, String>) invocation.getArguments()[2];
 
-                        return response;
-                    }
-                });
+                assertTrue(param.keySet().contains("paste"));
+                assertTrue(param.get("paste").equals("1"));
+                assertFalse(param.keySet().contains("message_for_paste"));
+
+                return response;
+            }
+        });
 
         uploader.handleSubmissionResponse();
         verify(server, times(1)).uploadFile(any(Exercise.class), any(byte[].class), anyMap());
     }
 
     @Test
-    public void extraParamsAreGivenToServerSetAsRequest() throws IOException, NoSuchFieldException,
-            IllegalAccessException {
+    public void extraParamsAreGivenToServerSetAsRequest() throws IOException, NoSuchFieldException, IllegalAccessException {
+
         uploader.setAsRequest("message");
         uploader.setProject(project);
         setData();
 
-        when(server.uploadFile(any(Exercise.class), any(byte[].class), anyMap())).thenAnswer(
-                new Answer<SubmissionResponse>() {
+        when(server.uploadFile(any(Exercise.class), any(byte[].class), anyMap())).thenAnswer(new Answer<SubmissionResponse>() {
 
-                    @Override
-                    public SubmissionResponse answer(InvocationOnMock invocation) throws Throwable {
-                        Map<String, String> param = (Map<String, String>) invocation.getArguments()[2];
+            @Override
+            public SubmissionResponse answer(final InvocationOnMock invocation) throws Throwable {
 
-                        assertTrue(param.keySet().contains("request_review"));
-                        assertTrue(param.get("request_review").equals("1"));
-                        assertTrue(param.keySet().contains("message_for_reviewer"));
-                        assertTrue(param.get("message_for_reviewer").equals("message"));
+                final Map<String, String> param = (Map<String, String>) invocation.getArguments()[2];
 
-                        return response;
-                    }
-                });
+                assertTrue(param.keySet().contains("request_review"));
+                assertTrue(param.get("request_review").equals("1"));
+                assertTrue(param.keySet().contains("message_for_reviewer"));
+                assertTrue(param.get("message_for_reviewer").equals("message"));
+
+                return response;
+            }
+        });
 
         uploader.handleSubmissionResponse();
         verify(server, times(1)).uploadFile(any(Exercise.class), any(byte[].class), anyMap());
     }
 
     @Test
-    public void extraParamsAreGivenToServerSetAsRequestWithoutMessageFieldWhenNoMessage() throws IOException,
-            NoSuchFieldException, IllegalAccessException {
+    public void extraParamsAreGivenToServerSetAsRequestWithoutMessageFieldWhenNoMessage() throws IOException, NoSuchFieldException,
+    IllegalAccessException {
+
         uploader.setAsRequest("");
         uploader.setProject(project);
         setData();
 
-        when(server.uploadFile(any(Exercise.class), any(byte[].class), anyMap())).thenAnswer(
-                new Answer<SubmissionResponse>() {
+        when(server.uploadFile(any(Exercise.class), any(byte[].class), anyMap())).thenAnswer(new Answer<SubmissionResponse>() {
 
-                    @Override
-                    public SubmissionResponse answer(InvocationOnMock invocation) throws Throwable {
-                        Map<String, String> param = (Map<String, String>) invocation.getArguments()[2];
+            @Override
+            public SubmissionResponse answer(final InvocationOnMock invocation) throws Throwable {
 
-                        assertTrue(param.keySet().contains("request_review"));
-                        assertTrue(param.get("request_review").equals("1"));
-                        assertFalse(param.keySet().contains("message_for_reviewer"));
+                final Map<String, String> param = (Map<String, String>) invocation.getArguments()[2];
 
-                        return response;
-                    }
-                });
+                assertTrue(param.keySet().contains("request_review"));
+                assertTrue(param.get("request_review").equals("1"));
+                assertFalse(param.keySet().contains("message_for_reviewer"));
+
+                return response;
+            }
+        });
 
         uploader.handleSubmissionResponse();
         verify(server, times(1)).uploadFile(any(Exercise.class), any(byte[].class), anyMap());
     }
 
     @Test
-    public void handleSubmissionResponseCallsServerGetSubmissionResult() throws URISyntaxException,
-            NoSuchFieldException, IllegalAccessException {
-        URI uri = new URI("http://www.mock_url.com");
-        SubmissionResponse response = new SubmissionResponse(uri, uri);
+    public void handleSubmissionResponseCallsServerGetSubmissionResult() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
+
+        final URI uri = new URI("http://www.mock_url.com");
+        final SubmissionResponse response = new SubmissionResponse(uri, uri);
         setResponse(response);
 
         uploader.handleSubmissionResult(new StopStatus() {
 
             @Override
             public boolean mustStop() {
+
                 return false;
             }
 
         });
 
-        verify(server, times(1)).getSubmissionResult(response.submissionUrl);
+        verify(server, times(1)).getSubmissionResult(response.getSubmissionUrl());
     }
 
     @Test
     public void setterGetterWorksForProject() {
+
         uploader.setProject(project);
         assertEquals(project, uploader.getProject());
     }
 
     @Test
     public void getterWorksForResponse() throws NoSuchFieldException, IllegalAccessException, IOException {
+
         uploader.setProject(project);
         setData();
         uploader.handleSubmissionResponse();
@@ -290,10 +305,10 @@ public class ProjectUploaderTest {
     }
 
     @Test
-    public void resultIsNullIfMustStop() throws NoSuchFieldException, IllegalAccessException, IOException,
-            URISyntaxException {
-        URI uri = new URI("http://www.mock_url.com");
-        SubmissionResponse response = new SubmissionResponse(uri, uri);
+    public void resultIsNullIfMustStop() throws NoSuchFieldException, IllegalAccessException, IOException, URISyntaxException {
+
+        final URI uri = new URI("http://www.mock_url.com");
+        final SubmissionResponse response = new SubmissionResponse(uri, uri);
         setResponse(response);
 
         when(result.getStatus()).thenReturn(SubmissionResult.Status.PROCESSING);
@@ -301,6 +316,7 @@ public class ProjectUploaderTest {
 
             @Override
             public boolean mustStop() {
+
                 return true;
             }
 
@@ -309,16 +325,18 @@ public class ProjectUploaderTest {
     }
 
     private byte[] setData() throws NoSuchFieldException, IllegalAccessException {
-        Field f = uploader.getClass().getDeclaredField("data");
+
+        final Field f = uploader.getClass().getDeclaredField("data");
         f.setAccessible(true);
 
-        byte[] data = new byte[5];
+        final byte[] data = new byte[5];
         f.set(uploader, data);
         return data;
     }
 
-    private void setResponse(SubmissionResponse response) throws NoSuchFieldException, IllegalAccessException {
-        Field f = uploader.getClass().getDeclaredField("response");
+    private void setResponse(final SubmissionResponse response) throws NoSuchFieldException, IllegalAccessException {
+
+        final Field f = uploader.getClass().getDeclaredField("response");
         f.setAccessible(true);
         f.set(uploader, response);
     }

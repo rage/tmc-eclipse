@@ -1,11 +1,11 @@
 package fi.helsinki.cs.tmc.core.io;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fi.helsinki.cs.tmc.core.domain.Project;
 import fi.helsinki.cs.tmc.core.domain.ProjectStatus;
 import fi.helsinki.cs.tmc.core.services.ProjectDAO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that is used on startup to ensure that the project database remains in
@@ -14,20 +14,22 @@ import fi.helsinki.cs.tmc.core.services.ProjectDAO;
  */
 public class ProjectScanner {
 
-    private ProjectDAO projectDAO;
-    private IOFactory io;
+    private final ProjectDAO projectDAO;
+    private final IOFactory io;
 
-    public ProjectScanner(ProjectDAO projectDAO, IOFactory io) {
+    public ProjectScanner(final ProjectDAO projectDAO, final IOFactory io) {
+
         this.projectDAO = projectDAO;
         this.io = io;
     }
 
-    public void updateProject(Project project) {
+    public void updateProject(final Project project) {
+
         if (project.getStatus() == ProjectStatus.DELETED) {
             return;
         }
 
-        List<String> files = new ArrayList<String>();
+        final List<String> files = new ArrayList<String>();
         traverse(files, io.newFile(project.getRootPath()));
 
         project.setProjectFiles(files);
@@ -40,17 +42,19 @@ public class ProjectScanner {
     }
 
     public void updateProjects() {
-        for (Project project : projectDAO.getProjects()) {
+
+        for (final Project project : projectDAO.getProjects()) {
             updateProject(project);
         }
     }
 
-    private void traverse(List<String> list, FileIO file) {
+    private void traverse(final List<String> list, final FileIO file) {
+
         if (file != null && (file.fileExists() || file.directoryExists())) {
             list.add(file.getPath());
 
             if (file.directoryExists()) {
-                for (FileIO child : file.getChildren()) {
+                for (final FileIO child : file.getChildren()) {
                     traverse(list, child);
                 }
             }

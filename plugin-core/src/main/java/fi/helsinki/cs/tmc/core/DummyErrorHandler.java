@@ -7,17 +7,17 @@ package fi.helsinki.cs.tmc.core;
 public class DummyErrorHandler implements TMCErrorHandler {
 
     @Override
-    public void raise(String message) {
-        // Do nothing.
+    public void raise(final String message) {
+
     }
 
     @Override
-    public void handleException(Exception e) {
-        // Do nothing.
+    public void handleException(final Exception e) {
+
     }
 
-    public void handleManualException(String errorMessage) {
-        // Do nothing.
+    @Override
+    public void handleManualException(final String errorMessage) {
 
     }
 

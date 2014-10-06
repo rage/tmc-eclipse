@@ -1,11 +1,7 @@
 package fi.helsinki.cs.tmc.core.spyware.services;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import fi.helsinki.cs.tmc.core.domain.InvalidProjectTypeException;
 import fi.helsinki.cs.tmc.core.domain.Project;
+import fi.helsinki.cs.tmc.core.domain.exception.InvalidProjectException;
 import fi.helsinki.cs.tmc.core.io.FileIO;
 import fi.helsinki.cs.tmc.core.io.zip.RecursiveZipper;
 import fi.helsinki.cs.tmc.core.services.ProjectDAO;
@@ -15,23 +11,33 @@ import fi.helsinki.cs.tmc.core.spyware.SnapshotInfo;
 import fi.helsinki.cs.tmc.core.spyware.utility.ActiveThreadSet;
 import fi.helsinki.cs.tmc.core.spyware.utility.JsonMaker;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class SnapshotTaker {
+
+    private static final Logger LOG = Logger.getLogger(SnapshotTaker.class.getName());
+    
     private SnapshotInfo info;
-    private ActiveThreadSet threadSet;
-    private EventReceiver receiver;
-    private Settings settings;
-    private ProjectDAO projectDAO;
+    private final ActiveThreadSet threadSet;
+    private final EventReceiver receiver;
+    private final Settings settings;
+    private final ProjectDAO projectDAO;
 
-    private static final Logger log = Logger.getLogger(SnapshotTaker.class.getName());
+    public SnapshotTaker(final ActiveThreadSet threadSet, 
+                         final EventReceiver receiver, 
+                         final Settings settings, 
+                         final ProjectDAO projectDAO) {
 
-    public SnapshotTaker(ActiveThreadSet threadSet, EventReceiver receiver, Settings settings, ProjectDAO projectDAO) {
         this.threadSet = threadSet;
         this.receiver = receiver;
         this.settings = settings;
         this.projectDAO = projectDAO;
     }
 
-    public void execute(SnapshotInfo info) {
+    public void execute(final SnapshotInfo info) {
+
         this.info = info;
 
         if (info.getChangeType() == ChangeType.FILE_RENAME || info.getChangeType() == ChangeType.FOLDER_RENAME) {
@@ -43,8 +49,8 @@ public class SnapshotTaker {
 
     private void handleChange() {
 
-        String metadata = JsonMaker.create().add("cause", info.getChangeType().name().toLowerCase())
-                .add("file", info.getCurrentFilePath()).toString();
+        final String metadata = JsonMaker.create().add("cause", info.getChangeType().name().toLowerCase()).add("file", info.getCurrentFilePath())
+                .toString();
 
         startSnapshotThread(metadata, info.getCurrentFullFilePath());
 
@@ -52,38 +58,41 @@ public class SnapshotTaker {
 
     private void handleRename() {
 
-        String metadata = JsonMaker.create().add("cause", info.getChangeType().name().toLowerCase())
-                .add("file", info.getCurrentFilePath()).add("previous_name", info.getOldFilePath()).toString();
+        final String metadata = JsonMaker.create().add("cause", info.getChangeType().name().toLowerCase()).add("file", info.getCurrentFilePath())
+                .add("previous_name", info.getOldFilePath()).toString();
 
         startSnapshotThread(metadata, info.getOldFullFilePath());
 
     }
 
-    private void startSnapshotThread(final String metadata, String path) {
+    private void startSnapshotThread(final String metadata, final String path) {
+
         if (!settings.isSpywareEnabled()) {
             return;
         }
 
-        Project project = projectDAO.getProjectByFile(path);
+        final Project project = projectDAO.getProjectByFile(path);
 
         // Note: Should *only* log TMC courses.
         if (project == null) {
             return;
         }
 
-        SnapshotThread thread = new SnapshotThread(receiver, project, metadata);
+        final SnapshotThread thread = new SnapshotThread(receiver, project, metadata);
         threadSet.addThread(thread);
         thread.setDaemon(true);
         thread.start();
 
     }
 
-    private static class SnapshotThread extends Thread {
+    private static final class SnapshotThread extends Thread {
+
         private final EventReceiver receiver;
         private final Project project;
         private final String metadata;
 
-        private SnapshotThread(EventReceiver receiver, Project project, String metadata) {
+        private SnapshotThread(final EventReceiver receiver, final Project project, final String metadata) {
+
             super("Source snapshot");
             this.receiver = receiver;
             this.project = project;
@@ -99,22 +108,22 @@ public class SnapshotTaker {
             // that modify the project. For now we just accept that. Not sure if
             // the File Object API would allow some sort of global locking of
             // the project.
-            RecursiveZipper zipper;
+            final RecursiveZipper zipper;
             try {
                 zipper = new RecursiveZipper(new FileIO(project.getRootPath()), project.getZippingDecider());
-            } catch (InvalidProjectTypeException e) {
+            } catch (final InvalidProjectException e) {
                 // this exception is thrown when file list is empty
                 return;
             }
             try {
-                byte[] data = zipper.zipProjectSources();
-                LoggableEvent event = new LoggableEvent(project.getExercise(), "code_snapshot", data, metadata);
+                final byte[] data = zipper.zipProjectSources();
+                final LoggableEvent event = new LoggableEvent(project.getExercise(), "code_snapshot", data, metadata);
                 receiver.receiveEvent(event);
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 // Warning might be also appropriate, but this often races with
                 // project closing during integration tests, and there warning
                 // would cause a dialog to appear, failing the test.
-                log.log(Level.INFO, "Error zipping project sources in: " + project.getRootPath(), ex);
+                LOG.log(Level.INFO, "Error zipping project sources in: " + project.getRootPath(), ex);
             }
 
         }

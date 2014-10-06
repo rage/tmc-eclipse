@@ -1,9 +1,10 @@
 package fi.helsinki.cs.tmc.core.async.tasks;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import fi.helsinki.cs.tmc.core.domain.Exercise;
+import fi.helsinki.cs.tmc.core.domain.Project;
+import fi.helsinki.cs.tmc.core.io.FakeFileIO;
+import fi.helsinki.cs.tmc.core.io.FakeIOFactory;
+import fi.helsinki.cs.tmc.core.services.ProjectOpener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,11 +13,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import fi.helsinki.cs.tmc.core.domain.Exercise;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.io.FakeFileIO;
-import fi.helsinki.cs.tmc.core.io.FakeIOFactory;
-import fi.helsinki.cs.tmc.core.services.ProjectOpener;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class OpenAllDownloadedExercisesTaskTest {
 
@@ -34,6 +34,7 @@ public class OpenAllDownloadedExercisesTaskTest {
 
     @Before
     public void setUp() throws Exception {
+
         exercises = new ArrayList<Exercise>();
         e1 = new Exercise();
         p1 = new Project(e1);
@@ -58,9 +59,10 @@ public class OpenAllDownloadedExercisesTaskTest {
 
     @Test
     public void opensProjectsWithKnownBuildfile() throws IOException {
-        FakeFileIO pom = io.getFake("/project/pom.xml");
 
-        List<String> p1Files = new ArrayList<String>();
+        final FakeFileIO pom = io.getFake("/project/pom.xml");
+
+        final List<String> p1Files = new ArrayList<String>();
         p1Files.add(pom.getPath());
         p1.setProjectFiles(p1Files);
 
@@ -71,12 +73,14 @@ public class OpenAllDownloadedExercisesTaskTest {
 
     @Test
     public void doesNotOpenProjectsWithoutKnownbuildfiles() {
+
         task.run(e1);
         verify(opener, times(0)).open(e1);
     }
 
     @Test
     public void doesNotOpenProjectswithfilesButWithoutKnownbuildfiles() {
+
         p1.addProjectFile("a");
         task.run(e1);
         verify(opener, times(0)).open(e1);

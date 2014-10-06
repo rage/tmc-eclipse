@@ -7,20 +7,22 @@ import fi.helsinki.cs.tmc.core.services.http.ServerManager;
 
 public class MarkReviewAsReadTask extends BackgroundTask {
 
-    private ServerManager server;
-    private Review review;
+    private final ServerManager server;
+    private final Review review;
 
-    public MarkReviewAsReadTask(ServerManager server, Review review) {
+    public MarkReviewAsReadTask(final ServerManager server, final Review review) {
+
         super("Marking review as read");
         this.server = server;
         this.review = review;
     }
 
     @Override
-    public int start(TaskStatusMonitor progress) {
+    public int start(final TaskStatusMonitor progress) {
+
         progress.startProgress(this.getDescription(), 1);
 
-        boolean success = server.markReviewAsRead(review);
+        final boolean success = server.markReviewAsRead(review);
         progress.incrementProgress(1);
 
         return success ? RETURN_SUCCESS : RETURN_FAILURE;

@@ -1,11 +1,9 @@
 package fi.helsinki.cs.tmc.core.spyware.services;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import fi.helsinki.cs.tmc.core.async.tasks.SingletonTask;
+import fi.helsinki.cs.tmc.core.services.Settings;
+import fi.helsinki.cs.tmc.core.spyware.async.SavingTask;
+import fi.helsinki.cs.tmc.core.spyware.async.SendingTask;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -16,10 +14,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Before;
 import org.junit.Test;
 
-import fi.helsinki.cs.tmc.core.async.tasks.SingletonTask;
-import fi.helsinki.cs.tmc.core.services.Settings;
-import fi.helsinki.cs.tmc.core.spyware.async.SavingTask;
-import fi.helsinki.cs.tmc.core.spyware.async.SendingTask;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class EventSendBufferTest {
 
@@ -34,38 +34,41 @@ public class EventSendBufferTest {
 
     @Before
     public void setUp() throws Exception {
-        this.settings = mock(Settings.class);
+
+        settings = mock(Settings.class);
         when(settings.isSpywareEnabled()).thenReturn(true);
         initializeEventStore();
         initializeSendQueue();
-        this.eventsToRemoveAfterSend = new AtomicInteger();
+        eventsToRemoveAfterSend = new AtomicInteger();
 
-        this.sendingTask = mock(SendingTask.class);
-        this.savingTask = mock(SavingTask.class);
+        sendingTask = mock(SendingTask.class);
+        savingTask = mock(SavingTask.class);
 
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
-        this.buffer = new EventSendBuffer(store, settings, sendQueue, new SingletonTask(sendingTask, scheduler),
-                new SingletonTask(savingTask, scheduler), eventsToRemoveAfterSend);
+        final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
+        buffer = new EventSendBuffer(store, settings, sendQueue, new SingletonTask(sendingTask, scheduler), new SingletonTask(savingTask, scheduler),
+                eventsToRemoveAfterSend);
 
     }
 
     @Test
-    public void DoesNotReceiveEventIfSpywareIsDisabled() {
+    public void doesNotReceiveEventIfSpywareIsDisabled() {
+
         when(settings.isSpywareEnabled()).thenReturn(false);
 
-        buffer.receiveEvent(new LoggableEvent("a", "a", "a", new byte[1], "a"));
+        buffer.receiveEvent(new LoggableEvent("a", "b", "c", new byte[1], "d"));
 
         assertEquals(6, sendQueue.size());
     }
 
     @Test
     public void receiveEventTest() {
+
         buffer.setSendingInterval(1);
-        buffer.receiveEvent(new LoggableEvent("a", "a", "a", new byte[1], "a"));
+        buffer.receiveEvent(new LoggableEvent("a", "b", "c", new byte[1], "d"));
 
         try {
             Thread.sleep(50);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -75,6 +78,7 @@ public class EventSendBufferTest {
 
     @Test
     public void closeTest() {
+
         buffer.setSavingInterval(1);
         buffer.close();
 
@@ -82,8 +86,9 @@ public class EventSendBufferTest {
     }
 
     private void initializeEventStore() throws IOException {
-        this.store = mock(EventStore.class);
-        LoggableEvent[] arr = new LoggableEvent[3];
+
+        store = mock(EventStore.class);
+        final LoggableEvent[] arr = new LoggableEvent[3];
         arr[0] = new LoggableEvent("course1", "exercise1", "eventType1", new byte[1], "metadata1");
         arr[1] = new LoggableEvent("course2", "exercise2", "eventType2", new byte[2], "metadata2");
         arr[2] = new LoggableEvent("course3", "exercise3", "eventType3", new byte[3], "metadata3");
@@ -92,7 +97,8 @@ public class EventSendBufferTest {
     }
 
     private void initializeSendQueue() {
-        this.sendQueue = new ArrayDeque<LoggableEvent>();
+
+        sendQueue = new ArrayDeque<LoggableEvent>();
         sendQueue.add(new LoggableEvent("course1", "exercise1", "eventType1", new byte[1], "metadata1"));
         sendQueue.add(new LoggableEvent("course2", "exercise2", "eventType2", new byte[2], "metadata2"));
         sendQueue.add(new LoggableEvent("course3", "exercise3", "eventType3", new byte[3], "metadata3"));
