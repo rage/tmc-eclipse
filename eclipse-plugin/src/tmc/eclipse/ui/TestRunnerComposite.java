@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
-import fi.helsinki.cs.tmc.core.domain.TestCaseResult;
+import fi.helsinki.cs.tmc.core.old.domain.TestCaseResult;
 
 public class TestRunnerComposite extends Composite {
 
@@ -45,7 +45,7 @@ public class TestRunnerComposite extends Composite {
 
     /**
      * Create the composite.
-     * 
+     *
      * @param parent
      * @param style
      */

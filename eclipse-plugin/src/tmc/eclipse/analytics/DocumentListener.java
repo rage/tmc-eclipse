@@ -7,8 +7,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PlatformUI;
 
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.spyware.DocumentInfo;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.spyware.DocumentInfo;
 
 /**
  * This class listens to editor events such as text inserts. Basically this is
@@ -23,7 +23,7 @@ public class DocumentListener implements IDocumentListener {
 
     /**
      * Method that is called when the listened document is changed
-     * 
+     *
      * @param event
      *            The event received from Eclipse
      */

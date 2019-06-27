@@ -2,7 +2,7 @@ package tmc.eclipse.tasks;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import fi.helsinki.cs.tmc.core.async.TaskStatusMonitor;
+import fi.helsinki.cs.tmc.core.old.async.TaskStatusMonitor;
 
 public class EclipseTaskStatusMonitor implements TaskStatusMonitor {
 

@@ -14,11 +14,16 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
+import tmc.eclipse.domain.TmcSettingsImpl;
 import tmc.eclipse.tasks.TaskStarter;
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.domain.Course;
-import fi.helsinki.cs.tmc.core.domain.Exercise;
-import fi.helsinki.cs.tmc.core.ui.UserVisibleException;
+import tmc.eclipse.util.CourseListUtils;
+import fi.helsinki.cs.tmc.core.TmcCore;
+import fi.helsinki.cs.tmc.core.configuration.TmcSettings;
+import fi.helsinki.cs.tmc.core.domain.ProgressObserver;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.domain.Course;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.ui.UserVisibleException;
 
 public class ExerciseSelectorDialog extends Dialog {
 
@@ -33,7 +38,7 @@ public class ExerciseSelectorDialog extends Dialog {
 
     /**
      * Create the dialog.
-     * 
+     *
      * @param parent
      * @param style
      */
@@ -46,7 +51,7 @@ public class ExerciseSelectorDialog extends Dialog {
 
     /**
      * Open the dialog.
-     * 
+     *
      * @return the result
      */
     public Object open() {
@@ -148,14 +153,16 @@ public class ExerciseSelectorDialog extends Dialog {
     }
 
     private void downloadExercises() {
-        final ArrayList<Exercise> list = new ArrayList<Exercise>();
+        final ArrayList<fi.helsinki.cs.tmc.core.domain.Exercise> list = new ArrayList<>();
         for (int i = 0; i < table.getItemCount(); i++) {
             if (table.getItem(i).getChecked()) {
                 String exerciseName = table.getItem(i).getText();
-                Course currentCourse = Core.getCourseDAO().getCurrentCourse(Core.getSettings());
+//                Course currentCourse = Core.getCourseDAO().getCurrentCourse(Core.getSettings());
+                TmcSettings settings = new TmcSettingsImpl();
+                fi.helsinki.cs.tmc.core.domain.Course currentCourse = settings.getCurrentCourse().get();
 
                 if (currentCourse != null) {
-                    for (Exercise e : currentCourse.getExercises()) {
+                    for (fi.helsinki.cs.tmc.core.domain.Exercise e : currentCourse.getExercises()) {
                         if (e.getName().equals(exerciseName)) {
                             list.add(e);
                         }

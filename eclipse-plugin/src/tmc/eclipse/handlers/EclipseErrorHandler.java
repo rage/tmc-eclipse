@@ -4,14 +4,14 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import fi.helsinki.cs.tmc.core.TMCErrorHandler;
-import fi.helsinki.cs.tmc.core.ui.UserVisibleException;
+import fi.helsinki.cs.tmc.core.old.TMCErrorHandler;
+import fi.helsinki.cs.tmc.core.old.ui.UserVisibleException;
 
 /**
- * 
+ *
  * Implementation of the TMCErrorHandler interface. Handles showing the error
  * messages
- * 
+ *
  */
 public class EclipseErrorHandler implements TMCErrorHandler {
 

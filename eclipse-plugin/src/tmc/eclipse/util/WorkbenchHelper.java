@@ -16,9 +16,9 @@ import org.eclipse.ui.PlatformUI;
 
 import tmc.eclipse.activator.CoreInitializer;
 import tmc.eclipse.handlers.listeners.SelectionListener;
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.services.ProjectDAO;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.services.ProjectDAO;
 
 public class WorkbenchHelper {
 
@@ -149,27 +149,27 @@ public class WorkbenchHelper {
     public Shell getUsableShell() {
         /*
          * Default display seems to always have AT LEAST three shells:
-         * 
+         *
          * Shell #0 = "PartRenderingEngine's limbo". Intended for elements that
          * should not be part of current view.
-         * 
+         *
          * Shell #1 = "Resource - Eclipse Platform". Changes (or atleast the
          * name does) based on selected MAIN UI element. Opening a dialog
          * doesn't change this shell.
-         * 
+         *
          * Shell #2 = "Quick Access". Also always present but probably not the
          * one we want to semantically use.
-         * 
+         *
          * Out of these three, Shell #1 seems like the best bet, therefore we
          * should use it.
-         * 
+         *
          * As a fall back, if the shell doesn't for some reason exist, we'll use
          * Shell #0.
-         * 
+         *
          * If THAT doesn't exist, we try to get the active shell. This is very
          * unlikely to exist in such a case (f.ex. it doesn't exist if the focus
          * is on some other window than the Eclipse IDE).
-         * 
+         *
          * If EVERYTHING fails, we just create a new shell.
          */
         Shell shell = null;

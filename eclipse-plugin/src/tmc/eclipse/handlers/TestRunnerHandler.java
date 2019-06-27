@@ -10,11 +10,15 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import tmc.eclipse.activator.CoreInitializer;
+import tmc.eclipse.domain.TmcSettingsImpl;
 import tmc.eclipse.tasks.TaskStarter;
 import tmc.eclipse.ui.EclipseIdeUIInvoker;
 import tmc.eclipse.util.WorkbenchHelper;
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.domain.Project;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.langs.util.TaskExecutorImpl;
+import fi.helsinki.cs.tmc.core.TmcCore;
+import fi.helsinki.cs.tmc.core.domain.Exercise;
 
 public class TestRunnerHandler extends AbstractHandler {
 
@@ -57,18 +61,19 @@ public class TestRunnerHandler extends AbstractHandler {
             return null;
         }
 
-        switch (project.getProjectType()) {
-        case JAVA_ANT:
-            runTestsForAntProject();
-            break;
-        case JAVA_MAVEN:
-            runTestsforMavenProject(project);
-            break;
-        case MAKEFILE:
-            break;
-        default:
-            break;
-        }
+//        switch (project.getProjectType()) {
+//        case JAVA_ANT:
+//            runTestsForAntProject();
+//            break;
+//        case JAVA_MAVEN:
+//            runTestsforMavenProject(project);
+//            break;
+//        case MAKEFILE:
+//            break;
+//        default:
+//            break;
+//        }
+        TmcCore core = new TmcCore(new TmcSettingsImpl(), new TaskExecutorImpl());
         return null;
     }
 

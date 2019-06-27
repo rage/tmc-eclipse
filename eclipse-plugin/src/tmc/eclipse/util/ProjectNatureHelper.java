@@ -5,9 +5,9 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.domain.Exercise;
-import fi.helsinki.cs.tmc.core.io.FileUtil;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.io.FileUtil;
 
 /**
  * Class that provides methods for handling project natures.
@@ -16,7 +16,7 @@ public class ProjectNatureHelper {
 
     /**
      * Updates the IProject natures to match the status of the given exercise.
-     * 
+     *
      * @param e
      */
     public static void updateTMCProjectNature(Exercise e) {

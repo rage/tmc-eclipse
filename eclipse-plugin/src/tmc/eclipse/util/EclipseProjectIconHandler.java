@@ -1,7 +1,7 @@
 package tmc.eclipse.util;
 
-import fi.helsinki.cs.tmc.core.domain.Exercise;
-import fi.helsinki.cs.tmc.core.utils.ProjectIconHandler;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.utils.ProjectIconHandler;
 
 public class EclipseProjectIconHandler implements ProjectIconHandler{
 

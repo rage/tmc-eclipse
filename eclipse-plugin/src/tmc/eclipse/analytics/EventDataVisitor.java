@@ -7,15 +7,15 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 
-import fi.helsinki.cs.tmc.core.spyware.ChangeType;
+import fi.helsinki.cs.tmc.core.old.spyware.ChangeType;
 
 /**
  * This class handles parsing the resource change event that triggers on file
  * change (save\rename\addition\removal)
- * 
+ *
  * Event data is organised as a tree where inner nodes contain folders and leaf
  * nodes are files
- * 
+ *
  * */
 class EventDataVisitor implements IResourceDeltaVisitor {
     class EventData {
@@ -61,7 +61,7 @@ class EventDataVisitor implements IResourceDeltaVisitor {
      * is two different events, delete and add, in tree. Add and delete can be
      * in an arbitrary order. Parsing this is annoying and explains the vast
      * majority of the complexity in this class.
-     * 
+     *
      * @param delta
      *            Tree node with change information
      * */

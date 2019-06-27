@@ -10,7 +10,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import fi.helsinki.cs.tmc.core.domain.TestCaseResult;
+import fi.helsinki.cs.tmc.core.old.domain.TestCaseResult;
 
 public class TestRunnerView extends ViewPart {
 

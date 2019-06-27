@@ -18,6 +18,9 @@ tmp/
 local.properties
 .settings/
 .loadpath
+.classpath
+.factorypath
+.project
 
 # Linux
 *~

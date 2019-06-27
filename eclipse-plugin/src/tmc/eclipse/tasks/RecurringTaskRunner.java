@@ -5,8 +5,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.services.Settings;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
 
 public class RecurringTaskRunner {
     private static int INITIAL_WAIT = 0;

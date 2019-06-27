@@ -9,13 +9,13 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import tmc.eclipse.activator.CoreInitializer;
 import tmc.eclipse.ui.EclipseIdeUIInvoker;
 import tmc.eclipse.util.WorkbenchHelper;
-import fi.helsinki.cs.tmc.core.domain.Exercise;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
 
 /**
  * UI handler for code review request
- * 
+ *
  */
 public class CodeReviewRequestHandler extends AbstractHandler {
     WorkbenchHelper helper;

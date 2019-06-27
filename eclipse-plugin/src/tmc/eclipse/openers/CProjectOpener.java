@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 
-import fi.helsinki.cs.tmc.core.io.FileUtil;
+import fi.helsinki.cs.tmc.core.old.io.FileUtil;
 
 @SuppressWarnings("restriction")
 public class CProjectOpener {

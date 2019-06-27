@@ -5,9 +5,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
-import fi.helsinki.cs.tmc.core.async.BackgroundTask;
-import fi.helsinki.cs.tmc.core.async.BackgroundTaskListener;
-import fi.helsinki.cs.tmc.core.async.BackgroundTaskRunner;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTask;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTaskListener;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTaskRunner;
 
 public class EclipseTaskRunner implements BackgroundTaskRunner {
 

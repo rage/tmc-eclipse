@@ -13,9 +13,9 @@ import tmc.eclipse.ui.ExerciseSelectorDialog;
 import tmc.eclipse.ui.LoginDialog;
 import tmc.eclipse.ui.Notifier;
 import tmc.eclipse.ui.SettingsDialog;
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.domain.Course;
-import fi.helsinki.cs.tmc.core.ui.UserVisibleException;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.domain.Course;
+import fi.helsinki.cs.tmc.core.old.ui.UserVisibleException;
 
 public class CheckForNewOrUpdatedExercisesOnBackgroundTask implements Runnable {
     private ExerciseSelectorDialog dialog;
@@ -23,12 +23,12 @@ public class CheckForNewOrUpdatedExercisesOnBackgroundTask implements Runnable {
 
     public void run() {
         if ((notification != null && notification.isAlive())) {
-            return; 
+            return;
         }
-        
+
         try {
             Display.getDefault().asyncExec(new Runnable() {
-                public void run() { 
+                public void run() {
                     final Shell shell = CoreInitializer.getDefault().getWorkbenchHelper().getUsableShell();
 
                     updateCoursesForUser(shell);

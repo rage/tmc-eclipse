@@ -20,9 +20,9 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import tmc.eclipse.activator.CoreInitializer;
 import tmc.eclipse.tasks.TaskStarter;
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.domain.FeedbackAnswer;
-import fi.helsinki.cs.tmc.core.domain.FeedbackQuestion;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.domain.FeedbackAnswer;
+import fi.helsinki.cs.tmc.core.old.domain.FeedbackQuestion;
 
 public class SuccesfulSubmitDialog extends Dialog {
 
@@ -48,7 +48,7 @@ public class SuccesfulSubmitDialog extends Dialog {
 
     /**
      * Create the dialog.
-     * 
+     *
      * @param parent
      * @param style
      */
@@ -92,7 +92,7 @@ public class SuccesfulSubmitDialog extends Dialog {
 
     /**
      * Open the dialog.
-     * 
+     *
      * @return the result
      */
     public Object open() {

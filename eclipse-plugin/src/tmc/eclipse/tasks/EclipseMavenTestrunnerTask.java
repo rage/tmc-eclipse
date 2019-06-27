@@ -10,9 +10,9 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.embedder.IMaven;
 
-import fi.helsinki.cs.tmc.core.async.tasks.MavenTestrunnerTask;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.async.tasks.MavenTestrunnerTask;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
 
 public class EclipseMavenTestrunnerTask extends MavenTestrunnerTask {
 

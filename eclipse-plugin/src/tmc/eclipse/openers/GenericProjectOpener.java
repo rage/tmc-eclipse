@@ -15,14 +15,14 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import tmc.eclipse.util.IProjectHelper;
 import tmc.eclipse.util.ProjectNatureHelper;
 import tmc.eclipse.util.TMCNewProjectNature;
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.TMCErrorHandler;
-import fi.helsinki.cs.tmc.core.domain.Exercise;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.domain.ProjectType;
-import fi.helsinki.cs.tmc.core.io.FileUtil;
-import fi.helsinki.cs.tmc.core.services.ProjectDAO;
-import fi.helsinki.cs.tmc.core.services.ProjectOpener;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.TMCErrorHandler;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.ProjectType;
+import fi.helsinki.cs.tmc.core.old.io.FileUtil;
+import fi.helsinki.cs.tmc.core.old.services.ProjectDAO;
+import fi.helsinki.cs.tmc.core.old.services.ProjectOpener;
 
 @SuppressWarnings("restriction")
 public class GenericProjectOpener implements ProjectOpener {

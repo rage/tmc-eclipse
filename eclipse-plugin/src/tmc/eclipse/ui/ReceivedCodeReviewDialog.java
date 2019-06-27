@@ -13,7 +13,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import tmc.eclipse.activator.CoreInitializer;
 import tmc.eclipse.tasks.TaskStarter;
-import fi.helsinki.cs.tmc.core.domain.Review;
+import fi.helsinki.cs.tmc.core.old.domain.Review;
 
 public class ReceivedCodeReviewDialog extends Dialog {
 
@@ -24,7 +24,7 @@ public class ReceivedCodeReviewDialog extends Dialog {
 
     /**
      * Create the dialog.
-     * 
+     *
      * @param parent
      * @param style
      */
@@ -36,7 +36,7 @@ public class ReceivedCodeReviewDialog extends Dialog {
 
     /**
      * Open the dialog.
-     * 
+     *
      * @return the result
      */
     public Object open() {

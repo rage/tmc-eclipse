@@ -8,13 +8,13 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import tmc.eclipse.ui.ExerciseSelectorDialog;
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.domain.Course;
-import fi.helsinki.cs.tmc.core.ui.UserVisibleException;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.domain.Course;
+import fi.helsinki.cs.tmc.core.old.ui.UserVisibleException;
 
 /**
  * UI handler for exercise download selector
- * 
+ *
  */
 
 public class ExerciseSelectorHandler extends AbstractHandler {

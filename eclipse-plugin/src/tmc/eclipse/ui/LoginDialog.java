@@ -11,8 +11,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.ui.UserVisibleException;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.ui.UserVisibleException;
 
 public class LoginDialog extends Dialog {
 
@@ -24,7 +24,7 @@ public class LoginDialog extends Dialog {
 
     /**
      * Create the dialog.
-     * 
+     *
      * @param parent
      * @param style
      */
@@ -35,7 +35,7 @@ public class LoginDialog extends Dialog {
 
     /**
      * Open the dialog.
-     * 
+     *
      * @return the result
      */
     public Object open() {

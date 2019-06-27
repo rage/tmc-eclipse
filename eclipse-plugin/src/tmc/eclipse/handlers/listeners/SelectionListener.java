@@ -13,9 +13,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.services.IServiceLocator;
 
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.services.ProjectDAO;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.services.ProjectDAO;
 
 public class SelectionListener implements ISelectionListener {
 

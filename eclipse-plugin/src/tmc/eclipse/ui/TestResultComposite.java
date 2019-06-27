@@ -26,8 +26,8 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import tmc.eclipse.activator.CoreInitializer;
 import tmc.eclipse.util.WorkbenchHelper;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.domain.TestCaseResult;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.TestCaseResult;
 
 public class TestResultComposite extends Composite {
     private Label colorBar;
@@ -47,7 +47,7 @@ public class TestResultComposite extends Composite {
 
     /**
      * Create the composite.
-     * 
+     *
      * @param parent
      * @param style
      */

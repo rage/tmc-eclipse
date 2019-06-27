@@ -4,64 +4,71 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tmc.eclipse.activator.CoreInitializer;
+import tmc.eclipse.domain.TmcSettingsImpl;
 import tmc.eclipse.openers.GenericProjectOpener;
 import tmc.eclipse.ui.EclipseIdeUIInvoker;
 import tmc.eclipse.util.EclipseProjectIconHandler;
 import tmc.eclipse.util.WorkbenchHelper;
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.async.listeners.CodeReviewRequestListener;
-import fi.helsinki.cs.tmc.core.async.listeners.FetchCodeReviewsTaskListener;
-import fi.helsinki.cs.tmc.core.async.listeners.PastebinTaskListener;
-import fi.helsinki.cs.tmc.core.async.listeners.TestrunnerListener;
-import fi.helsinki.cs.tmc.core.async.listeners.UploadTaskListener;
-import fi.helsinki.cs.tmc.core.async.tasks.CodeReviewRequestTask;
-import fi.helsinki.cs.tmc.core.async.tasks.DownloaderTask;
-import fi.helsinki.cs.tmc.core.async.tasks.FeedbackSubmissionTask;
-import fi.helsinki.cs.tmc.core.async.tasks.FetchCodeReviewsTask;
-import fi.helsinki.cs.tmc.core.async.tasks.MarkReviewAsReadTask;
-import fi.helsinki.cs.tmc.core.async.tasks.OpenAllDownloadedExercisesTask;
-import fi.helsinki.cs.tmc.core.async.tasks.PastebinTask;
-import fi.helsinki.cs.tmc.core.async.tasks.TestrunnerTask;
-import fi.helsinki.cs.tmc.core.async.tasks.UploaderTask;
-import fi.helsinki.cs.tmc.core.domain.Course;
-import fi.helsinki.cs.tmc.core.domain.Exercise;
-import fi.helsinki.cs.tmc.core.domain.FeedbackAnswer;
-import fi.helsinki.cs.tmc.core.domain.Project;
-import fi.helsinki.cs.tmc.core.domain.Review;
-import fi.helsinki.cs.tmc.core.services.FeedbackAnswerSubmitter;
-import fi.helsinki.cs.tmc.core.services.ProjectDownloader;
-import fi.helsinki.cs.tmc.core.services.ProjectOpener;
-import fi.helsinki.cs.tmc.core.services.ProjectUploader;
-import fi.helsinki.cs.tmc.core.services.ReviewDAO;
-import fi.helsinki.cs.tmc.core.services.http.ServerManager;
-import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.TmcCore;
+import fi.helsinki.cs.tmc.core.domain.ProgressObserver;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.async.listeners.CodeReviewRequestListener;
+import fi.helsinki.cs.tmc.core.old.async.listeners.FetchCodeReviewsTaskListener;
+import fi.helsinki.cs.tmc.core.old.async.listeners.PastebinTaskListener;
+import fi.helsinki.cs.tmc.core.old.async.listeners.TestrunnerListener;
+import fi.helsinki.cs.tmc.core.old.async.listeners.UploadTaskListener;
+import fi.helsinki.cs.tmc.core.old.async.tasks.CodeReviewRequestTask;
+import fi.helsinki.cs.tmc.core.old.async.tasks.DownloaderTask;
+import fi.helsinki.cs.tmc.core.old.async.tasks.FeedbackSubmissionTask;
+import fi.helsinki.cs.tmc.core.old.async.tasks.FetchCodeReviewsTask;
+import fi.helsinki.cs.tmc.core.old.async.tasks.MarkReviewAsReadTask;
+import fi.helsinki.cs.tmc.core.old.async.tasks.OpenAllDownloadedExercisesTask;
+import fi.helsinki.cs.tmc.core.old.async.tasks.PastebinTask;
+import fi.helsinki.cs.tmc.core.old.async.tasks.TestrunnerTask;
+import fi.helsinki.cs.tmc.core.old.async.tasks.UploaderTask;
+import fi.helsinki.cs.tmc.core.old.domain.Course;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.FeedbackAnswer;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.Review;
+import fi.helsinki.cs.tmc.core.old.services.FeedbackAnswerSubmitter;
+import fi.helsinki.cs.tmc.core.old.services.ProjectDownloader;
+import fi.helsinki.cs.tmc.core.old.services.ProjectOpener;
+import fi.helsinki.cs.tmc.core.old.services.ProjectUploader;
+import fi.helsinki.cs.tmc.core.old.services.ReviewDAO;
+import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.langs.util.TaskExecutorImpl;
 
 /**
- * 
+ *
  * Class that handles task creation and starting.
- * 
+ *
  */
 public final class TaskStarter {
 
     /**
      * Creates and starts exercise download task
-     * 
+     *
      * @param exercises
      *            List of exercises to be downloaded
      * @param invoker
      *            IdeUIInvoker that is passed to core so that it can invoke the
      *            eclipse UI
      */
-    public static void startExerciseDownloadTask(List<Exercise> exercises, EclipseIdeUIInvoker invoker) {
-        ProjectDownloader downloader = new ProjectDownloader(Core.getServerManager());
-        Core.getTaskRunner().runTask(
-                new DownloaderTask(downloader, new GenericProjectOpener(), exercises, Core.getProjectDAO(), Core
-                        .getSettings(), invoker, Core.getIOFactory()));
+    public static void startExerciseDownloadTask(List<fi.helsinki.cs.tmc.core.domain.Exercise> exercises, EclipseIdeUIInvoker invoker) {
+    	TmcCore core = new TmcCore(new TmcSettingsImpl(), new TaskExecutorImpl());
+    	core.downloadOrUpdateExercises(ProgressObserver.NULL_OBSERVER, exercises);
+//        ProjectDownloader downloader = new ProjectDownloader(Core.getServerManager());
+//        Core.getTaskRunner().runTask(
+//                new DownloaderTask(downloader, new GenericProjectOpener(), exercises, Core.getProjectDAO(), Core
+//                        .getSettings(), invoker, Core.getIOFactory()));
+        
     }
 
     /**
      * Creates and starts feedback submission task
-     * 
+     *
      * @param answers
      *            List of answers that will be provided to the server
      * @param feedbackUrl
@@ -79,7 +86,7 @@ public final class TaskStarter {
     /**
      * Creates and starts exercise upload task that will upload the active
      * project
-     * 
+     *
      * @param invoker
      *            IdeUIInvoker that is passed to core so that it can invoke the
      *            eclipse UI
@@ -99,7 +106,7 @@ public final class TaskStarter {
     /**
      * Creates and starts the background task for uploading the project into
      * pastebin
-     * 
+     *
      * @param invoker
      *            IdeUIInvoker that is passed to core so that it can invoke the
      *            eclipse UI
@@ -121,7 +128,7 @@ public final class TaskStarter {
     /**
      * Creates and starts the code review request task when user wants a code
      * review performed
-     * 
+     *
      * @param invoker
      *            IdeUIInvoker that is passed to core so that it can invoke the
      *            eclipse UI
@@ -143,10 +150,10 @@ public final class TaskStarter {
     /**
      * Creates and starts maven test runner task that will run the test for
      * maven project and show the results
-     * 
+     *
      * @param project
      *            Project that will be tested
-     * 
+     *
      * @param invoker
      *            IdeUIInvoker that is passed to core so that it can invoke the
      *            eclipse UI
@@ -160,7 +167,7 @@ public final class TaskStarter {
     /**
      * Creates and starts ant test runner task that will run the tests for ant
      * project and show the test resultss
-     * 
+     *
      * @param projectRoot
      *            An absolute path to the root of the project.
      * @param javaExecutable
@@ -184,7 +191,7 @@ public final class TaskStarter {
     /**
      * Creates and starts a task that will fetch any new code reviews from the
      * server
-     * 
+     *
      * @param invoker
      *            IdeUIInvoker that is passed to core so that it can invoke the
      *            eclipse UI
@@ -215,7 +222,7 @@ public final class TaskStarter {
     /**
      * Creates and starts a task that will mark the code review as read on the
      * server
-     * 
+     *
      * @param review
      *            The review in question
      */
@@ -228,7 +235,7 @@ public final class TaskStarter {
 
     /**
      * Creates and starts a task that will open all previously downloaded tasks
-     * 
+     *
      */
     public static void startOpenAllDownloadedExercisesTask() {
         String description = "Opening previously downloaded exercises";

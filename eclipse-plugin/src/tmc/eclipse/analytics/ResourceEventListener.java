@@ -5,11 +5,11 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.CoreException;
 
 import tmc.eclipse.spyware.EventDataVisitor.EventData;
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.spyware.SnapshotInfo;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.spyware.SnapshotInfo;
 
 /**
- * 
+ *
  * Handles the rename\save\move etc. events for spyware and project database.
  * Event contains affected files in a tree; root and inner nodes are various
  * directories and leaf nodes contain the affected files

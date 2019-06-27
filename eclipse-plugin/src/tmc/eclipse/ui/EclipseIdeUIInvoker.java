@@ -11,16 +11,16 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import tmc.eclipse.tasks.TaskStarter;
-import fi.helsinki.cs.tmc.core.Core;
-import fi.helsinki.cs.tmc.core.domain.Review;
-import fi.helsinki.cs.tmc.core.domain.SubmissionResult;
-import fi.helsinki.cs.tmc.core.domain.TestCaseResult;
-import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.domain.Review;
+import fi.helsinki.cs.tmc.core.old.domain.SubmissionResult;
+import fi.helsinki.cs.tmc.core.old.domain.TestCaseResult;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
 
 /**
  * Eclipse implementation of the IdeUIInvoker interface. Handles invoking any
  * eclipse specific UI components for the core
- * 
+ *
  */
 public class EclipseIdeUIInvoker implements IdeUIInvoker {
 

@@ -5,9 +5,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
-import fi.helsinki.cs.tmc.core.async.tasks.AntTestrunnerTask;
-import fi.helsinki.cs.tmc.core.services.Settings;
-import fi.helsinki.cs.tmc.core.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.async.tasks.AntTestrunnerTask;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
 
 public class EclipseAntTestrunnerTask extends AntTestrunnerTask {
 
