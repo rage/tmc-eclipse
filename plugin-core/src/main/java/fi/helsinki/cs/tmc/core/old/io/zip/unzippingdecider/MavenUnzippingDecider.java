@@ -1,7 +1,7 @@
-package fi.helsinki.cs.tmc.core.old.old.io.zip.unzippingdecider;
+package fi.helsinki.cs.tmc.core.old.io.zip.unzippingdecider;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.io.IOFactory;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.io.IOFactory;
 
 /**
  * Unzipping decider for Maven projects.

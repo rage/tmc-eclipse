@@ -1,15 +1,15 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware.services;
+package fi.helsinki.cs.tmc.core.old.spyware.services;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectDAO;
-import fi.helsinki.cs.tmc.core.old.old.services.Settings;
-import fi.helsinki.cs.tmc.core.old.old.spyware.DocumentInfo;
-import fi.helsinki.cs.tmc.core.old.old.spyware.async.DocumentSendThread;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.ActiveThreadSet;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.diff_match_patch;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.services.ProjectDAO;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.spyware.DocumentInfo;
+import fi.helsinki.cs.tmc.core.old.spyware.async.DocumentSendThread;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.ActiveThreadSet;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.diff_match_patch;
 
 /**
  * This class handles text inserts, removals and cut\pastes. It uses information

@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.io.zip.zippingdecider;
+package fi.helsinki.cs.tmc.core.old.io.zip.zippingdecider;
 
 /**
  * Zips everything.

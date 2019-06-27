@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.io.zip.unzippingdecider;
+package fi.helsinki.cs.tmc.core.old.io.zip.unzippingdecider;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 import org.yaml.snakeyaml.Yaml;
 
-import fi.helsinki.cs.tmc.core.old.old.io.FileIO;
+import fi.helsinki.cs.tmc.core.old.io.FileIO;
 
 /**
  * Represents the contents of a {@code .tmcproject.yml} file.

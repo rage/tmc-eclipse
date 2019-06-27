@@ -1,11 +1,11 @@
-package fi.helsinki.cs.tmc.core.old.old.services;
+package fi.helsinki.cs.tmc.core.old.services;
 
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Exercise;
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.domain.ProjectStatus;
-import fi.helsinki.cs.tmc.core.old.old.storage.DataSource;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.ProjectStatus;
+import fi.helsinki.cs.tmc.core.old.storage.DataSource;
 
 /**
  * Class that handles Project object storage, loading and saving.

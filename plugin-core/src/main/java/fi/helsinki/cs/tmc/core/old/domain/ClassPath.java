@@ -1,10 +1,10 @@
-package fi.helsinki.cs.tmc.core.old.old.domain;
+package fi.helsinki.cs.tmc.core.old.domain;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.io.FileUtil;
+import fi.helsinki.cs.tmc.core.old.io.FileUtil;
 
 public class ClassPath {
 

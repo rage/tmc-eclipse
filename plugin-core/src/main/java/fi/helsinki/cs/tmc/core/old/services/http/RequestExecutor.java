@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.services.http;
+package fi.helsinki.cs.tmc.core.old.services.http;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -16,7 +16,7 @@ import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import fi.helsinki.cs.tmc.core.old.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
 
 /**
  * Downloads a single file over HTTP into memory.

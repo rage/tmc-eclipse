@@ -1,15 +1,15 @@
-package fi.helsinki.cs.tmc.core.old.old;
+package fi.helsinki.cs.tmc.core.old;
 
-import fi.helsinki.cs.tmc.core.old.old.async.BackgroundTaskRunner;
-import fi.helsinki.cs.tmc.core.old.old.io.IOFactory;
-import fi.helsinki.cs.tmc.core.old.old.services.CourseDAO;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectDAO;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectEventHandler;
-import fi.helsinki.cs.tmc.core.old.old.services.ReviewDAO;
-import fi.helsinki.cs.tmc.core.old.old.services.Settings;
-import fi.helsinki.cs.tmc.core.old.old.services.Updater;
-import fi.helsinki.cs.tmc.core.old.old.services.http.ServerManager;
-import fi.helsinki.cs.tmc.core.old.old.spyware.SpywarePluginLayer;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTaskRunner;
+import fi.helsinki.cs.tmc.core.old.io.IOFactory;
+import fi.helsinki.cs.tmc.core.old.services.CourseDAO;
+import fi.helsinki.cs.tmc.core.old.services.ProjectDAO;
+import fi.helsinki.cs.tmc.core.old.services.ProjectEventHandler;
+import fi.helsinki.cs.tmc.core.old.services.ReviewDAO;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.services.Updater;
+import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.old.spyware.SpywarePluginLayer;
 
 /**
  * This class serves as an interface to the IDE plugin. None of these methods

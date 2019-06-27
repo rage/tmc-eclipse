@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.async.tasks;
+package fi.helsinki.cs.tmc.core.old.async.tasks;
 
 import com.google.common.util.concurrent.Futures;
 

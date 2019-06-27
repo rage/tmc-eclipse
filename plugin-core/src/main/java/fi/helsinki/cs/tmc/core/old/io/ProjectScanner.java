@@ -1,11 +1,11 @@
-package fi.helsinki.cs.tmc.core.old.old.io;
+package fi.helsinki.cs.tmc.core.old.io;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.domain.ProjectStatus;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectDAO;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.ProjectStatus;
+import fi.helsinki.cs.tmc.core.old.services.ProjectDAO;
 
 /**
  * Class that is used on startup to ensure that the project database remains in

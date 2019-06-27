@@ -1,12 +1,12 @@
-package fi.helsinki.cs.tmc.core.old.old.services;
+package fi.helsinki.cs.tmc.core.old.services;
 
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Course;
-import fi.helsinki.cs.tmc.core.old.old.domain.Exercise;
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.services.http.ServerManager;
-import fi.helsinki.cs.tmc.core.old.old.ui.UserVisibleException;
+import fi.helsinki.cs.tmc.core.old.domain.Course;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.old.ui.UserVisibleException;
 
 /**
  * Class that handles updating necessary data when we update exercise from

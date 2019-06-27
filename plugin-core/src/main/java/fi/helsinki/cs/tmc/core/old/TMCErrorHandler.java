@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old;
+package fi.helsinki.cs.tmc.core.old;
 
 /**
  * An interface that all the error handlers implement. IDE-specific plugins

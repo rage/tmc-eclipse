@@ -1,9 +1,9 @@
-package fi.helsinki.cs.tmc.core.old.old.io.zip.unzippingdecider;
+package fi.helsinki.cs.tmc.core.old.io.zip.unzippingdecider;
 
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.io.IOFactory;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.io.IOFactory;
 
 /**
  * Abstract base class that provides common functionality for all unzipping

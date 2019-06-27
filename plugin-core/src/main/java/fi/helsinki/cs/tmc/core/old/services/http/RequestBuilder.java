@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.services.http;
+package fi.helsinki.cs.tmc.core.old.services.http;
 
 import com.google.common.base.Charsets;
 

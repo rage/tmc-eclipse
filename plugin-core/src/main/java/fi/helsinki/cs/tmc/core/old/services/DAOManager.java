@@ -1,19 +1,19 @@
-package fi.helsinki.cs.tmc.core.old.old.services;
+package fi.helsinki.cs.tmc.core.old.services;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Course;
-import fi.helsinki.cs.tmc.core.old.old.domain.Exercise;
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.io.FileIO;
-import fi.helsinki.cs.tmc.core.old.old.io.IOFactoryImpl;
-import fi.helsinki.cs.tmc.core.old.old.io.ProjectScanner;
-import fi.helsinki.cs.tmc.core.old.old.storage.CourseStorage;
-import fi.helsinki.cs.tmc.core.old.old.storage.DataSource;
-import fi.helsinki.cs.tmc.core.old.old.storage.ProjectStorage;
+import fi.helsinki.cs.tmc.core.old.domain.Course;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.io.FileIO;
+import fi.helsinki.cs.tmc.core.old.io.IOFactoryImpl;
+import fi.helsinki.cs.tmc.core.old.io.ProjectScanner;
+import fi.helsinki.cs.tmc.core.old.storage.CourseStorage;
+import fi.helsinki.cs.tmc.core.old.storage.DataSource;
+import fi.helsinki.cs.tmc.core.old.storage.ProjectStorage;
 
 /**
  * Class that initializes the various DAOs.

@@ -1,17 +1,17 @@
-package fi.helsinki.cs.tmc.core.old.old.services;
+package fi.helsinki.cs.tmc.core.old.services;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import fi.helsinki.cs.tmc.core.old.old.async.StopStatus;
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.domain.SubmissionResult;
-import fi.helsinki.cs.tmc.core.old.old.domain.exception.InvalidProjectException;
-import fi.helsinki.cs.tmc.core.old.old.io.FileIO;
-import fi.helsinki.cs.tmc.core.old.old.io.zip.RecursiveZipper;
-import fi.helsinki.cs.tmc.core.old.old.services.http.ServerManager;
-import fi.helsinki.cs.tmc.core.old.old.services.http.SubmissionResponse;
+import fi.helsinki.cs.tmc.core.old.async.StopStatus;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.SubmissionResult;
+import fi.helsinki.cs.tmc.core.old.domain.exception.InvalidProjectException;
+import fi.helsinki.cs.tmc.core.old.io.FileIO;
+import fi.helsinki.cs.tmc.core.old.io.zip.RecursiveZipper;
+import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.old.services.http.SubmissionResponse;
 
 /**
  * Class that handles uploading the exercise to server. Used by the UploaderTask

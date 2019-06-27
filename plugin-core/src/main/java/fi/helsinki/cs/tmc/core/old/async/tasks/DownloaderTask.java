@@ -1,23 +1,23 @@
-package fi.helsinki.cs.tmc.core.old.old.async.tasks;
+package fi.helsinki.cs.tmc.core.old.async.tasks;
 
 import java.io.IOException;
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.async.SimpleBackgroundTask;
-import fi.helsinki.cs.tmc.core.old.old.domain.Exercise;
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.domain.ProjectStatus;
-import fi.helsinki.cs.tmc.core.old.old.domain.ZippedProject;
-import fi.helsinki.cs.tmc.core.old.old.io.FileIO;
-import fi.helsinki.cs.tmc.core.old.old.io.FileUtil;
-import fi.helsinki.cs.tmc.core.old.old.io.IOFactory;
-import fi.helsinki.cs.tmc.core.old.old.io.zip.Unzipper;
-import fi.helsinki.cs.tmc.core.old.old.io.zip.unzippingdecider.UnzippingDeciderFactory;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectDAO;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectDownloader;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectOpener;
-import fi.helsinki.cs.tmc.core.old.old.services.Settings;
-import fi.helsinki.cs.tmc.core.old.old.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.async.SimpleBackgroundTask;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.ProjectStatus;
+import fi.helsinki.cs.tmc.core.old.domain.ZippedProject;
+import fi.helsinki.cs.tmc.core.old.io.FileIO;
+import fi.helsinki.cs.tmc.core.old.io.FileUtil;
+import fi.helsinki.cs.tmc.core.old.io.IOFactory;
+import fi.helsinki.cs.tmc.core.old.io.zip.Unzipper;
+import fi.helsinki.cs.tmc.core.old.io.zip.unzippingdecider.UnzippingDeciderFactory;
+import fi.helsinki.cs.tmc.core.old.services.ProjectDAO;
+import fi.helsinki.cs.tmc.core.old.services.ProjectDownloader;
+import fi.helsinki.cs.tmc.core.old.services.ProjectOpener;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
 
 /**
  * This task downloads and unzips projects and opens them in IDE. Like all

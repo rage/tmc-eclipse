@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.services.http;
+package fi.helsinki.cs.tmc.core.old.services.http;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -7,22 +7,22 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Course;
-import fi.helsinki.cs.tmc.core.old.old.domain.Exercise;
-import fi.helsinki.cs.tmc.core.old.old.domain.FeedbackAnswer;
-import fi.helsinki.cs.tmc.core.old.old.domain.Review;
-import fi.helsinki.cs.tmc.core.old.old.domain.SubmissionResult;
-import fi.helsinki.cs.tmc.core.old.old.domain.ZippedProject;
-import fi.helsinki.cs.tmc.core.old.old.services.Settings;
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.LoggableEvent;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.ByteArrayGsonSerializer;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.ExceptionUtils;
-import fi.helsinki.cs.tmc.core.old.old.ui.ObsoleteClientException;
-import fi.helsinki.cs.tmc.core.old.old.ui.UserVisibleException;
-import fi.helsinki.cs.tmc.core.old.old.utils.SubmissionResultParser;
-import fi.helsinki.cs.tmc.core.old.old.utils.jsonhelpers.CourseList;
-import fi.helsinki.cs.tmc.core.old.old.utils.jsonhelpers.ExerciseList;
-import fi.helsinki.cs.tmc.core.old.old.utils.jsonhelpers.ReviewList;
+import fi.helsinki.cs.tmc.core.old.domain.Course;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.FeedbackAnswer;
+import fi.helsinki.cs.tmc.core.old.domain.Review;
+import fi.helsinki.cs.tmc.core.old.domain.SubmissionResult;
+import fi.helsinki.cs.tmc.core.old.domain.ZippedProject;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.spyware.services.LoggableEvent;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.ByteArrayGsonSerializer;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.ExceptionUtils;
+import fi.helsinki.cs.tmc.core.old.ui.ObsoleteClientException;
+import fi.helsinki.cs.tmc.core.old.ui.UserVisibleException;
+import fi.helsinki.cs.tmc.core.old.utils.SubmissionResultParser;
+import fi.helsinki.cs.tmc.core.old.utils.jsonhelpers.CourseList;
+import fi.helsinki.cs.tmc.core.old.utils.jsonhelpers.ExerciseList;
+import fi.helsinki.cs.tmc.core.old.utils.jsonhelpers.ReviewList;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

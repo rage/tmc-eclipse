@@ -1,11 +1,11 @@
-package fi.helsinki.cs.tmc.core.old.old.async.listeners;
+package fi.helsinki.cs.tmc.core.old.async.listeners;
 
-import fi.helsinki.cs.tmc.core.old.old.async.BackgroundTaskListener;
-import fi.helsinki.cs.tmc.core.old.old.async.tasks.UploaderTask;
-import fi.helsinki.cs.tmc.core.old.old.domain.Exercise;
-import fi.helsinki.cs.tmc.core.old.old.domain.SubmissionResult;
-import fi.helsinki.cs.tmc.core.old.old.ui.IdeUIInvoker;
-import fi.helsinki.cs.tmc.core.old.old.utils.ProjectIconHandler;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTaskListener;
+import fi.helsinki.cs.tmc.core.old.async.tasks.UploaderTask;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.SubmissionResult;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.utils.ProjectIconHandler;
 
 public class UploadTaskListener implements BackgroundTaskListener {
 

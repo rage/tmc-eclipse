@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.io.zip;
+package fi.helsinki.cs.tmc.core.old.io.zip;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -9,9 +9,9 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.IOUtils;
 
-import fi.helsinki.cs.tmc.core.old.old.io.FileIO;
-import fi.helsinki.cs.tmc.core.old.old.io.FileUtil;
-import fi.helsinki.cs.tmc.core.old.old.io.zip.zippingdecider.ZippingDecider;
+import fi.helsinki.cs.tmc.core.old.io.FileIO;
+import fi.helsinki.cs.tmc.core.old.io.FileUtil;
+import fi.helsinki.cs.tmc.core.old.io.zip.zippingdecider.ZippingDecider;
 
 public class RecursiveZipper {
 

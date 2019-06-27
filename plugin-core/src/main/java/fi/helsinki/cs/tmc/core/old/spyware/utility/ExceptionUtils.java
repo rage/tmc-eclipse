@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware.utility;
+package fi.helsinki.cs.tmc.core.old.spyware.utility;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.async;
+package fi.helsinki.cs.tmc.core.old.async;
 
 /**
  * Helper interface; sometimes stop status needs to be polled from inside the

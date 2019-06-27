@@ -1,15 +1,15 @@
-package fi.helsinki.cs.tmc.core.old.old.domain;
+package fi.helsinki.cs.tmc.core.old.domain;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.exception.InvalidProjectException;
-import fi.helsinki.cs.tmc.core.old.old.io.FileUtil;
-import fi.helsinki.cs.tmc.core.old.old.io.zip.zippingdecider.DefaultZippingDecider;
-import fi.helsinki.cs.tmc.core.old.old.io.zip.zippingdecider.MavenZippingDecider;
-import fi.helsinki.cs.tmc.core.old.old.io.zip.zippingdecider.ZippingDecider;
+import fi.helsinki.cs.tmc.core.old.domain.exception.InvalidProjectException;
+import fi.helsinki.cs.tmc.core.old.io.FileUtil;
+import fi.helsinki.cs.tmc.core.old.io.zip.zippingdecider.DefaultZippingDecider;
+import fi.helsinki.cs.tmc.core.old.io.zip.zippingdecider.MavenZippingDecider;
+import fi.helsinki.cs.tmc.core.old.io.zip.zippingdecider.ZippingDecider;
 
 /**
  * A domain class for IDE independent data storage of project data, such as it's

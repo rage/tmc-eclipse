@@ -6,7 +6,7 @@ import java.util.Locale;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import fi.helsinki.cs.tmc.core.old.old.io.FileUtil;
+import fi.helsinki.cs.tmc.core.old.io.FileUtil;
 
 /**
  * Settings class for storing user preferences, such as TMC username and

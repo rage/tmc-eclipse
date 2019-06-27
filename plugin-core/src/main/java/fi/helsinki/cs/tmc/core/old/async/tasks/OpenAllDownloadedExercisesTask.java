@@ -1,14 +1,14 @@
-package fi.helsinki.cs.tmc.core.old.old.async.tasks;
+package fi.helsinki.cs.tmc.core.old.async.tasks;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.async.SimpleBackgroundTask;
-import fi.helsinki.cs.tmc.core.old.old.domain.Exercise;
-import fi.helsinki.cs.tmc.core.old.old.domain.ProjectStatus;
-import fi.helsinki.cs.tmc.core.old.old.io.FileIO;
-import fi.helsinki.cs.tmc.core.old.old.io.IOFactory;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectOpener;
+import fi.helsinki.cs.tmc.core.old.async.SimpleBackgroundTask;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.ProjectStatus;
+import fi.helsinki.cs.tmc.core.old.io.FileIO;
+import fi.helsinki.cs.tmc.core.old.io.IOFactory;
+import fi.helsinki.cs.tmc.core.old.services.ProjectOpener;
 
 public class OpenAllDownloadedExercisesTask extends SimpleBackgroundTask<Exercise> {
 

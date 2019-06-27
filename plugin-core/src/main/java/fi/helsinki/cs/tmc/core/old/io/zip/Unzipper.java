@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.io.zip;
+package fi.helsinki.cs.tmc.core.old.io.zip;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.ZippedProject;
-import fi.helsinki.cs.tmc.core.old.old.io.FileIO;
-import fi.helsinki.cs.tmc.core.old.old.io.FileUtil;
-import fi.helsinki.cs.tmc.core.old.old.io.zip.unzippingdecider.UnzippingDecider;
+import fi.helsinki.cs.tmc.core.old.domain.ZippedProject;
+import fi.helsinki.cs.tmc.core.old.io.FileIO;
+import fi.helsinki.cs.tmc.core.old.io.FileUtil;
+import fi.helsinki.cs.tmc.core.old.io.zip.unzippingdecider.UnzippingDecider;
 
 public class Unzipper {
 

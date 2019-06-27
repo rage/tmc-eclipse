@@ -1,9 +1,9 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware.async;
+package fi.helsinki.cs.tmc.core.old.spyware.async;
 
 import com.google.common.collect.Iterables;
 
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.EventStore;
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.LoggableEvent;
+import fi.helsinki.cs.tmc.core.old.spyware.services.EventStore;
+import fi.helsinki.cs.tmc.core.old.spyware.services.LoggableEvent;
 
 import java.io.IOException;
 import java.util.ArrayDeque;

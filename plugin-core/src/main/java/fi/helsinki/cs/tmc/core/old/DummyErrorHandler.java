@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old;
+package fi.helsinki.cs.tmc.core.old;
 
 /**
  * Dummy error handler that does nothing. Default for the Core until

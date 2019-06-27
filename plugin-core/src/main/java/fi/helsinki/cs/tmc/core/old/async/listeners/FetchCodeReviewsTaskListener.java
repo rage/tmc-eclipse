@@ -1,12 +1,12 @@
-package fi.helsinki.cs.tmc.core.old.old.async.listeners;
+package fi.helsinki.cs.tmc.core.old.async.listeners;
 
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.async.BackgroundTaskListener;
-import fi.helsinki.cs.tmc.core.old.old.async.tasks.FetchCodeReviewsTask;
-import fi.helsinki.cs.tmc.core.old.old.domain.Review;
-import fi.helsinki.cs.tmc.core.old.old.services.ReviewDAO;
-import fi.helsinki.cs.tmc.core.old.old.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTaskListener;
+import fi.helsinki.cs.tmc.core.old.async.tasks.FetchCodeReviewsTask;
+import fi.helsinki.cs.tmc.core.old.domain.Review;
+import fi.helsinki.cs.tmc.core.old.services.ReviewDAO;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
 
 public class FetchCodeReviewsTaskListener implements BackgroundTaskListener {
 

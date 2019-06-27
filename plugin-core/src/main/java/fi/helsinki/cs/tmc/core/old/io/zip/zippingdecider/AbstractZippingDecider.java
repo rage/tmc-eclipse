@@ -1,8 +1,8 @@
-package fi.helsinki.cs.tmc.core.old.old.io.zip.zippingdecider;
+package fi.helsinki.cs.tmc.core.old.io.zip.zippingdecider;
 
 import java.io.File;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
 
 /**
  * Abstract base class for all zipping deciders.

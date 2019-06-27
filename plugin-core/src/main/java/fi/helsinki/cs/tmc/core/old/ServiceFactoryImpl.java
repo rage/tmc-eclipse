@@ -1,31 +1,31 @@
-package fi.helsinki.cs.tmc.core.old.old;
+package fi.helsinki.cs.tmc.core.old;
 
 import java.util.ArrayDeque;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import fi.helsinki.cs.tmc.core.old.old.async.tasks.SingletonTask;
-import fi.helsinki.cs.tmc.core.old.old.io.FileIO;
-import fi.helsinki.cs.tmc.core.old.old.io.IOFactory;
-import fi.helsinki.cs.tmc.core.old.old.io.IOFactoryImpl;
-import fi.helsinki.cs.tmc.core.old.old.services.CourseDAO;
-import fi.helsinki.cs.tmc.core.old.old.services.DAOManager;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectDAO;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectEventHandler;
-import fi.helsinki.cs.tmc.core.old.old.services.ReviewDAO;
-import fi.helsinki.cs.tmc.core.old.old.services.Settings;
-import fi.helsinki.cs.tmc.core.old.old.services.Updater;
-import fi.helsinki.cs.tmc.core.old.old.services.http.ServerManager;
-import fi.helsinki.cs.tmc.core.old.old.spyware.SpywarePluginLayer;
-import fi.helsinki.cs.tmc.core.old.old.spyware.async.SavingTask;
-import fi.helsinki.cs.tmc.core.old.old.spyware.async.SendingTask;
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.DocumentChangeHandler;
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.EventSendBuffer;
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.EventStore;
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.LoggableEvent;
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.SnapshotTaker;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.ActiveThreadSet;
+import fi.helsinki.cs.tmc.core.old.async.tasks.SingletonTask;
+import fi.helsinki.cs.tmc.core.old.io.FileIO;
+import fi.helsinki.cs.tmc.core.old.io.IOFactory;
+import fi.helsinki.cs.tmc.core.old.io.IOFactoryImpl;
+import fi.helsinki.cs.tmc.core.old.services.CourseDAO;
+import fi.helsinki.cs.tmc.core.old.services.DAOManager;
+import fi.helsinki.cs.tmc.core.old.services.ProjectDAO;
+import fi.helsinki.cs.tmc.core.old.services.ProjectEventHandler;
+import fi.helsinki.cs.tmc.core.old.services.ReviewDAO;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.services.Updater;
+import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.old.spyware.SpywarePluginLayer;
+import fi.helsinki.cs.tmc.core.old.spyware.async.SavingTask;
+import fi.helsinki.cs.tmc.core.old.spyware.async.SendingTask;
+import fi.helsinki.cs.tmc.core.old.spyware.services.DocumentChangeHandler;
+import fi.helsinki.cs.tmc.core.old.spyware.services.EventSendBuffer;
+import fi.helsinki.cs.tmc.core.old.spyware.services.EventStore;
+import fi.helsinki.cs.tmc.core.old.spyware.services.LoggableEvent;
+import fi.helsinki.cs.tmc.core.old.spyware.services.SnapshotTaker;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.ActiveThreadSet;
 
 /**
  * Default implementation of ServiceFactory interface. Creates the various

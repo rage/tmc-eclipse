@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.domain.exception;
+package fi.helsinki.cs.tmc.core.old.domain.exception;
 
 public class InvalidProjectException extends Exception {
 

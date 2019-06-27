@@ -1,8 +1,8 @@
-package fi.helsinki.cs.tmc.core.old.old.io.zip.zippingdecider;
+package fi.helsinki.cs.tmc.core.old.io.zip.zippingdecider;
 
 import java.util.regex.Pattern;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
 
 /**
  * Zipping decider for Maven projects.

@@ -1,12 +1,12 @@
-package fi.helsinki.cs.tmc.core.old.old.async.listeners;
+package fi.helsinki.cs.tmc.core.old.async.listeners;
 
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.async.BackgroundTaskListener;
-import fi.helsinki.cs.tmc.core.old.old.async.tasks.TestrunnerTask;
-import fi.helsinki.cs.tmc.core.old.old.domain.TestCaseResult;
-import fi.helsinki.cs.tmc.core.old.old.domain.TestRunResult;
-import fi.helsinki.cs.tmc.core.old.old.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTaskListener;
+import fi.helsinki.cs.tmc.core.old.async.tasks.TestrunnerTask;
+import fi.helsinki.cs.tmc.core.old.domain.TestCaseResult;
+import fi.helsinki.cs.tmc.core.old.domain.TestRunResult;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
 
 public class TestrunnerListener implements BackgroundTaskListener {
 

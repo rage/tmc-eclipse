@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.ui;
+package fi.helsinki.cs.tmc.core.old.ui;
 
 public class UserVisibleException extends RuntimeException {
 

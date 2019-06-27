@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.io;
+package fi.helsinki.cs.tmc.core.old.io;
 
 /**
  * Implementation of the IOFactory interface. Creates the actual FileIO objects.

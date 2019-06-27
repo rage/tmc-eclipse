@@ -1,19 +1,19 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware.services;
+package fi.helsinki.cs.tmc.core.old.spyware.services;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.domain.exception.InvalidProjectException;
-import fi.helsinki.cs.tmc.core.old.old.io.FileIO;
-import fi.helsinki.cs.tmc.core.old.old.io.zip.RecursiveZipper;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectDAO;
-import fi.helsinki.cs.tmc.core.old.old.services.Settings;
-import fi.helsinki.cs.tmc.core.old.old.spyware.ChangeType;
-import fi.helsinki.cs.tmc.core.old.old.spyware.SnapshotInfo;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.ActiveThreadSet;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.JsonMaker;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.exception.InvalidProjectException;
+import fi.helsinki.cs.tmc.core.old.io.FileIO;
+import fi.helsinki.cs.tmc.core.old.io.zip.RecursiveZipper;
+import fi.helsinki.cs.tmc.core.old.services.ProjectDAO;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.spyware.ChangeType;
+import fi.helsinki.cs.tmc.core.old.spyware.SnapshotInfo;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.ActiveThreadSet;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.JsonMaker;
 
 public class SnapshotTaker {
 

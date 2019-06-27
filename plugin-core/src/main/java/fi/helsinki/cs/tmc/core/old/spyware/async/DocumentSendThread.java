@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware.async;
+package fi.helsinki.cs.tmc.core.old.spyware.async;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
@@ -10,14 +10,14 @@ import java.util.logging.Logger;
 
 import javax.swing.text.BadLocationException;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Exercise;
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.spyware.DocumentInfo;
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.EventReceiver;
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.LoggableEvent;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.JsonMaker;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.diff_match_patch;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.diff_match_patch.Patch;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.spyware.DocumentInfo;
+import fi.helsinki.cs.tmc.core.old.spyware.services.EventReceiver;
+import fi.helsinki.cs.tmc.core.old.spyware.services.LoggableEvent;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.JsonMaker;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.diff_match_patch;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.diff_match_patch.Patch;
 
 public class DocumentSendThread extends Thread {
 

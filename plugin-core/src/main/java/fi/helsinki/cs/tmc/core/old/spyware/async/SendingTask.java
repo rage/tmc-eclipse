@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware.async;
+package fi.helsinki.cs.tmc.core.old.spyware.async;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -9,12 +9,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import fi.helsinki.cs.tmc.core.old.old.async.tasks.SingletonTask;
-import fi.helsinki.cs.tmc.core.old.old.domain.Course;
-import fi.helsinki.cs.tmc.core.old.old.services.CourseDAO;
-import fi.helsinki.cs.tmc.core.old.old.services.Settings;
-import fi.helsinki.cs.tmc.core.old.old.services.http.ServerManager;
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.LoggableEvent;
+import fi.helsinki.cs.tmc.core.old.async.tasks.SingletonTask;
+import fi.helsinki.cs.tmc.core.old.domain.Course;
+import fi.helsinki.cs.tmc.core.old.services.CourseDAO;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.old.spyware.services.LoggableEvent;
 
 public class SendingTask implements Runnable {
 

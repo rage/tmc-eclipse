@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware.utility;
+package fi.helsinki.cs.tmc.core.old.spyware.utility;
 
 /*
  * Diff Match and Patch

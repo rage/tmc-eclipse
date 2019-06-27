@@ -1,10 +1,10 @@
-package fi.helsinki.cs.tmc.core.old.old.utils;
+package fi.helsinki.cs.tmc.core.old.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.TestCaseResult;
-import fi.helsinki.cs.tmc.core.old.old.domain.TestRunResult;
+import fi.helsinki.cs.tmc.core.old.domain.TestCaseResult;
+import fi.helsinki.cs.tmc.core.old.domain.TestRunResult;
 import fi.helsinki.cs.tmc.testrunner.StackTraceSerializer;
 import fi.helsinki.cs.tmc.testrunner.TestCase;
 import fi.helsinki.cs.tmc.testrunner.TestCaseList;

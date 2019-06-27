@@ -1,16 +1,16 @@
-package fi.helsinki.cs.tmc.core.old.old.async.tasks;
+package fi.helsinki.cs.tmc.core.old.async.tasks;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.async.BackgroundTask;
-import fi.helsinki.cs.tmc.core.old.old.async.TaskStatusMonitor;
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.domain.TestRunResult;
-import fi.helsinki.cs.tmc.core.old.old.ui.IdeUIInvoker;
-import fi.helsinki.cs.tmc.core.old.old.utils.TestResultParser;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTask;
+import fi.helsinki.cs.tmc.core.old.async.TaskStatusMonitor;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.TestRunResult;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.utils.TestResultParser;
 
 /**
  * Background task for Maven test runner. For all your Maven testing needs.

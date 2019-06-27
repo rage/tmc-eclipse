@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.io;
+package fi.helsinki.cs.tmc.core.old.io;
 
 /**
  * An interface for IO creation; mostly used to enable better unit testing as we

@@ -1,9 +1,9 @@
-package fi.helsinki.cs.tmc.core.old.old.services;
+package fi.helsinki.cs.tmc.core.old.services;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Review;
+import fi.helsinki.cs.tmc.core.old.domain.Review;
 
 /**
  * Class that handles storing the code reviews locally. Prevents the situation

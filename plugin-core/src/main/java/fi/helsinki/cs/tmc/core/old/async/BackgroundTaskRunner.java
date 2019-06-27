@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.async;
+package fi.helsinki.cs.tmc.core.old.async;
 
 /**
  * An interface all background task runners implement. Plugins should provide an

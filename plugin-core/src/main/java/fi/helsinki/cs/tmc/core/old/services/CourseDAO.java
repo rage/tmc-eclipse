@@ -1,9 +1,9 @@
-package fi.helsinki.cs.tmc.core.old.old.services;
+package fi.helsinki.cs.tmc.core.old.services;
 
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Course;
-import fi.helsinki.cs.tmc.core.old.old.storage.DataSource;
+import fi.helsinki.cs.tmc.core.old.domain.Course;
+import fi.helsinki.cs.tmc.core.old.storage.DataSource;
 
 /**
  * Class that handles Course object loading, saving and accessing.

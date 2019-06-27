@@ -1,10 +1,10 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware.services;
+package fi.helsinki.cs.tmc.core.old.spyware.services;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import fi.helsinki.cs.tmc.core.old.old.io.FileIO;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.ByteArrayGsonSerializer;
+import fi.helsinki.cs.tmc.core.old.io.FileIO;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.ByteArrayGsonSerializer;
 
 import java.io.IOException;
 import java.io.Reader;

@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.domain;
+package fi.helsinki.cs.tmc.core.old.domain;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

@@ -1,13 +1,13 @@
-package fi.helsinki.cs.tmc.core.old.old.async.tasks;
+package fi.helsinki.cs.tmc.core.old.async.tasks;
 
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.async.BackgroundTask;
-import fi.helsinki.cs.tmc.core.old.old.async.TaskStatusMonitor;
-import fi.helsinki.cs.tmc.core.old.old.domain.Course;
-import fi.helsinki.cs.tmc.core.old.old.domain.Review;
-import fi.helsinki.cs.tmc.core.old.old.services.ReviewDAO;
-import fi.helsinki.cs.tmc.core.old.old.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTask;
+import fi.helsinki.cs.tmc.core.old.async.TaskStatusMonitor;
+import fi.helsinki.cs.tmc.core.old.domain.Course;
+import fi.helsinki.cs.tmc.core.old.domain.Review;
+import fi.helsinki.cs.tmc.core.old.services.ReviewDAO;
+import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
 
 public class FetchCodeReviewsTask extends BackgroundTask {
 

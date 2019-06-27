@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.async;
+package fi.helsinki.cs.tmc.core.old.async;
 
 /**
  * An interface that all the IDE-specific task status monitors must implement.

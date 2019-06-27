@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.utils;
+package fi.helsinki.cs.tmc.core.old.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,7 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.SubmissionResult;
+import fi.helsinki.cs.tmc.core.old.domain.SubmissionResult;
 import fi.helsinki.cs.tmc.testrunner.StackTraceSerializer;
 
 import java.lang.reflect.Type;

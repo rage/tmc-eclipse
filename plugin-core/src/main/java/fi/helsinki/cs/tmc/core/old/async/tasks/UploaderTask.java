@@ -1,13 +1,13 @@
-package fi.helsinki.cs.tmc.core.old.old.async.tasks;
+package fi.helsinki.cs.tmc.core.old.async.tasks;
 
-import fi.helsinki.cs.tmc.core.old.old.async.BackgroundTask;
-import fi.helsinki.cs.tmc.core.old.old.async.StopStatus;
-import fi.helsinki.cs.tmc.core.old.old.async.TaskStatusMonitor;
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.domain.SubmissionResult;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectDAO;
-import fi.helsinki.cs.tmc.core.old.old.services.ProjectUploader;
-import fi.helsinki.cs.tmc.core.old.old.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTask;
+import fi.helsinki.cs.tmc.core.old.async.StopStatus;
+import fi.helsinki.cs.tmc.core.old.async.TaskStatusMonitor;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.SubmissionResult;
+import fi.helsinki.cs.tmc.core.old.services.ProjectDAO;
+import fi.helsinki.cs.tmc.core.old.services.ProjectUploader;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
 
 /**
  * Background task for handling the file uploads to server. Used when submitting

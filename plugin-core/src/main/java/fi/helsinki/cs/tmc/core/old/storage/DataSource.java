@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.storage;
+package fi.helsinki.cs.tmc.core.old.storage;
 
 import java.util.List;
 

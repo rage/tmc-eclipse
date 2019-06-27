@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware.services;
+package fi.helsinki.cs.tmc.core.old.spyware.services;
 
 import java.io.Closeable;
 

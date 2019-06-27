@@ -1,6 +1,6 @@
-package fi.helsinki.cs.tmc.core.old.old.utils;
+package fi.helsinki.cs.tmc.core.old.utils;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
 
 public interface ProjectIconHandler {
 

@@ -1,11 +1,11 @@
-package fi.helsinki.cs.tmc.core.old.old.services;
+package fi.helsinki.cs.tmc.core.old.services;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Exercise;
-import fi.helsinki.cs.tmc.core.old.old.domain.ZippedProject;
-import fi.helsinki.cs.tmc.core.old.old.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.ZippedProject;
+import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
 
 /**
  * Class that handles project downloading. Used by the DownloaderTask background

@@ -1,6 +1,6 @@
-package fi.helsinki.cs.tmc.core.old.old.io.zip.zippingdecider;
+package fi.helsinki.cs.tmc.core.old.io.zip.zippingdecider;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
 
 /**
  * Default zipping decider that is used by Java Ant and C projects.

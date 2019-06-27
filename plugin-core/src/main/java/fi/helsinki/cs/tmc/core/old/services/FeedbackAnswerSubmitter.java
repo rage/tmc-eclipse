@@ -1,9 +1,9 @@
-package fi.helsinki.cs.tmc.core.old.old.services;
+package fi.helsinki.cs.tmc.core.old.services;
 
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.FeedbackAnswer;
-import fi.helsinki.cs.tmc.core.old.old.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.old.domain.FeedbackAnswer;
+import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
 
 /**
  * Class used by the feedback submission background task.

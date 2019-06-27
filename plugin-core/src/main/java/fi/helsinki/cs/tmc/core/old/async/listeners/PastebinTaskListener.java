@@ -1,8 +1,8 @@
-package fi.helsinki.cs.tmc.core.old.old.async.listeners;
+package fi.helsinki.cs.tmc.core.old.async.listeners;
 
-import fi.helsinki.cs.tmc.core.old.old.async.BackgroundTaskListener;
-import fi.helsinki.cs.tmc.core.old.old.async.tasks.PastebinTask;
-import fi.helsinki.cs.tmc.core.old.old.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTaskListener;
+import fi.helsinki.cs.tmc.core.old.async.tasks.PastebinTask;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
 
 public class PastebinTaskListener implements BackgroundTaskListener {
 

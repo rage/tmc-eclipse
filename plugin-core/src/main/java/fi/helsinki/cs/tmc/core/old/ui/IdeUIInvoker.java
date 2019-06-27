@@ -1,10 +1,10 @@
-package fi.helsinki.cs.tmc.core.old.old.ui;
+package fi.helsinki.cs.tmc.core.old.ui;
 
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Review;
-import fi.helsinki.cs.tmc.core.old.old.domain.SubmissionResult;
-import fi.helsinki.cs.tmc.core.old.old.domain.TestCaseResult;
+import fi.helsinki.cs.tmc.core.old.domain.Review;
+import fi.helsinki.cs.tmc.core.old.domain.SubmissionResult;
+import fi.helsinki.cs.tmc.core.old.domain.TestCaseResult;
 
 /**
  * Interface for invoking IDE UI functionality from the IDE-independent core.

@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.io.zip.unzippingdecider;
+package fi.helsinki.cs.tmc.core.old.io.zip.unzippingdecider;
 
 /**
  * Unzips everything.

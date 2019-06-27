@@ -1,6 +1,6 @@
-package fi.helsinki.cs.tmc.core.old.old.services.http;
+package fi.helsinki.cs.tmc.core.old.services.http;
 
-import fi.helsinki.cs.tmc.core.old.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
 
 /**
  * Builder class for http connections.

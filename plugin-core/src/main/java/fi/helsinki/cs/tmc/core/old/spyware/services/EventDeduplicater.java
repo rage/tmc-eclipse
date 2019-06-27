@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware.services;
+package fi.helsinki.cs.tmc.core.old.spyware.services;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.ExceptionUtils;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.ExceptionUtils;
 
 /**
  * Forwards events to another receiver but discards consecutive events with the

@@ -1,9 +1,9 @@
-package fi.helsinki.cs.tmc.core.old.old.async.tasks;
+package fi.helsinki.cs.tmc.core.old.async.tasks;
 
-import fi.helsinki.cs.tmc.core.old.old.async.BackgroundTask;
-import fi.helsinki.cs.tmc.core.old.old.async.TaskStatusMonitor;
-import fi.helsinki.cs.tmc.core.old.old.domain.Review;
-import fi.helsinki.cs.tmc.core.old.old.services.http.ServerManager;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTask;
+import fi.helsinki.cs.tmc.core.old.async.TaskStatusMonitor;
+import fi.helsinki.cs.tmc.core.old.domain.Review;
+import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
 
 public class MarkReviewAsReadTask extends BackgroundTask {
 

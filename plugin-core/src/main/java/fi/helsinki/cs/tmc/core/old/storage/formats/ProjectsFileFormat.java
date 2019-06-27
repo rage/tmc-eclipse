@@ -1,8 +1,8 @@
-package fi.helsinki.cs.tmc.core.old.old.storage.formats;
+package fi.helsinki.cs.tmc.core.old.storage.formats;
 
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
 
 public class ProjectsFileFormat {
 

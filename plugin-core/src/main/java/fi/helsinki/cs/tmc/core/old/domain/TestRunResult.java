@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.domain;
+package fi.helsinki.cs.tmc.core.old.domain;
 
 import java.util.List;
 

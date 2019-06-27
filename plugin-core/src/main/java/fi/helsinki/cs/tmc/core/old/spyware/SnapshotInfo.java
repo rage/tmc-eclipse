@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware;
+package fi.helsinki.cs.tmc.core.old.spyware;
 
 /**
  * Helper class that contains necessary data for core to take a snapshot. IDE

@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware.services;
+package fi.helsinki.cs.tmc.core.old.spyware.services;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -9,9 +9,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import fi.helsinki.cs.tmc.core.old.old.async.tasks.SingletonTask;
-import fi.helsinki.cs.tmc.core.old.old.services.Settings;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.Cooldown;
+import fi.helsinki.cs.tmc.core.old.async.tasks.SingletonTask;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.Cooldown;
 
 /**
  * Buffers {@link LoggableEvent}s and sends them to the server and/or syncs them

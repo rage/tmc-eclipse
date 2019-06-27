@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.domain;
+package fi.helsinki.cs.tmc.core.old.domain;
 
 /**
  * Class that stores the project as a zip. Used when downloading exercises from

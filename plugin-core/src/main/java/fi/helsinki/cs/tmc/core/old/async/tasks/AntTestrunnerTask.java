@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.async.tasks;
+package fi.helsinki.cs.tmc.core.old.async.tasks;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,13 +8,13 @@ import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.async.BackgroundTask;
-import fi.helsinki.cs.tmc.core.old.old.async.TaskStatusMonitor;
-import fi.helsinki.cs.tmc.core.old.old.domain.ClassPath;
-import fi.helsinki.cs.tmc.core.old.old.domain.TestRunResult;
-import fi.helsinki.cs.tmc.core.old.old.services.Settings;
-import fi.helsinki.cs.tmc.core.old.old.ui.IdeUIInvoker;
-import fi.helsinki.cs.tmc.core.old.old.utils.TestResultParser;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTask;
+import fi.helsinki.cs.tmc.core.old.async.TaskStatusMonitor;
+import fi.helsinki.cs.tmc.core.old.domain.ClassPath;
+import fi.helsinki.cs.tmc.core.old.domain.TestRunResult;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.utils.TestResultParser;
 
 /**
  * An abstract background task for building and running tmc-junit-runner for an

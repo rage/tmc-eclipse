@@ -1,13 +1,13 @@
-package fi.helsinki.cs.tmc.core.old.old.storage;
+package fi.helsinki.cs.tmc.core.old.storage;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Project;
-import fi.helsinki.cs.tmc.core.old.old.io.FileIO;
-import fi.helsinki.cs.tmc.core.old.old.storage.formats.ProjectsFileFormat;
-import fi.helsinki.cs.tmc.core.old.old.ui.UserVisibleException;
+import fi.helsinki.cs.tmc.core.old.domain.Project;
+import fi.helsinki.cs.tmc.core.old.io.FileIO;
+import fi.helsinki.cs.tmc.core.old.storage.formats.ProjectsFileFormat;
+import fi.helsinki.cs.tmc.core.old.ui.UserVisibleException;
 
 import java.io.IOException;
 import java.io.Reader;

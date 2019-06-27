@@ -1,6 +1,6 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware.services;
+package fi.helsinki.cs.tmc.core.old.spyware.services;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Exercise;
+import fi.helsinki.cs.tmc.core.old.domain.Exercise;
 
 public class LoggableEvent implements TmcEvent {
 

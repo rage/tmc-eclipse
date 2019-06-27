@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.io.zip.zippingdecider;
+package fi.helsinki.cs.tmc.core.old.io.zip.zippingdecider;
 
 /**
  * Interface for zipping deciders that tell whether the given file or directory

@@ -1,9 +1,9 @@
-package fi.helsinki.cs.tmc.core.old.old.services;
+package fi.helsinki.cs.tmc.core.old.services;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Course;
+import fi.helsinki.cs.tmc.core.old.domain.Course;
 
 /**
  * Helper class that gets course names from given courses.

@@ -1,11 +1,11 @@
-package fi.helsinki.cs.tmc.core.old.old.spyware;
+package fi.helsinki.cs.tmc.core.old.spyware;
 
 import java.io.Closeable;
 
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.DocumentChangeHandler;
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.EventReceiver;
-import fi.helsinki.cs.tmc.core.old.old.spyware.services.SnapshotTaker;
-import fi.helsinki.cs.tmc.core.old.old.spyware.utility.ActiveThreadSet;
+import fi.helsinki.cs.tmc.core.old.spyware.services.DocumentChangeHandler;
+import fi.helsinki.cs.tmc.core.old.spyware.services.EventReceiver;
+import fi.helsinki.cs.tmc.core.old.spyware.services.SnapshotTaker;
+import fi.helsinki.cs.tmc.core.old.spyware.utility.ActiveThreadSet;
 
 public class SpywarePluginLayer implements Closeable {
 

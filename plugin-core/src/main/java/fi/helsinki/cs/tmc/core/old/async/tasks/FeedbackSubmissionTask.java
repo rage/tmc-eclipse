@@ -1,12 +1,12 @@
-package fi.helsinki.cs.tmc.core.old.old.async.tasks;
+package fi.helsinki.cs.tmc.core.old.async.tasks;
 
 import java.util.List;
 
-import fi.helsinki.cs.tmc.core.old.old.async.BackgroundTask;
-import fi.helsinki.cs.tmc.core.old.old.async.TaskStatusMonitor;
-import fi.helsinki.cs.tmc.core.old.old.domain.FeedbackAnswer;
-import fi.helsinki.cs.tmc.core.old.old.services.FeedbackAnswerSubmitter;
-import fi.helsinki.cs.tmc.core.old.old.ui.IdeUIInvoker;
+import fi.helsinki.cs.tmc.core.old.async.BackgroundTask;
+import fi.helsinki.cs.tmc.core.old.async.TaskStatusMonitor;
+import fi.helsinki.cs.tmc.core.old.domain.FeedbackAnswer;
+import fi.helsinki.cs.tmc.core.old.services.FeedbackAnswerSubmitter;
+import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
 
 /**
  * This is the background task for feedback submission.

@@ -1,9 +1,9 @@
-package fi.helsinki.cs.tmc.core.old.old.services.http;
+package fi.helsinki.cs.tmc.core.old.services.http;
 
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpPost;
 
-import fi.helsinki.cs.tmc.core.old.old.services.Settings;
+import fi.helsinki.cs.tmc.core.old.services.Settings;
 
 /**
  * Implementation of the RequestExecutorFactory interface. Produces actual

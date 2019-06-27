@@ -1,4 +1,4 @@
-package fi.helsinki.cs.tmc.core.old.old.domain;
+package fi.helsinki.cs.tmc.core.old.domain;
 
 /**
  * An enumeration class representing the status of a local TestMyCode project.

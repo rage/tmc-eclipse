@@ -1,6 +1,6 @@
-package fi.helsinki.cs.tmc.core.old.old.utils.jsonhelpers;
+package fi.helsinki.cs.tmc.core.old.utils.jsonhelpers;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Review;
+import fi.helsinki.cs.tmc.core.old.domain.Review;
 
 public class ReviewList {
 

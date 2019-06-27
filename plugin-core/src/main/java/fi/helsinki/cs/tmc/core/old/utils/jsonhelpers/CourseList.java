@@ -1,8 +1,8 @@
-package fi.helsinki.cs.tmc.core.old.old.utils.jsonhelpers;
+package fi.helsinki.cs.tmc.core.old.utils.jsonhelpers;
 
 import com.google.gson.annotations.SerializedName;
 
-import fi.helsinki.cs.tmc.core.old.old.domain.Course;
+import fi.helsinki.cs.tmc.core.old.domain.Course;
 
 public class CourseList {
 
