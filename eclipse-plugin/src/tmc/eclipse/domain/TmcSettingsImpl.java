@@ -69,7 +69,33 @@ public class TmcSettingsImpl implements TmcSettings {
 
 	@Override
 	public Optional<Course> getCurrentCourse() {
-		return Optional.fromNullable(this.currentCourse);
+//		return Optional.fromNullable(this.currentCourse);
+		String courseJson = "{\n" + 
+				"\n" + 
+				"    \"name\": \"mooc-2019-ohjelmointi-nodl\",\n" + 
+				"    \"hide_after\": null,\n" + 
+				"    \"hidden\": false,\n" + 
+				"    \"cache_version\": 8,\n" + 
+				"    \"spreadsheet_key\": null,\n" + 
+				"    \"hidden_if_registered_after\": null,\n" + 
+				"    \"refreshed_at\": \"2019-06-05T17:59:11.862+03:00\",\n" + 
+				"    \"locked_exercise_points_visible\": true,\n" + 
+				"    \"description\": \"Ohjelmoinnin MOOC:in aikatauluton versio. Tästä kurssista EI VOI hakea opinto-oikeutta.\",\n" + 
+				"    \"paste_visibility\": null,\n" + 
+				"    \"formal_name\": null,\n" + 
+				"    \"certificate_downloadable\": false,\n" + 
+				"    \"certificate_unlock_spec\": null,\n" + 
+				"    \"organization_id\": 21,\n" + 
+				"    \"disabled_status\": \"enabled\",\n" + 
+				"    \"title\": \"Ohjelmoinnin MOOC 2019 (aikatauluton)\",\n" + 
+				"    \"material_url\": \"https://ohjelmointi-19.mooc.fi/\",\n" + 
+				"    \"course_template_id\": 222,\n" + 
+				"    \"hide_submission_results\": false,\n" + 
+				"    \"external_scoreboard_url\": \"\",\n" + 
+				"    \"organization_slug\": \"mooc\"\n" + 
+				"\n" + 
+				"}";
+		return Optional.fromNullable(new Gson().fromJson(courseJson, new TypeToken<Course>(){}.getType()));
 	}
 
 	@Override
@@ -99,13 +125,24 @@ public class TmcSettingsImpl implements TmcSettings {
 
 	@Override
 	public Optional<Organization> getOrganization() {
-		final String organizationJson = this.currentOrganizationAsJson;
-		if (organizationJson == null || organizationJson.isEmpty()) {
-			return Optional.absent();
-		} else {
-			Organization org = new Gson().fromJson(organizationJson, new TypeToken<Organization>(){}.getType());
-			return Optional.fromNullable(org);
-		}
+//		final String organizationJson = this.currentOrganizationAsJson;
+//		if (organizationJson == null || organizationJson.isEmpty()) {
+//			return Optional.absent();
+//		} else {
+//			Organization org = new Gson().fromJson(organizationJson, new TypeToken<Organization>(){}.getType());
+//			return Optional.fromNullable(org);
+//		}
+		
+		String organizationJson = "{\n" + 
+				"\n" + 
+				"    \"name\": \"MOOC\",\n" + 
+				"    \"information\": \"University of Helsinki's Massive Open Online Courses. All new courses from mooc.fi live here.\",\n" + 
+				"    \"slug\": \"mooc\",\n" + 
+				"    \"logo_path\": \"/system/organizations/logos/000/000/021/original/mooc-logo.png?1513356394\",\n" + 
+				"    \"pinned\": true\n" + 
+				"\n" + 
+				"}";
+		return Optional.fromNullable(new Gson().fromJson(organizationJson, new TypeToken<Organization>(){}.getType()));
 	}
 
 	@Override
@@ -178,7 +215,7 @@ public class TmcSettingsImpl implements TmcSettings {
 
 	@Override
 	public void setOauthCredentials(Optional<OauthCredentials> creds) {
-		if (creds.isPresent()) {
+		if (!creds.isPresent()) {
 			this.oauthApplicationId = null;
 			this.oauthSecret = null;
 		} else {

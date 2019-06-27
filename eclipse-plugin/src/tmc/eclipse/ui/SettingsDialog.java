@@ -59,8 +59,8 @@ public class SettingsDialog extends Dialog {
 		this.parent = parent;
 		this.settings = new TmcSettingsImpl();
 		TaskExecutor tmcLangs = new TaskExecutorImpl();
-		this.normalizer = new TmcServerAddressNormalizer();
 		this.core = new TmcCore(settings, tmcLangs);
+		this.normalizer = new TmcServerAddressNormalizer();
 		setText("TMC Settings");
 	}
 
@@ -135,6 +135,12 @@ public class SettingsDialog extends Dialog {
 				settings.setUsername(userNameText.getText());
 				settings.setServerAddress(serverAddress.getText());
 				normalizer.normalize();
+				try {
+					core.authenticate(ProgressObserver.NULL_OBSERVER, passWordText.getText()).call();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				normalizer.selectOrganizationAndCourse();
 				String currentCourseName = combo.getText();
 				setCurrentCourse(currentCourseName);
