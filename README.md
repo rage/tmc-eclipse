@@ -34,7 +34,7 @@ The update site is a website that faciliates to use the Eclipse's "Install new s
 To build the project, follow the following process:
 
 1. Clone this repository
-2. Run the "clean" and "verify" Maven goals for the core component ("plugin-core")
+2. Run the "clean" and "verify" Maven goals in 'tmc-eclipse-dependency-wrapper' and 'plugin-core' directories
 3. Open the Eclipse IDE
 4. Make sure you have the following components installed from the marketplace:
  * [m2e](https://www.eclipse.org/m2e/) - Provides the required Maven support to the Eclipse IDE
