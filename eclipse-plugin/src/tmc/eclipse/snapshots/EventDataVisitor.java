@@ -1,4 +1,4 @@
-package tmc.eclipse.spyware;
+package tmc.eclipse.snapshots;
 
 import java.util.ArrayList;
 import java.util.List;

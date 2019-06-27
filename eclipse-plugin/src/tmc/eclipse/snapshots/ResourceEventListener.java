@@ -1,12 +1,12 @@
-package tmc.eclipse.spyware;
+package tmc.eclipse.snapshots;
 
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.CoreException;
 
-import tmc.eclipse.spyware.EventDataVisitor.EventData;
 import fi.helsinki.cs.tmc.core.old.Core;
 import fi.helsinki.cs.tmc.core.old.spyware.SnapshotInfo;
+import tmc.eclipse.snapshots.EventDataVisitor.EventData;
 
 /**
  *

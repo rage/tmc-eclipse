@@ -10,8 +10,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import tmc.eclipse.handlers.EclipseErrorHandler;
-import tmc.eclipse.spyware.EditorListener;
-import tmc.eclipse.spyware.ResourceEventListener;
+import tmc.eclipse.snapshots.EditorListener;
+import tmc.eclipse.snapshots.ResourceEventListener;
 import tmc.eclipse.tasks.EclipseTaskRunner;
 import tmc.eclipse.tasks.RecurringTaskRunner;
 import tmc.eclipse.tasks.TaskStarter;

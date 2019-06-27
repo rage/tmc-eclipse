@@ -1,4 +1,4 @@
-package tmc.eclipse.spyware;
+package tmc.eclipse.snapshots;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.DocumentEvent;
