@@ -15,6 +15,7 @@ import tmc.eclipse.snapshots.ResourceEventListener;
 import tmc.eclipse.tasks.EclipseTaskRunner;
 import tmc.eclipse.tasks.RecurringTaskRunner;
 import tmc.eclipse.tasks.TaskStarter;
+import tmc.eclipse.util.LoginManager;
 import tmc.eclipse.util.WorkbenchHelper;
 import fi.helsinki.cs.tmc.core.old.Core;
 import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
@@ -49,6 +50,8 @@ public class CoreInitializer extends AbstractUIPlugin implements IStartup {
         if (Core.getSettings().isCheckingForUnopenedAtStartup()) {
             TaskStarter.startOpenAllDownloadedExercisesTask();
         }
+        
+        LoginManager.login();
     }
 
     public void stop(BundleContext context) throws Exception {

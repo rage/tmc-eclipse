@@ -72,13 +72,13 @@ public class CheckForNewOrUpdatedExercisesOnBackgroundTask implements Runnable {
         try {
             Core.getUpdater().updateCourses();
         } catch (UserVisibleException uve) {
-            if (!Core.getSettings().getServerBaseUrl().isEmpty()) {
-                LoginDialog ld = new LoginDialog(shell, SWT.SHEET);
-                ld.open();
-            } else {
-                SettingsDialog sd = new SettingsDialog(shell, SWT.SHEET);
-                sd.open();
-            }
+//            if (!Core.getSettings().getServerBaseUrl().isEmpty()) {
+//                LoginDialog ld = new LoginDialog(shell, SWT.SHEET);
+//                ld.open();
+//            } else {
+//                SettingsDialog sd = new SettingsDialog(shell, SWT.SHEET);
+//                sd.open();
+//            }
         }
     }
 
