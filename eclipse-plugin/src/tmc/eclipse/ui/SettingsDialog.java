@@ -19,7 +19,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import com.google.common.base.Optional;
 
 import tmc.eclipse.activator.CoreInitializer;
-import tmc.eclipse.domain.TmcSettingsImpl;
+import tmc.eclipse.domain.TmcCoreSettingsImpl;
 
 import fi.helsinki.cs.tmc.core.domain.Course;
 import fi.helsinki.cs.tmc.core.TmcCore;
@@ -57,7 +57,7 @@ public class SettingsDialog extends Dialog {
 	public SettingsDialog(Shell parent, int style) {
 		super(parent, style);
 		this.parent = parent;
-		this.settings = new TmcSettingsImpl();
+		this.settings = new TmcCoreSettingsImpl();
 		TaskExecutor tmcLangs = new TaskExecutorImpl();
 		this.core = new TmcCore(settings, tmcLangs);
 		this.normalizer = new TmcServerAddressNormalizer();

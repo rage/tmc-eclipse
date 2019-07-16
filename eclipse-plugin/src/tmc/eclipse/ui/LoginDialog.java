@@ -1,136 +1,262 @@
 package tmc.eclipse.ui;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Dialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import fi.helsinki.cs.tmc.core.old.Core;
-import fi.helsinki.cs.tmc.core.old.ui.UserVisibleException;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
-public class LoginDialog extends Dialog {
+import com.google.common.base.Optional;
 
-    protected Object result;
-    protected Shell shlTmcLogin;
-    private Text userNameText;
-    private Text passWordText;
-    private Label errorMessage;
+import fi.helsinki.cs.tmc.core.holders.TmcSettingsHolder;
+import tmc.eclipse.domain.TmcCoreSettingsImpl;
+import tmc.eclipse.util.LoginListener;
 
-    /**
-     * Create the dialog.
-     *
-     * @param parent
-     * @param style
-     */
-    public LoginDialog(Shell parent, int style) {
-        super(parent, style);
-        setText("Login");
-    }
+public class LoginDialog extends javax.swing.JDialog {
 
-    /**
-     * Open the dialog.
-     *
-     * @return the result
-     */
-    public Object open() {
-        createContents();
-        shlTmcLogin.open();
-        shlTmcLogin.layout();
-        Display display = getParent().getDisplay();
-        while (!shlTmcLogin.isDisposed()) {
-            if (!display.readAndDispatch()) {
-                display.sleep();
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Create contents of the dialog.
-     */
-    private void createContents() {
-        shlTmcLogin = new Shell(getParent(), SWT.CLOSE | SWT.MIN | SWT.MAX | SWT.TITLE | SWT.APPLICATION_MODAL);
-        shlTmcLogin.setSize(326, 233);
-        shlTmcLogin.setText("TMC Login");
-
-        Label lblNewLabel = new Label(shlTmcLogin, SWT.NONE);
-        lblNewLabel.setForeground(SWTResourceManager.getColor(76, 76, 76));
-        lblNewLabel.setFont(SWTResourceManager.getFont("Ubuntu", 11, SWT.NORMAL));
-        lblNewLabel.setBounds(10, 10, 109, 17);
-        lblNewLabel.setText("Log in to TMC");
-
-        Label lblUsername = new Label(shlTmcLogin, SWT.NONE);
-        lblUsername.setBounds(10, 57, 70, 17);
-        lblUsername.setText("Username");
-
-        Label lblPassword = new Label(shlTmcLogin, SWT.NONE);
-        lblPassword.setBounds(10, 90, 70, 17);
-        lblPassword.setText("Password");
-
-        errorMessage = new Label(shlTmcLogin, SWT.NONE);
-        errorMessage.setBounds(10, 142, 293, 17);
-        errorMessage.setForeground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
-        errorMessage.setText("");
-
-        userNameText = new Text(shlTmcLogin, SWT.BORDER);
-        userNameText.setBounds(86, 47, 217, 27);
-        userNameText.setText("");
-
-        passWordText = new Text(shlTmcLogin, SWT.BORDER | SWT.PASSWORD);
-        passWordText.setBounds(86, 80, 217, 27);
-        passWordText.setText("");
-
-        final Button btnSavePassword = new Button(shlTmcLogin, SWT.CHECK);
-        btnSavePassword.setBounds(167, 113, 136, 24);
-        btnSavePassword.setText("Save password");
-
-        Button btnLogIn = new Button(shlTmcLogin, SWT.NONE);
-        btnLogIn.setBounds(113, 176, 83, 29);
-        btnLogIn.setText("Log in");
-        btnLogIn.addSelectionListener(new SelectionAdapter() {
+    public static void display(LoginListener onOk, final Runnable onClosed) {
+        LoginDialog dialog = new LoginDialog(onOk);
+        dialog.setLocationRelativeTo(null);
+        dialog.pack();
+        dialog.setVisible(true);
+        dialog.addWindowListener(new WindowAdapter() {
             @Override
-            public void widgetSelected(SelectionEvent e) {
-                Core.getSettings().setUsername(userNameText.getText());
-                Core.getSettings().setPassword(passWordText.getText());
-                Core.getSettings().setSavePassword(btnSavePassword.getSelection());
-                boolean success = true;
-                try {
-                    Core.getUpdater().updateCourses();
-                } catch (UserVisibleException uve) {
-                    errorMessage.setText("Authentication failed");
-                    success = false;
+            public void windowClosed(WindowEvent e) {
+                onClosed.run();
+            }
+        });
+    }
+
+    private final TmcCoreSettingsImpl settings;
+    private LoginListener onLogin;
+    private static boolean visible;
+
+    /**
+     * Creates new form LoginForm
+     */
+    public LoginDialog(LoginListener onLogin) {
+        initComponents();
+
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        this.settings = (TmcCoreSettingsImpl) TmcSettingsHolder.get();
+        final Optional<String> username = settings.getUsername();
+        if (username.isPresent()) {
+            this.usernameField.setText(username.get());
+        }
+
+        if (!usernameField.getText().isEmpty()) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    passwordField.requestFocusInWindow();
                 }
-                if (success) {
-                    close();
-                }
+            });
+        }
+
+        final String serverAddress = TmcSettingsHolder.get().getServerAddress();
+        if (!serverAddress.isEmpty()) {
+            this.addressLabel.setText(serverAddress);
+        }
+
+        this.onLogin = onLogin;
+        this.visible = true;
+
+        /* Add a windowlistener to the dialog to track when the dialog is closed
+        * from the x-button
+        */
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                visible = false;
+                super.windowClosing(e);
+            }
+        });
+    }
+
+    public static boolean isWindowVisible() {
+        return visible;
+    }
+
+    private void initComponents() {
+
+        cancelButton = new javax.swing.JButton();
+        loginButton = new javax.swing.JButton();
+        titleLabel = new javax.swing.JLabel();
+        usernameLabel = new javax.swing.JLabel();
+        passwordLabel = new javax.swing.JLabel();
+        usernameField = new javax.swing.JTextField();
+        passwordField = new javax.swing.JPasswordField();
+        serverLabel = new javax.swing.JLabel();
+        addressLabel = new javax.swing.JLabel();
+        changeServerButton = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		setTitle("TMC Login");
+        setBackground(new java.awt.Color(255, 255, 255));
+        setResizable(false);
+
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
             }
         });
 
-        Button btnCancel = new Button(shlTmcLogin, SWT.NONE);
-        btnCancel.setBounds(202, 176, 101, 29);
-        btnCancel.setText("Cancel");
-        btnCancel.addSelectionListener(new SelectionAdapter() {
+        loginButton.setText("Log in");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
-            public void widgetSelected(SelectionEvent e) {
-                Core.getSettings().setLoggedIn(false);
-                close();
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
             }
         });
 
-        btnSavePassword.setSelection(Core.getSettings().isSavePassword());
-        userNameText.setText(Core.getSettings().getUsername());
-        if (btnSavePassword.getSelection()) {
-            passWordText.setText(Core.getSettings().getPassword());
+        titleLabel.setFont(new java.awt.Font("Ubuntu", 1, 18));
+        titleLabel.setText("Log in with your mooc.fi -account");
+
+        usernameLabel.setText("Email");
+
+        passwordLabel.setText("Password");
+
+        usernameField.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameFieldActionPerformed(evt);
+            }
+        });
+
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordFieldActionPerformed(evt);
+            }
+        });
+
+        serverLabel.setText("Server address");
+
+        changeServerButton.setText("Change");
+        changeServerButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeServerButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(titleLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(serverLabel)
+                        .addGap(38, 38, 38)
+                        .addComponent(addressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(changeServerButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(268, 268, 268)
+                        .addComponent(loginButton)
+                        .addGap(6, 6, 6)
+                        .addComponent(cancelButton))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(usernameLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(passwordLabel)
+                                .addGap(72, 72, 72)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                            .addComponent(usernameField))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(titleLabel)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(changeServerButton)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(serverLabel)
+                            .addComponent(addressLabel))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(usernameLabel))
+                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(passwordLabel))
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(loginButton)
+                    .addComponent(cancelButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        setSize(new java.awt.Dimension(408, 261));
+        setLocationRelativeTo(null);
+    }// </editor-fold>
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        this.setVisible(false);
+        this.dispose();
+        visible = false;
+    }
+
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        settings.setUsername(usernameField.getText());
+        settings.save();
+        onLogin.setPassword(new String(passwordField.getPassword()));
+        onLogin.actionPerformed(evt);
+
+        this.setVisible(false);
+        this.dispose();
+        visible = false;
+    }
+
+    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {
+        passwordField.requestFocusInWindow();
+    }
+
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {
+        loginButton.doClick();
+    }
+
+    private void changeServerButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        String newAddress = JOptionPane.showInputDialog(this, "Server address", this.addressLabel.getText());
+        if (newAddress != null && !newAddress.trim().isEmpty()) {
+            this.addressLabel.setText(newAddress.trim());
+            TmcSettingsHolder.get().setServerAddress(newAddress);
         }
     }
 
-    private void close() {
-        shlTmcLogin.close();
-    }
+    // Variables declaration - do not modify
+    private javax.swing.JLabel addressLabel;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton changeServerButton;
+    private javax.swing.JButton loginButton;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JLabel passwordLabel;
+    private javax.swing.JLabel serverLabel;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JTextField usernameField;
+    private javax.swing.JLabel usernameLabel;
+    // End of variables declaration
 }

@@ -1,5 +1,7 @@
 package tmc.eclipse.activator;
 
+import java.io.IOException;
+
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -9,6 +11,14 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import fi.helsinki.cs.tmc.core.TmcCore;
+import fi.helsinki.cs.tmc.core.exceptions.AuthenticationFailedException;
+import fi.helsinki.cs.tmc.core.holders.TmcLangsHolder;
+import fi.helsinki.cs.tmc.core.holders.TmcSettingsHolder;
+import fi.helsinki.cs.tmc.core.old.Core;
+import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
+import fi.helsinki.cs.tmc.langs.util.TaskExecutorImpl;
+import tmc.eclipse.domain.TmcCoreSettingsImpl;
 import tmc.eclipse.handlers.EclipseErrorHandler;
 import tmc.eclipse.snapshots.EditorListener;
 import tmc.eclipse.snapshots.ResourceEventListener;
@@ -17,8 +27,6 @@ import tmc.eclipse.tasks.RecurringTaskRunner;
 import tmc.eclipse.tasks.TaskStarter;
 import tmc.eclipse.util.LoginManager;
 import tmc.eclipse.util.WorkbenchHelper;
-import fi.helsinki.cs.tmc.core.old.Core;
-import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
 
 public class CoreInitializer extends AbstractUIPlugin implements IStartup {
 
@@ -31,7 +39,8 @@ public class CoreInitializer extends AbstractUIPlugin implements IStartup {
     public CoreInitializer() {
     }
 
-    public void start(BundleContext context) throws Exception {
+    @Override
+	public void start(BundleContext context) throws Exception {
         super.start(context);
 
         ServerManager server = Core.getServerManager();
@@ -50,11 +59,24 @@ public class CoreInitializer extends AbstractUIPlugin implements IStartup {
         if (Core.getSettings().isCheckingForUnopenedAtStartup()) {
             TaskStarter.startOpenAllDownloadedExercisesTask();
         }
-        
-        LoginManager.login();
+
+        TmcSettingsHolder.set(new TmcCoreSettingsImpl());
+        TmcLangsHolder.set(new TaskExecutorImpl());
+        TmcCore.setInstance(new TmcCore(TmcSettingsHolder.get(), TmcLangsHolder.get()));
+
+        new Thread(() -> {
+        	LoginManager loginManager = new LoginManager();
+            try {
+				loginManager.login();
+			} catch (AuthenticationFailedException | InterruptedException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }).start();
     }
 
-    public void stop(BundleContext context) throws Exception {
+    @Override
+	public void stop(BundleContext context) throws Exception {
         Core.getProjectDAO().save();
 
         instance = null;

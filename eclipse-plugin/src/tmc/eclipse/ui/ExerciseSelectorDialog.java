@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-import tmc.eclipse.domain.TmcSettingsImpl;
+import tmc.eclipse.domain.TmcCoreSettingsImpl;
 import tmc.eclipse.tasks.TaskStarter;
 import tmc.eclipse.util.CourseListUtils;
 import fi.helsinki.cs.tmc.core.TmcCore;
@@ -158,7 +158,7 @@ public class ExerciseSelectorDialog extends Dialog {
             if (table.getItem(i).getChecked()) {
                 String exerciseName = table.getItem(i).getText();
 //                Course currentCourse = Core.getCourseDAO().getCurrentCourse(Core.getSettings());
-                TmcSettings settings = new TmcSettingsImpl();
+                TmcSettings settings = new TmcCoreSettingsImpl();
                 fi.helsinki.cs.tmc.core.domain.Course currentCourse = settings.getCurrentCourse().get();
 
                 if (currentCourse != null) {

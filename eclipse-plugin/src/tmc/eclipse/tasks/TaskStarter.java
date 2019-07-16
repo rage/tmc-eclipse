@@ -3,12 +3,6 @@ package tmc.eclipse.tasks;
 import java.util.ArrayList;
 import java.util.List;
 
-import tmc.eclipse.activator.CoreInitializer;
-import tmc.eclipse.domain.TmcSettingsImpl;
-import tmc.eclipse.openers.GenericProjectOpener;
-import tmc.eclipse.ui.EclipseIdeUIInvoker;
-import tmc.eclipse.util.EclipseProjectIconHandler;
-import tmc.eclipse.util.WorkbenchHelper;
 import fi.helsinki.cs.tmc.core.TmcCore;
 import fi.helsinki.cs.tmc.core.domain.ProgressObserver;
 import fi.helsinki.cs.tmc.core.old.Core;
@@ -18,7 +12,6 @@ import fi.helsinki.cs.tmc.core.old.async.listeners.PastebinTaskListener;
 import fi.helsinki.cs.tmc.core.old.async.listeners.TestrunnerListener;
 import fi.helsinki.cs.tmc.core.old.async.listeners.UploadTaskListener;
 import fi.helsinki.cs.tmc.core.old.async.tasks.CodeReviewRequestTask;
-import fi.helsinki.cs.tmc.core.old.async.tasks.DownloaderTask;
 import fi.helsinki.cs.tmc.core.old.async.tasks.FeedbackSubmissionTask;
 import fi.helsinki.cs.tmc.core.old.async.tasks.FetchCodeReviewsTask;
 import fi.helsinki.cs.tmc.core.old.async.tasks.MarkReviewAsReadTask;
@@ -32,13 +25,18 @@ import fi.helsinki.cs.tmc.core.old.domain.FeedbackAnswer;
 import fi.helsinki.cs.tmc.core.old.domain.Project;
 import fi.helsinki.cs.tmc.core.old.domain.Review;
 import fi.helsinki.cs.tmc.core.old.services.FeedbackAnswerSubmitter;
-import fi.helsinki.cs.tmc.core.old.services.ProjectDownloader;
 import fi.helsinki.cs.tmc.core.old.services.ProjectOpener;
 import fi.helsinki.cs.tmc.core.old.services.ProjectUploader;
 import fi.helsinki.cs.tmc.core.old.services.ReviewDAO;
 import fi.helsinki.cs.tmc.core.old.services.http.ServerManager;
 import fi.helsinki.cs.tmc.core.old.ui.IdeUIInvoker;
 import fi.helsinki.cs.tmc.langs.util.TaskExecutorImpl;
+import tmc.eclipse.activator.CoreInitializer;
+import tmc.eclipse.domain.TmcCoreSettingsImpl;
+import tmc.eclipse.openers.GenericProjectOpener;
+import tmc.eclipse.ui.EclipseIdeUIInvoker;
+import tmc.eclipse.util.EclipseProjectIconHandler;
+import tmc.eclipse.util.WorkbenchHelper;
 
 /**
  *
@@ -57,13 +55,13 @@ public final class TaskStarter {
      *            eclipse UI
      */
     public static void startExerciseDownloadTask(List<fi.helsinki.cs.tmc.core.domain.Exercise> exercises, EclipseIdeUIInvoker invoker) {
-    	TmcCore core = new TmcCore(new TmcSettingsImpl(), new TaskExecutorImpl());
+    	TmcCore core = new TmcCore(new TmcCoreSettingsImpl(), new TaskExecutorImpl());
     	core.downloadOrUpdateExercises(ProgressObserver.NULL_OBSERVER, exercises);
 //        ProjectDownloader downloader = new ProjectDownloader(Core.getServerManager());
 //        Core.getTaskRunner().runTask(
 //                new DownloaderTask(downloader, new GenericProjectOpener(), exercises, Core.getProjectDAO(), Core
 //                        .getSettings(), invoker, Core.getIOFactory()));
-        
+
     }
 
     /**

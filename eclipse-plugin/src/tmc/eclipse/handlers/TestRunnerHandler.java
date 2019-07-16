@@ -10,7 +10,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import tmc.eclipse.activator.CoreInitializer;
-import tmc.eclipse.domain.TmcSettingsImpl;
+import tmc.eclipse.domain.TmcCoreSettingsImpl;
 import tmc.eclipse.tasks.TaskStarter;
 import tmc.eclipse.ui.EclipseIdeUIInvoker;
 import tmc.eclipse.util.WorkbenchHelper;
@@ -73,7 +73,7 @@ public class TestRunnerHandler extends AbstractHandler {
 //        default:
 //            break;
 //        }
-        TmcCore core = new TmcCore(new TmcSettingsImpl(), new TaskExecutorImpl());
+        TmcCore core = new TmcCore(new TmcCoreSettingsImpl(), new TaskExecutorImpl());
         return null;
     }
 
